@@ -1,16 +1,37 @@
 openapi: 3.0.0
 info:
-  description: 幸運日 API
+  description: 綠界金流 API 定義文件
   title: ECPay API
-  version: 0.0.1
+  version: 0.0.2
+externalDocs:
+  description: 可以在這裡找到完整的 API 文件說明
+  url: https://www.ecpay.com.tw/Content/files/ecpay_011.pdf
 servers:
-- url: /
+- description: 正式環境
+  url: https://payment.ecpay.com.tw
+- description: 測試環境
+  url: https://payment-stage.ecpay.com.tw
+- description: Prism Mock Server
+  url: http://127.0.0.1:4010
 tags:
-- description: 綠界金流API接口
+- description: 綠界金流
   name: ECPay
-- description: 回呼接口用
-  name: Callback
+- description: 回呼
+  name: CallBack
 paths:
+  /Cashier/AioCheckOut/V5:
+    post:
+      operationId: AioCheckOut
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AioCheckOutRequest'
+      responses:
+        "200":
+          description: OK
+      tags:
+      - ECPay
   /callback/ReturnURL:
     post:
       description: 付款結果通知
@@ -185,9 +206,281 @@ paths:
           description: 接收成功
       security: []
       tags:
-      - ECPay
+      - CallBack
 components:
   schemas:
+    AioCheckOutRequest:
+      properties:
+        MerchantID:
+          description: 特店編號(由綠界提供)
+          example: "2000132"
+          maxLength: 10
+          type: string
+        MerchantTradeNo:
+          description: |
+            **特店交易編號(由特店提供)**
+            特店交易編號均為唯一值，不可重複使用。
+            英數字大小寫混合
+            如何避免訂單編號重複請參考 FAQ
+            如有使用 `PlatformID` ，平台商底下所有商家之訂單編號亦不可重複。
+          example: ecPay1234
+          maxLength: 20
+          pattern: ^[\w\d]*$
+          type: string
+        StoreID:
+          description: |
+            **特店旗下店舖代號** 提供特店填入分店代號使用，僅可用英數字大小寫混合。
+          maxLength: 20
+          pattern: ^[\w\d]*$
+          type: string
+        MerchantTradeDate:
+          description: |
+            **特店交易時間** 格式為 `yyyy/MM/dd HH:mm:ss`
+          example: 2012/03/21 15:40:18
+          format: ecpay-date-time
+          type: string
+        PaymentType:
+          default: aio
+          description: |
+            **交易類型** 請固定填入 `aio`
+          enum:
+          - aio
+          example: aio
+          maxLength: 20
+          type: string
+        TotalAmount:
+          description: |
+            **交易金額**
+            請帶整數，不可有小數點。
+            僅限新台幣。
+            各付款金額的限制，請參考 <https://www.ecpay.com.tw/CascadeFAQ/CascadeFAQ_Qa?nID=3605>
+          example: 5000
+          minimum: 0
+          type: integer
+        TradeDesc:
+          description: |
+            **交易描述** 傳送到綠界前，請將參數值先做 UrlEncode。
+          example: ecpay 商城購物
+          maxLength: 200
+          type: string
+        ItemName:
+          description: |
+            **商品名稱**
+            1. 如果商品名稱有多筆，需在金流選擇頁一行一行顯示商品名稱的話，商品名稱請以符號#分隔。
+            2. 商品名稱字數限制為中英數 400 字內，超過此限制系統將自動截斷。
+          example: 手機 20 元 X2#隨身碟 60 元 X1
+          maxLength: 400
+          type: string
+        ReturnURL:
+          description: |
+            **付款完成通知回傳網址**
+            當消費者付款完成後，綠界會將付款結果參數以幕後(Server POST)回傳到該網址。
+            詳細說明請參考付款結果通知
+            注意事項：
+            1. 請勿設定與 Client 端接收付款結果網址 OrderResultURL 相同位置，避免程式判斷錯誤。
+            2. 請在收到 Server 端付款結果通知後，請正確回應 1|OK 給綠界。
+          example: http://your.web.site/receive.php
+          maxLength: 200
+          type: string
+        ChoosePayment:
+          description: |
+            **選擇預設付款方式**
+            綠界提供下列付款方式，請於建立訂單時傳送過來:
+            - `Credit`: 信用卡及銀聯卡(需申請開通)
+            - `WebATM`: 網路 ATM
+            - `ATM`: 自動櫃員機
+            - `CVS`: 超商代碼
+            - `BARCODE`: 超商條碼
+            - `ALL`: 不指定付款方式，由綠界顯示付款方式選擇頁面。
+
+            注意事項：
+            1.若為手機版時不支援下列付款方式:
+              - WebATM:網路 ATM
+
+            2.如需要不透過綠界畫面取得 `ATM`、`CVS`、`BARCODE` 的繳費代碼，請參考 FAQ。
+          enum:
+          - Credit
+          - WebATM
+          - ATM
+          - CVS
+          - BARCODE
+          - ALL
+          example: Credit
+          maxLength: 20
+          type: string
+          x-enum-descriptions:
+          - 信用卡及銀聯卡(需申請開通)
+          - 網路 ATM
+          - 自動櫃員機
+          - 超商代碼
+          - 超商條碼
+          - 不指定付款方式，由綠界顯示付款方式選擇頁面。
+        CheckMacValue:
+          description: |
+            **檢查碼** 請參考附錄檢查碼機制與產生檢查碼範例程式
+          type: string
+        ClientBackURL:
+          description: |
+            **Client 端返回特店的按鈕連結**
+            消費者點選此按鈕後，會將頁面導回到此設定的網址
+            注意事項：
+            導回時不會帶付款結果到此網址，只是將頁面導回而已。
+            設定此參數，綠界會在付款完成或取號完成頁面上顯示[返回商店]的按鈕。
+            設定此參數，發生簡訊 OTP 驗證失敗時，頁面上會顯示[返回商店]的按鈕。
+            若未設定此參數，則綠界付款完成頁或取號完成頁面，不會顯示[返回商店]的按鈕。
+            若導回網址未使用 https 時，部份瀏覽器可能會出現警告訊息。
+          example: ttp://your.web.site/Shopping/Detail
+          maxLength: 200
+          type: string
+        ItemURL:
+          description: |
+            **商品銷售網址**
+          maxLength: 200
+          type: string
+        Remark:
+          description: |
+            **備註欄位**
+          maxLength: 100
+          type: string
+        ChooseSubPayment:
+          description: |
+            **付款子項目**
+            若設定此參數，建立訂單將轉導至綠界訂單成立頁，依設定的付款方式及付款子項目帶入訂單，無法選擇其他付款子項目。
+            請參考付款方式一覽表
+          example: TAISHIN
+          maxLength: 20
+          type: string
+        OrderResultURL:
+          description: |
+            **Client端回傳付款結果網址**
+            當消費者付款完成後，綠界會將付款結果參數以幕前(Client POST)回傳到該網址。
+            詳細說明請參考付款結果通知
+            注意事項：
+            1. 若與[ClientBackURL]同時設定，將會以此參數為主。
+            2. 銀聯卡及非即時交易(ATM、CVS、BARCODE)不支援此參數。
+          example: http://your.web.site/client.php
+          maxLength: 200
+          type: string
+        NeedExtraPaidInfo:
+          default: "N"
+          description: |
+            **是否需要額外的付款資訊**
+            額外的付款資訊：
+            若不回傳額外的付款資訊時，參數值請傳：`Ｎ`；
+            若要回傳額外的付款資訊時，參數值請傳：`Ｙ`，付款完成後綠界會以 Server POST 方式回傳額外付款資訊。
+            注意事項：
+            回傳額外付款資訊參數請參考-額外回傳的參數
+          enum:
+          - "Y"
+          - "N"
+          example: "N"
+          maxLength: 1
+          type: string
+        DeviceSource:
+          description: |
+            **裝置來源** 請帶空值，由系統自動判定。
+          maxLength: 10
+          type: string
+        IgnorePayment:
+          description: |
+            **隱藏付款**
+            當付款方式 `ChoosePayment` 為 `ALL` 時，可隱藏不需要的付款方式，多筆請以井號分隔(#)。
+            可用的參數值：
+            - `Credit`: 信用卡
+            - `WebATM`: 網路 ATM
+            - `ATM`: 自動櫃員機
+            - `CVS`: 超商代碼
+            - `BARCODE`: 超商條碼
+          example: ATM#WebATM
+          maxLength: 100
+          type: string
+        PlatformID:
+          description: |
+            **特約合作平台商代號(由綠界提供)**
+            為專案合作的平台商使用。
+            一般特店或平台商本身介接，則參數請帶放空值。
+            若為專案合作平台商的特店使用時，則參數請帶平台商所綁的特店編號 `MerchantID`。
+          maxLength: 10
+          type: string
+        InvoiceMark:
+          description: |
+            **電子發票開立註記**
+            此參數為付款完成後同時開立電子發票。
+            若要使用時，該參數須設定為「Y」，同時還要設定「電子發票介接相關參數」
+            注意事項：
+            正式環境欲使用電子發票功能，須與綠界申請開通，若未開通請致電客服中心 `(02) 2655-1775`。
+          enum:
+          - "Y"
+          maxLength: 1
+          type: string
+        CustomField1:
+          description: |
+            **自訂名稱欄位1**
+            提供合作廠商使用記錄用客製化使用欄位
+            注意事項：
+            特殊符號只支援 `,.#()$[];%{}:/?&@<>!`
+          maxLength: 50
+          type: string
+        CustomField2:
+          description: |
+            **自訂名稱欄位2**
+            提供合作廠商使用記錄用客製化使用欄位
+            注意事項：
+            特殊符號只支援 `,.#()$[];%{}:/?&@<>!`
+          maxLength: 50
+          type: string
+        CustomField3:
+          description: |
+            **自訂名稱欄位3**
+            提供合作廠商使用記錄用客製化使用欄位
+            注意事項：
+            特殊符號只支援 `,.#()$[];%{}:/?&@<>!`
+          maxLength: 50
+          type: string
+        CustomField4:
+          description: |
+            **自訂名稱欄位4**
+            提供合作廠商使用記錄用客製化使用欄位
+            注意事項：
+            特殊符號只支援 `,.#()$[];%{}:/?&@<>!`
+          maxLength: 50
+          type: string
+        EncryptType:
+          default: 1
+          description: |
+            **CheckMacValue加密類型** 請固定填入 1，使用 SHA256 加密。
+          enum:
+          - 1
+          example: 1
+          type: integer
+        Language:
+          description: |
+            **語系設定**
+            預設語系為中文，若要變更語系參數值請帶：
+            - 英語：`ENG`
+            - 韓語：`KOR`
+            - 日語：`JPN`
+            - 簡體中文：`CHI`
+          enum:
+          - ENG
+          - KOR
+          - JPN
+          - CHI
+          example: ENG
+          maxLength: 3
+          type: string
+      required:
+      - CheckMacValue
+      - ChoosePayment
+      - ItemName
+      - MerchantID
+      - MerchantTradeDate
+      - MerchantTradeNo
+      - PaymentType
+      - ReturnURL
+      - TotalAmount
+      - TradeDesc
+      type: object
     Test:
       properties:
         test:
