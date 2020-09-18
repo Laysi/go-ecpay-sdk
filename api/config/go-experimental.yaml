@@ -3,3 +3,4 @@ enumClassPrefix: true
 isGoSubmodule: true
 gitUserId: Laysi
 gitRepoId: go-ecpay-sdk
+additionalproperties: true

@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   description: 綠界金流 API 定義文件
   title: ECPay API
-  version: 0.0.2
+  version: 0.0.3
 externalDocs:
   description: 可以在這裡找到完整的 API 文件說明
   url: https://www.ecpay.com.tw/Content/files/ecpay_011.pdf
@@ -210,6 +210,132 @@ paths:
 components:
   schemas:
     AioCheckOutRequest:
+      allOf:
+      - $ref: '#/components/schemas/AioCheckOutRequest_allOf'
+      - $ref: '#/components/schemas/AioCheckOut_ChoosePayment_CVS_BARCODE_Option'
+      - $ref: '#/components/schemas/AioCheckOut_ChoosePayment_Credit_Option'
+    AioCheckOut_ChoosePayment_CVS_BARCODE_Option:
+      properties:
+        StoreExpireDate:
+          description: |
+            **超商繳費截止時間**
+            注意事項：
+            `CVS`:以分鐘為單位
+            `BARCODE`:以天為單位
+            若未設定此參數，`CVS` 預設為 `10080` 分鐘(`7` 天)；BARCODE 預設為 `7` 天。
+            若需設定此參數，請於建立訂單時將此參數送給綠界。提醒您，CVS 帶入數值不可超過 `86400` 分鐘，超過時一律以 `86400` 分鐘計(`60` 天)
+            例：`08/01` 的 `20:15` 分購買商品，繳費期限為 `7` 天，表示 `8/08` 的 `20:15` 分前您必須前往超商繳費。
+            範例: `CVS`=`1440`(共 `1` 天)、`BARCODE`=`7`(共 `7` 天)
+          type: integer
+        Desc_1:
+          description: |
+            **交易描述1** 會出現在超商繳費平台螢幕上
+          example: 交易描述1
+          maxLength: 20
+          type: string
+        Desc_2:
+          description: |
+            **交易描述2** 會出現在超商繳費平台螢幕上
+          example: 交易描述2
+          maxLength: 20
+          type: string
+        Desc_3:
+          description: |
+            **交易描述3** 會出現在超商繳費平台螢幕上
+          example: 交易描述3
+          maxLength: 20
+          type: string
+        Desc_4:
+          description: |
+            **交易描述4** 會出現在超商繳費平台螢幕上
+          example: 交易描述4
+          maxLength: 20
+          type: string
+        PaymentInfoURL:
+          description: |
+            **Server 端回傳付款相關資訊**
+            若有設定此參數，訂單建立完成後(非付款完成)，綠界會 Server 端背景回傳消費者付款方式相關資訊(例：繳費代碼與繳費超商)。
+            請參考[`ATM`、`CVS` 或 `BARCODE` 的取號結果通知.]
+            注意事項：
+            頁面將會停留在綠界，顯示繳費的相關資訊。
+            回傳只有三段號碼，並不會回傳條碼圖，需自行轉換成 code39 的三段條碼。
+          maxLength: 200
+          type: string
+        ClientRedirectURL:
+          description: |
+            **Client端回傳付款方式相關資訊**
+            若有設定此參數，訂單建立完成後(非付款完成)，綠界會從 Client 端回傳消費者付款方式相關資訊(例：繳費代碼與繳費超商)且將頁面轉到特店指定的頁面。
+            請參考[`ATM`、`CVS` 或 `BARCODE` 的取號結果通知.]
+            注意事項：
+            若設定此參數，將會使設定的返回特店的按鈕連結[ClientBackURL]失效。
+            若導回網址未使用 https 時，部份瀏覽器可能會出現警告訊息。
+            回傳只有三段號碼，並不會回傳條碼圖，需自行轉換成 code39 的三段條碼。
+          maxLength: 200
+          type: string
+      type: object
+    AioCheckOut_ChoosePayment_Credit_Option:
+      properties:
+        BindingCard:
+          description: |
+            **記憶卡號**
+            使用記憶信用卡
+            使用：請傳 `1`
+            不使用：請傳 `0`
+          enum:
+          - 1
+          - 0
+          example: 1
+          type: integer
+        MerchantMemberID:
+          description: |
+            **記憶卡號識別碼** 記憶卡號識別碼 (特店代號 `MerchantID` + `廠商會員編號`)
+          maxLength: 30
+          type: string
+      type: object
+    ECPaySimulateEnum:
+      enum:
+      - 0
+      - 1
+      example: 0
+      type: integer
+      x-enum-varnames:
+      - REAL_PAID
+      - SIMULATED
+      x-enum-descriptions:
+      - 不是模擬付款
+      - 是模擬付款
+    PaymentType:
+      enum:
+      - WebATM_TAISHIN
+      - WebATM_ESUN
+      - WebATM_BOT
+      - WebATM_FUBON
+      - WebATM_CHINATRUST
+      - WebATM_FIRST
+      - WebATM_CATHAY
+      - WebATM_MEGA
+      - WebATM_LAND
+      - WebATM_TACHONG
+      - WebATM_SINOPAC
+      - ATM_TAISHIN
+      - ATM_ESUN
+      - ATM_BOT
+      - ATM_FUBON
+      - ATM_CHINATRUST
+      - ATM_FIRST
+      - ATM_LAND
+      - ATM_CATHAY
+      - ATM_TACHONG
+      - CVS_CVS
+      - CVS_OK
+      - CVS_FAMILY
+      - CVS_HILIFE
+      - CVS_IBON
+      - BARCODE_BARCODE
+      - Credit_CreditCard
+      example: Credit_CreditCard
+      type: string
+    AioCheckOutRequest_allOf:
       properties:
         MerchantID:
           description: 特店編號(由綠界提供)
@@ -238,6 +364,7 @@ components:
             **特店交易時間** 格式為 `yyyy/MM/dd HH:mm:ss`
           example: 2012/03/21 15:40:18
           format: ecpay-date-time
+          maxLength: 20
           type: string
         PaymentType:
           default: aio
@@ -321,7 +448,7 @@ components:
           type: string
         ClientBackURL:
           description: |
-            **Client 端返回特店的按鈕連結**
+            **Client端返回特店的按鈕連結**
             消費者點選此按鈕後，會將頁面導回到此設定的網址
             注意事項：
             導回時不會帶付款結果到此網址，只是將頁面導回而已。
@@ -448,7 +575,7 @@ components:
         EncryptType:
           default: 1
           description: |
-            **CheckMacValue加密類型** 請固定填入 1，使用 SHA256 加密。
+            **CheckMacValue加密類型** 請固定填入 `1`，使用 SHA256 加密。
           enum:
           - 1
           example: 1
@@ -472,6 +599,7 @@ components:
       required:
       - CheckMacValue
       - ChoosePayment
+      - EncryptType
       - ItemName
       - MerchantID
       - MerchantTradeDate
@@ -480,53 +608,3 @@ components:
       - ReturnURL
       - TotalAmount
       - TradeDesc
-      type: object
-    Test:
-      properties:
-        test:
-          format: ecpay-date-time
-          type: string
-      type: object
-    ECPaySimulateEnum:
-      enum:
-      - 0
-      - 1
-      example: 0
-      type: integer
-      x-enum-varnames:
-      - REAL_PAID
-      - SIMULATED
-      x-enum-descriptions:
-      - 不是模擬付款
-      - 是模擬付款
-    PaymentType:
-      enum:
-      - WebATM_TAISHIN
-      - WebATM_ESUN
-      - WebATM_BOT
-      - WebATM_FUBON
-      - WebATM_CHINATRUST
-      - WebATM_FIRST
-      - WebATM_CATHAY
-      - WebATM_MEGA
-      - WebATM_LAND
-      - WebATM_TACHONG
-      - WebATM_SINOPAC
-      - ATM_TAISHIN
-      - ATM_ESUN
-      - ATM_BOT
-      - ATM_FUBON
-      - ATM_CHINATRUST
-      - ATM_FIRST
-      - ATM_LAND
-      - ATM_CATHAY
-      - ATM_TACHONG
-      - CVS_CVS
-      - CVS_OK
-      - CVS_FAMILY
-      - CVS_HILIFE
-      - CVS_IBON
-      - BARCODE_BARCODE
-      - Credit_CreditCard
-      example: Credit_CreditCard
-      type: string
