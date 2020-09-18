@@ -1,5 +1,0 @@
-{
-  "packageName": "apimodel",
-  "enumClassPrefix": true,
-  "useOneOfDiscriminatorLookup": true
-}

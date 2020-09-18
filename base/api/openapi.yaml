@@ -1,0 +1,239 @@
+openapi: 3.0.0
+info:
+  description: 幸運日 API
+  title: ECPay API
+  version: 0.0.1
+servers:
+- url: /
+tags:
+- description: 綠界金流API接口
+  name: ECPay
+- description: 回呼接口用
+  name: Callback
+paths:
+  /callback/ReturnURL:
+    post:
+      description: 付款結果通知
+      parameters:
+      - description: 特店編號
+        explode: true
+        in: query
+        name: MerchantID
+        required: true
+        schema:
+          example: "2000132"
+          type: string
+        style: form
+      - description: 特店交易編號
+        explode: true
+        in: query
+        name: MerchantTradeNo
+        required: true
+        schema:
+          example: 123456abc
+          type: string
+        style: form
+      - description: 特店旗下店舖代號
+        explode: true
+        in: query
+        name: StoreID
+        required: true
+        schema:
+          type: string
+        style: form
+      - description: 交易狀態
+        explode: true
+        in: query
+        name: RtnCode
+        required: true
+        schema:
+          example: 1
+          type: number
+        style: form
+      - description: 交易訊息
+        explode: true
+        in: query
+        name: RtnMsg
+        required: true
+        schema:
+          enum:
+          - 交易成功
+          - paid
+          - Succeeded
+          example: 交易成功
+          type: string
+        style: form
+      - description: 綠界的交易編號
+        explode: true
+        in: query
+        name: TradeNo
+        required: true
+        schema:
+          example: "20120315174058256424"
+          type: string
+        style: form
+      - description: 交易金額
+        explode: true
+        in: query
+        name: TradeAmt
+        required: true
+        schema:
+          example: 20000
+          minimum: 0
+          type: integer
+        style: form
+      - description: 付款時間
+        explode: true
+        in: query
+        name: PaymentDate
+        required: true
+        schema:
+          example: 2012/03/16 12:03:12
+          type: string
+        style: form
+      - description: 特店選擇的付款方式
+        explode: true
+        in: query
+        name: PaymentType
+        required: true
+        schema:
+          $ref: '#/components/schemas/PaymentType'
+        style: form
+      - description: 通路費
+        explode: true
+        in: query
+        name: PaymentTypeChargeFee
+        required: true
+        schema:
+          example: 25
+          minimum: 0
+          type: integer
+        style: form
+      - description: 訂單成立時間
+        explode: true
+        in: query
+        name: TradeDate
+        required: true
+        schema:
+          example: 2012/03/15 17:40:58
+          type: string
+        style: form
+      - description: 檢查碼
+        explode: true
+        in: query
+        name: CheckMacValue
+        required: true
+        schema:
+          type: string
+        style: form
+      - description: 是否為模擬付款
+        explode: true
+        in: query
+        name: SimulatePaid
+        required: true
+        schema:
+          $ref: '#/components/schemas/ECPaySimulateEnum'
+        style: form
+      - description: 自訂名稱欄位 1
+        explode: true
+        in: query
+        name: CustomField1
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: 自訂名稱欄位 2
+        explode: true
+        in: query
+        name: CustomField2
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: 自訂名稱欄位 3
+        explode: true
+        in: query
+        name: CustomField3
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: 自訂名稱欄位 4
+        explode: true
+        in: query
+        name: CustomField4
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: 自訂名稱欄位 5
+        explode: true
+        in: query
+        name: CustomField5
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                default: 1|OK
+                example: 1|OK
+                type: string
+          description: 接收成功
+      security: []
+      tags:
+      - ECPay
+components:
+  schemas:
+    Test:
+      properties:
+        test:
+          format: ecpay-date-time
+          type: string
+      type: object
+    ECPaySimulateEnum:
+      enum:
+      - 0
+      - 1
+      example: 0
+      type: integer
+      x-enum-varnames:
+      - REAL_PAID
+      - SIMULATED
+      x-enum-descriptions:
+      - 不是模擬付款
+      - 是模擬付款
+    PaymentType:
+      enum:
+      - WebATM_TAISHIN
+      - WebATM_ESUN
+      - WebATM_BOT
+      - WebATM_FUBON
+      - WebATM_CHINATRUST
+      - WebATM_FIRST
+      - WebATM_CATHAY
+      - WebATM_MEGA
+      - WebATM_LAND
+      - WebATM_TACHONG
+      - WebATM_SINOPAC
+      - ATM_TAISHIN
+      - ATM_ESUN
+      - ATM_BOT
+      - ATM_FUBON
+      - ATM_CHINATRUST
+      - ATM_FIRST
+      - ATM_LAND
+      - ATM_CATHAY
+      - ATM_TACHONG
+      - CVS_CVS
+      - CVS_OK
+      - CVS_FAMILY
+      - CVS_HILIFE
+      - CVS_IBON
+      - BARCODE_BARCODE
+      - Credit_CreditCard
+      example: Credit_CreditCard
+      type: string
