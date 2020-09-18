@@ -1,0 +1,198 @@
+openapi: 3.0.0
+info:
+  title: ECPay API
+  description: 幸運日 API
+  version: 0.0.1
+
+tags:
+  - name: ECPay
+    description: 綠界金流API接口
+  - name: Callback
+    description: 回呼接口用
+
+paths:
+  /callback/ReturnURL:
+    post:
+      description: 付款結果通知
+      security: []
+      tags:
+        - ECPay
+      parameters:
+        - name: MerchantID
+          description: 特店編號
+          required: true
+          in: query
+          schema:
+            type: string
+            example: 2000132
+        - name: MerchantTradeNo
+          description: 特店交易編號
+          required: true
+          in: query
+          schema:
+            type: string
+            example: 123456abc
+        - name: StoreID
+          description: 特店旗下店舖代號
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: RtnCode
+          description: 交易狀態
+          required: true
+          in: query
+          schema:
+            type: number
+            example: 1
+        - name: RtnMsg
+          description: 交易訊息
+          required: true
+          in: query
+          schema:
+            type: string
+            enum:
+              - 交易成功
+              - paid
+              - Succeeded
+            example: 交易成功
+
+        - name: TradeNo
+          description: 綠界的交易編號
+          required: true
+          in: query
+          schema:
+            type: string
+            example: 20120315174058256424
+        - name: TradeAmt
+          description: 交易金額
+          required: true
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            example: 20000
+        - name: PaymentDate
+          description: 付款時間
+          required: true
+          in: query
+          schema:
+            type: string
+            example: 2012/03/16 12:03:12
+
+        - name: PaymentType
+          description: 特店選擇的付款方式
+          required: true
+          in: query
+          schema:
+            $ref: '#/components/schemas/PaymentType'
+        - name: PaymentTypeChargeFee
+          description: 通路費
+          required: true
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            example: 25
+        - name: TradeDate
+          description: 訂單成立時間
+          required: true
+          in: query
+          schema:
+            type: string
+            example: 2012/03/15 17:40:58
+        - name: CheckMacValue
+          description: 檢查碼
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: SimulatePaid
+          description: 是否為模擬付款
+          required: true
+          in: query
+          schema:
+            $ref: '#/components/schemas/ECPaySimulateEnum'
+        - name: CustomField1
+          description: 自訂名稱欄位 1
+          in: query
+          schema:
+            type: string
+        - name: CustomField2
+          description: 自訂名稱欄位 2
+          in: query
+          schema:
+            type: string
+        - name: CustomField3
+          description: 自訂名稱欄位 3
+          in: query
+          schema:
+            type: string
+        - name: CustomField4
+          description: 自訂名稱欄位 4
+          in: query
+          schema:
+            type: string
+        - name: CustomField5
+          description: 自訂名稱欄位 5
+          in: query
+          schema:
+            type: string
+
+      responses:
+        200:
+          description: 接收成功
+          content:
+            application/json:
+              schema:
+                type: string
+                example: '1|OK'
+                default: '1|OK'
+
+components:
+  schemas:
+    ECPaySimulateEnum:
+      type: integer
+      enum:
+        - 0
+        - 1
+      x-enum-varnames:
+        - REAL_PAID
+        - SIMULATED
+      x-enum-descriptions:
+        - 不是模擬付款
+        - 是模擬付款
+      example: 0
+    PaymentType:
+      type: string
+      example: Credit_CreditCard
+      enum:
+        - WebATM_TAISHIN
+        - WebATM_ESUN
+        - WebATM_BOT
+        - WebATM_FUBON
+        - WebATM_CHINATRUST
+        - WebATM_FIRST
+        - WebATM_CATHAY
+        - WebATM_MEGA
+        - WebATM_LAND
+        - WebATM_TACHONG
+        - WebATM_SINOPAC
+        - ATM_TAISHIN
+        - ATM_ESUN
+        - ATM_BOT
+        - ATM_FUBON
+        - ATM_CHINATRUST
+        - ATM_FIRST
+        - ATM_LAND
+        - ATM_CATHAY
+        - ATM_TACHONG
+        - CVS_CVS
+        - CVS_OK
+        - CVS_FAMILY
+        - CVS_HILIFE
+        - CVS_IBON
+        - BARCODE_BARCODE
+        - Credit_CreditCard
+
+

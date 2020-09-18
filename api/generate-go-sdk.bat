@@ -1,0 +1,1 @@
+openapi-generator generate -i openapi.yaml -g go-experimental -c config/go-experimental.json -o gen-go-sdk
