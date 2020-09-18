@@ -151,6 +151,12 @@ paths:
 
 components:
   schemas:
+    Test:
+      type: object
+      properties:
+        test:
+          type: string
+          format: ecpay-date-time
     ECPaySimulateEnum:
       type: integer
       enum:
