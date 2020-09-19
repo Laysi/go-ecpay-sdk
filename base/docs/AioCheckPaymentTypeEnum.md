@@ -1,4 +1,4 @@
-# PaymentType
+# AioCheckPaymentTypeEnum
 
 ## Properties
 

@@ -1,4 +1,4 @@
-# AioCheckPaymentType
+# InvoiceMarkEnum
 
 ## Properties
 

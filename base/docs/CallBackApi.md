@@ -37,7 +37,7 @@ func main() {
     tradeNo := "tradeNo_example" // string | 綠界的交易編號
     tradeAmt := 987 // int32 | 交易金額
     paymentDate := "paymentDate_example" // string | 付款時間
-    paymentType := openapiclient.PaymentType{} // PaymentType | 特店選擇的付款方式
+    paymentType := openapiclient.PaymentTypeEnum{} // PaymentTypeEnum | 特店選擇的付款方式
     paymentTypeChargeFee := 987 // int32 | 通路費
     tradeDate := "tradeDate_example" // string | 訂單成立時間
     checkMacValue := "checkMacValue_example" // string | 檢查碼
@@ -79,7 +79,7 @@ Name | Type | Description  | Notes
  **tradeNo** | **string** | 綠界的交易編號 | 
  **tradeAmt** | **int32** | 交易金額 | 
  **paymentDate** | **string** | 付款時間 | 
- **paymentType** | [**PaymentType**](.md) | 特店選擇的付款方式 | 
+ **paymentType** | [**PaymentTypeEnum**](.md) | 特店選擇的付款方式 | 
  **paymentTypeChargeFee** | **int32** | 通路費 | 
  **tradeDate** | **string** | 訂單成立時間 | 
  **checkMacValue** | **string** | 檢查碼 | 
