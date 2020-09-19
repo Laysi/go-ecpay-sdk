@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   description: 綠界金流 API 定義文件
   title: ECPay API
-  version: 0.0.7
+  version: 0.0.8
 externalDocs:
   description: 可以在這裡找到完整的 API 文件說明
   url: https://www.ecpay.com.tw/Content/files/ecpay_011.pdf
@@ -218,12 +218,8 @@ components:
           maxLength: 10
           type: string
         MerchantTradeNo:
-          description: |
-            **特店交易編號(由特店提供)**
-            特店交易編號均為唯一值，不可重複使用。
-            英數字大小寫混合
-            如何避免訂單編號重複請參考 FAQ
-            如有使用 `PlatformID` ，平台商底下所有商家之訂單編號亦不可重複。
+          description: "**特店交易編號(由特店提供)**  \n特店交易編號均為唯一值，不可重複使用。  \n英數字大小寫混合  \n如何\
+            避免訂單編號重複請參考 FAQ  \n如有使用 `PlatformID` ，平台商底下所有商家之訂單編號亦不可重複。  \n"
           example: ecPay1234
           maxLength: 20
           pattern: ^[\w\d]*$
@@ -243,11 +239,7 @@ components:
         PaymentType:
           $ref: '#/components/schemas/AioCheckPaymentTypeEnum'
         TotalAmount:
-          description: |
-            **交易金額**
-            請帶整數，不可有小數點。
-            僅限新台幣。
-            各付款金額的限制，請參考 <https://www.ecpay.com.tw/CascadeFAQ/CascadeFAQ_Qa?nID=3605>
+          description: "**交易金額**  \n請帶整數，不可有小數點。  \n僅限新台幣。  \n各付款金額的限制，請參考 <https://www.ecpay.com.tw/CascadeFAQ/CascadeFAQ_Qa?nID=3605>\n"
           example: 5000
           minimum: 0
           type: integer
@@ -258,21 +250,15 @@ components:
           maxLength: 200
           type: string
         ItemName:
-          description: |
-            **商品名稱**
-            1. 如果商品名稱有多筆，需在金流選擇頁一行一行顯示商品名稱的話，商品名稱請以符號#分隔。
-            2. 商品名稱字數限制為中英數 400 字內，超過此限制系統將自動截斷。
+          description: "**商品名稱**  \n1. 如果商品名稱有多筆，需在金流選擇頁一行一行顯示商品名稱的話，商品名稱請以符號#分隔。\
+            \  \n2. 商品名稱字數限制為中英數 400 字內，超過此限制系統將自動截斷。  \n"
           example: 手機 20 元 X2#隨身碟 60 元 X1
           maxLength: 400
           type: string
         ReturnURL:
-          description: |
-            **付款完成通知回傳網址**
-            當消費者付款完成後，綠界會將付款結果參數以幕後(Server POST)回傳到該網址。
-            詳細說明請參考付款結果通知
-            注意事項：
-            1. 請勿設定與 Client 端接收付款結果網址 OrderResultURL 相同位置，避免程式判斷錯誤。
-            2. 請在收到 Server 端付款結果通知後，請正確回應 1|OK 給綠界。
+          description: "**付款完成通知回傳網址**  \n當消費者付款完成後，綠界會將付款結果參數以幕後(Server POST)回傳到該\
+            網址。  \n詳細說明請參考付款結果通知  \n注意事項：   \n1. 請勿設定與 Client 端接收付款結果網址 OrderResultURL\
+            \ 相同位置，避免程式判斷錯誤。  \n2. 請在收到 Server 端付款結果通知後，請正確回應 1|OK 給綠界。  \n"
           example: http://your.web.site/receive.php
           maxLength: 200
           type: string
@@ -283,15 +269,10 @@ components:
             **檢查碼** 請參考附錄檢查碼機制與產生檢查碼範例程式
           type: string
         ClientBackURL:
-          description: |
-            **Client端返回特店的按鈕連結**
-            消費者點選此按鈕後，會將頁面導回到此設定的網址
-            注意事項：
-            導回時不會帶付款結果到此網址，只是將頁面導回而已。
-            設定此參數，綠界會在付款完成或取號完成頁面上顯示[返回商店]的按鈕。
-            設定此參數，發生簡訊 OTP 驗證失敗時，頁面上會顯示[返回商店]的按鈕。
-            若未設定此參數，則綠界付款完成頁或取號完成頁面，不會顯示[返回商店]的按鈕。
-            若導回網址未使用 https 時，部份瀏覽器可能會出現警告訊息。
+          description: "**Client端返回特店的按鈕連結**  \n消費者點選此按鈕後，會將頁面導回到此設定的網址  \n注意事項： \
+            \ \n導回時不會帶付款結果到此網址，只是將頁面導回而已。  \n設定此參數，綠界會在付款完成或取號完成頁面上顯示[返回商店]的按鈕。  \n\
+            設定此參數，發生簡訊 OTP 驗證失敗時，頁面上會顯示[返回商店]的按鈕。  \n若未設定此參數，則綠界付款完成頁或取號完成頁面，不會顯示\
+            [返回商店]的按鈕。  \n若導回網址未使用 https 時，部份瀏覽器可能會出現警告訊息。  \n"
           example: http://your.web.site/Shopping/Detail
           maxLength: 200
           type: string
@@ -306,21 +287,15 @@ components:
           maxLength: 100
           type: string
         ChooseSubPayment:
-          description: |
-            **付款子項目**
-            若設定此參數，建立訂單將轉導至綠界訂單成立頁，依設定的付款方式及付款子項目帶入訂單，無法選擇其他付款子項目。
-            請參考付款方式一覽表
+          description: "**付款子項目**  \n若設定此參數，建立訂單將轉導至綠界訂單成立頁，依設定的付款方式及付款子項目帶入訂單，無法選\
+            擇其他付款子項目。  \n請參考付款方式一覽表  \n"
           example: TAISHIN
           maxLength: 20
           type: string
         OrderResultURL:
-          description: |
-            **Client端回傳付款結果網址**
-            當消費者付款完成後，綠界會將付款結果參數以幕前(Client POST)回傳到該網址。
-            詳細說明請參考付款結果通知
-            注意事項：
-            1. 若與[ClientBackURL]同時設定，將會以此參數為主。
-            2. 銀聯卡及非即時交易(ATM、CVS、BARCODE)不支援此參數。
+          description: "**Client端回傳付款結果網址**    \n當消費者付款完成後，綠界會將付款結果參數以幕前(Client POST)回\
+            傳到該網址。  \n詳細說明請參考付款結果通知  \n注意事項：  \n1. 若與[ClientBackURL]同時設定，將會以此參數為主。\
+            \  \n2. 銀聯卡及非即時交易(ATM、CVS、BARCODE)不支援此參數。  \n"
           example: http://your.web.site/client.php
           maxLength: 200
           type: string
@@ -332,58 +307,33 @@ components:
           maxLength: 10
           type: string
         IgnorePayment:
-          description: |
-            **隱藏付款**
-            當付款方式 `ChoosePayment` 為 `ALL` 時，可隱藏不需要的付款方式，多筆請以井號分隔(#)。
-            可用的參數值：
-            - `Credit`: 信用卡
-            - `WebATM`: 網路 ATM
-            - `ATM`: 自動櫃員機
-            - `CVS`: 超商代碼
-            - `BARCODE`: 超商條碼
+          description: "**隱藏付款**  \n當付款方式 `ChoosePayment` 為 `ALL` 時，可隱藏不需要的付款方式，多筆\
+            請以井號分隔(#)。  \n可用的參數值：  \n- `Credit`: 信用卡  \n- `WebATM`: 網路 ATM  \n- `ATM`:\
+            \ 自動櫃員機  \n- `CVS`: 超商代碼  \n- `BARCODE`: 超商條碼  \n"
           example: ATM#WebATM
           maxLength: 100
           type: string
         PlatformID:
-          description: |
-            **特約合作平台商代號(由綠界提供)**
-            為專案合作的平台商使用。
-            一般特店或平台商本身介接，則參數請帶放空值。
-            若為專案合作平台商的特店使用時，則參數請帶平台商所綁的特店編號 `MerchantID`。
+          description: "**特約合作平台商代號(由綠界提供)**  \n為專案合作的平台商使用。  \n一般特店或平台商本身介接，則參數請帶\
+            放空值。  \n若為專案合作平台商的特店使用時，則參數請帶平台商所綁的特店編號 `MerchantID`。  \n"
           maxLength: 10
           type: string
         InvoiceMark:
           $ref: '#/components/schemas/InvoiceMarkEnum'
         CustomField1:
-          description: |
-            **自訂名稱欄位1**
-            提供合作廠商使用記錄用客製化使用欄位
-            注意事項：
-            特殊符號只支援 `,.#()$[];%{}:/?&@<>!`
+          description: "**自訂名稱欄位1**  \n提供合作廠商使用記錄用客製化使用欄位  \n注意事項：  \n特殊符號只支援 `,.#()$[];%{}:/?&@<>!`\n"
           maxLength: 50
           type: string
         CustomField2:
-          description: |
-            **自訂名稱欄位2**
-            提供合作廠商使用記錄用客製化使用欄位
-            注意事項：
-            特殊符號只支援 `,.#()$[];%{}:/?&@<>!`
+          description: "**自訂名稱欄位2**  \n提供合作廠商使用記錄用客製化使用欄位  \n注意事項：  \n特殊符號只支援 `,.#()$[];%{}:/?&@<>!`\n"
           maxLength: 50
           type: string
         CustomField3:
-          description: |
-            **自訂名稱欄位3**
-            提供合作廠商使用記錄用客製化使用欄位
-            注意事項：
-            特殊符號只支援 `,.#()$[];%{}:/?&@<>!`
+          description: "**自訂名稱欄位3**  \n提供合作廠商使用記錄用客製化使用欄位  \n注意事項：  \n特殊符號只支援 `,.#()$[];%{}:/?&@<>!`\n"
           maxLength: 50
           type: string
         CustomField4:
-          description: |
-            **自訂名稱欄位4**
-            提供合作廠商使用記錄用客製化使用欄位
-            注意事項：
-            特殊符號只支援 `,.#()$[];%{}:/?&@<>!`
+          description: "**自訂名稱欄位4**  \n提供合作廠商使用記錄用客製化使用欄位  \n注意事項：  \n特殊符號只支援 `,.#()$[];%{}:/?&@<>!`\n"
           maxLength: 50
           type: string
         EncryptType:
@@ -391,15 +341,11 @@ components:
         Language:
           $ref: '#/components/schemas/LanguageEnum'
         StoreExpireDate:
-          description: |
-            **超商繳費截止時間**
-            注意事項：
-            `CVS`:以分鐘為單位
-            `BARCODE`:以天為單位
-            若未設定此參數，`CVS` 預設為 `10080` 分鐘(`7` 天)；BARCODE 預設為 `7` 天。
-            若需設定此參數，請於建立訂單時將此參數送給綠界。提醒您，CVS 帶入數值不可超過 `86400` 分鐘，超過時一律以 `86400` 分鐘計(`60` 天)
-            例：`08/01` 的 `20:15` 分購買商品，繳費期限為 `7` 天，表示 `8/08` 的 `20:15` 分前您必須前往超商繳費。
-            範例: `CVS`=`1440`(共 `1` 天)、`BARCODE`=`7`(共 `7` 天)
+          description: "**超商繳費截止時間**  \n注意事項：  \n`CVS`:以分鐘為單位  \n`BARCODE`:以天為單位 \
+            \ \n若未設定此參數，`CVS` 預設為 `10080` 分鐘(`7` 天)；BARCODE 預設為 `7` 天。  \n若需設定此參數，\
+            請於建立訂單時將此參數送給綠界。提醒您，CVS 帶入數值不可超過 `86400` 分鐘，超過時一律以 `86400` 分鐘計(`60` 天\
+            )  \n例：`08/01` 的 `20:15` 分購買商品，繳費期限為 `7` 天，表示 `8/08` 的 `20:15` 分前您必須前往\
+            超商繳費。  \n範例: `CVS`=`1440`(共 `1` 天)、`BARCODE`=`7`(共 `7` 天)  \n"
           type: integer
         Desc_1:
           description: |
@@ -426,24 +372,18 @@ components:
           maxLength: 20
           type: string
         PaymentInfoURL:
-          description: |
-            **Server 端回傳付款相關資訊**
-            若有設定此參數，訂單建立完成後(非付款完成)，綠界會 Server 端背景回傳消費者付款方式相關資訊(例：繳費代碼與繳費超商)。
-            請參考[`ATM`、`CVS` 或 `BARCODE` 的取號結果通知.]
-            注意事項：
-            頁面將會停留在綠界，顯示繳費的相關資訊。
-            回傳只有三段號碼，並不會回傳條碼圖，需自行轉換成 code39 的三段條碼。
+          description: "**Server 端回傳付款相關資訊**  \n若有設定此參數，訂單建立完成後(非付款完成)，綠界會 Server\
+            \ 端背景回傳消費者付款方式相關資訊(例：繳費代碼與繳費超商)。  \n請參考[`ATM`、`CVS` 或 `BARCODE` 的取號結果通\
+            知.]  \n注意事項：  \n頁面將會停留在綠界，顯示繳費的相關資訊。  \n回傳只有三段號碼，並不會回傳條碼圖，需自行轉換成 code39\
+            \ 的三段條碼。  \n"
           maxLength: 200
           type: string
         ClientRedirectURL:
-          description: |
-            **Client端回傳付款方式相關資訊**
-            若有設定此參數，訂單建立完成後(非付款完成)，綠界會從 Client 端回傳消費者付款方式相關資訊(例：繳費代碼與繳費超商)且將頁面轉到特店指定的頁面。
-            請參考[`ATM`、`CVS` 或 `BARCODE` 的取號結果通知.]
-            注意事項：
-            若設定此參數，將會使設定的返回特店的按鈕連結[ClientBackURL]失效。
-            若導回網址未使用 https 時，部份瀏覽器可能會出現警告訊息。
-            回傳只有三段號碼，並不會回傳條碼圖，需自行轉換成 code39 的三段條碼。
+          description: "**Client端回傳付款方式相關資訊**  \n若有設定此參數，訂單建立完成後(非付款完成)，綠界會從 Client\
+            \ 端回傳消費者付款方式相關資訊(例：繳費代碼與繳費超商)且將頁面轉到特店指定的頁面。  \n請參考[`ATM`、`CVS` 或 `BARCODE`\
+            \ 的取號結果通知.]  \n注意事項：  \n若設定此參數，將會使設定的返回特店的按鈕連結[ClientBackURL]失效。  \n若導\
+            回網址未使用 https 時，部份瀏覽器可能會出現警告訊息。  \n回傳只有三段號碼，並不會回傳條碼圖，需自行轉換成 code39 的三段條\
+            碼。  \n"
           maxLength: 200
           type: string
         BindingCard:
@@ -452,6 +392,152 @@ components:
           description: |
             **記憶卡號識別碼** 記憶卡號識別碼 (特店代號 `MerchantID` + `廠商會員編號`)
           maxLength: 30
+          type: string
+        Redeem:
+          $ref: '#/components/schemas/RedeemEnum'
+        UnionPay:
+          $ref: '#/components/schemas/UnionPayEnum'
+        CreditInstallment:
+          description: "**刷卡分期期數**   \n提供刷卡分期期數  \n信用卡分期可用參數為:3,6,12,18,24  \n注意事項\
+            ：  \n使用的期數必須先透過申請開通後方能使用，並以申請開通的期數為主。  \n"
+          maxLength: 20
+          type: string
+        PeriodAmount:
+          description: "**每次授權金額**  \n每次要授權(扣款)的金額。  \n注意事項：  \n綠界會依此次授權金額`PeriodAmount`所\
+            設定的金額做為之後固定授權的金額。  \n交易金額`TotalAmount`設定金額必須和授權金額`PeriodAmount`相同。  \n\
+            請帶整數，不可有小數點。僅限新台幣。\n"
+          type: integer
+        PeriodType:
+          $ref: '#/components/schemas/CreditPeriodTypeEnum'
+        Frequency:
+          description: "**執行頻率**  \n此參數用來定義多久要執行一次  \n注意事項：  \n至少要大於等於 1 次以上。  \n當\
+            \ `PeriodType` 設為 `D` 時，最多可設 `365` 次。   \n當 `PeriodType` 設為 `M` 時，最多可設\
+            \ `12` 次。    \n當 `PeriodType` 設為 `Y` 時，最多可設 `1` 次。\n"
+          maximum: 365
+          minimum: 1
+          type: integer
+        ExecTimes:
+          description: "**執行次數**  \n總共要執行幾次。  \n注意事項：  \n至少要大於 1 次以上。  \n當 `PeriodType`\
+            \ 設為 `D` 時，最多可設 `999`次。  \n當 `PeriodType` 設為 `M` 時，最多可設 `99`次。  \n當 `PeriodType`\
+            \ 設為 `Y` 時，最多可設 `9` 次。  \n\n例 1：  \n當信用卡定期定額扣款為每個月扣 1 次500 元，總共要扣 12次\
+            \  \n`TotalAmount`參數請帶 `500`\n`PeriodAmount`=`500`  \n`PeriodType`=`M`\
+            \  \n`Frequency`=`1`  \n`ExecTimes`=`12`   \n例 2：  \n當信用卡定期定額扣款為 6000\
+            \ 元，每 6 個月扣 1 次，總共要扣 2 次時   \n交易金額`TotalAmount`參數請帶 `6000`  \n`PeriodType`=`M`\
+            \  \n`Frequency`=`6`  \n`ExecTimes`=`2`  \n"
+          maximum: 999
+          minimum: 1
+          type: integer
+        PeriodReturnURL:
+          description: "**定期定額的執行結果回應URL**  \n若交易是信用卡定期定額的方式，則每次執行授權完，會將授權結果回傳到這個設\
+            定的 URL。  \n回覆內容請參考。  \n"
+          maxLength: 200
+          type: string
+        RelateNumber:
+          description: |
+            **特店自訂編號** 此為特店自訂編號，編號均為唯一值不可重複使用。
+          example: Tea0001
+          maxLength: 30
+          type: string
+        CustomerID:
+          description: |
+            **客戶編號** 該參數有值時，僅接受『英文、數字、下底線』等字元。
+          maxLength: 20
+          pattern: ^[\w\d_]*$
+          type: string
+        CustomerIdentifier:
+          description: |
+            **統一編號** 該參數有值時，請帶固定長度為數字 8 碼。
+          example: "53348111"
+          maximum: 8
+          type: string
+        CustomerName:
+          description: "**客戶名稱**   \n當列印註記`Print`為 `1`(列印)時，則該參數必須有值。  \n該參數有值時，僅接\
+            受『中、英文及數字』等字元。  \n請將參數值做 UrlEncode 方式編碼。  \n"
+          example: 綠界電子支付股份有限公司
+          maximum: 60
+          type: string
+        CustomerAddr:
+          description: "**客戶地址**   \n當列印註記`Print`為 `1`(列印)時，則該參數必須有值。  \n當該參數有值時，請\
+            注意特殊字元轉換 。   \n請將參數值做 UrlEncode 方式編碼。\n"
+          example: 臺北市南港區三重路 19-2 號 5 樓
+          maxLength: 200
+          type: string
+        CustomerPhone:
+          description: "**客戶手機號碼**  \n當客戶電子信箱`CustomerEmail`為空字串時，則該參數必須有值。  \n當該參\
+            數有值時，則格式為數字。  \n注意事項：  \n請填手機號碼，不能填市話因為要收簡訊通知用  \n"
+          example: "912345678"
+          maxLength: 20
+          type: string
+        CustomerEmail:
+          description: "**客戶電子信箱**  \n當客戶手機號碼`CustomerPhone`為空字串時，則該參數必須有值。  \n當該參\
+            數有值時，則格式需符合 EMAIL格式。  \n請將參數值做 UrlEncode 方式編碼。  \n"
+          example: abc@ecpay.com.tw
+          maxLength: 200
+          type: string
+        ClearanceMark:
+          $ref: '#/components/schemas/ClearanceMarkEnum'
+        TaxType:
+          $ref: '#/components/schemas/TaxTypeEnum'
+        CarruerType:
+          $ref: '#/components/schemas/CarruerTypeEnum'
+        CarruerNum:
+          description: "**載具編號**  \n1. 當載具類別 `CarruerType`=``無載具)，請帶空字串。  \n2. 當載具\
+            類別`CarruerType`=`1`(綠界科技電子發票載具)時，請帶空字串，系統會自動帶入值，為合作特店載具統一編號+自訂編號(RelateNumber)。\
+            \  \n3. 當載具類別`CarruerType`=`2`(買受人之自然人憑證)時，則請帶固定長度為16且格式 為2碼大寫英文字母加上14碼\
+            數字。  \n4. 當載具類別`CarruerType`=`3`(買受人之手機條碼)時，則請帶固定長度為 8且格式為 1 碼斜線「/」加上由\
+            \ 7 碼數字及大寫英文字母及+-.符號組成。  \n\n注意事項：  \n1. 若手機條碼中有加號，可能在介接驗證時 發生錯誤，請將加號改\
+            為空白字元，產生 驗證碼。  \n2. 英文、數字、符號僅接受半形字  \n3. 若載具編號為手機條碼載具時，請先呼叫B2C電子發票介接技術\
+            文件手機條碼載驗證ＡＰＩ進行檢核  \n"
+          maxLength: 64
+          type: string
+        Donation:
+          $ref: '#/components/schemas/InvoiceDonationEunm'
+        LoveCode:
+          description: "**捐贈碼**  \n消費者選擇捐贈發票則於此欄位須填入受贈單位之捐贈碼。  \n1. 若捐贈註記 `Donation`=\
+            \ `1` (捐贈)時，此欄位須有值。  \n2. 捐贈碼以阿拉伯數字為限，最少三碼，最多七碼。內容定位採「文字格式」，首位可以為零。  \
+            \ \n"
+          example: "168001"
+          maxLength: 7
+          type: string
+        Print:
+          $ref: '#/components/schemas/InvoicePrintEnum'
+        InvoiceItemName:
+          description: "**商品名稱**  \n預設不可為空字串且格式為 名稱 1 | 名稱 2 | 名稱 3 | … | 名稱 n，當含有\
+            二筆或以上的商品名稱時，則以「|」符號區隔。  \n將參數值以 UrlEncode 方式編碼。  \n"
+          example: 名稱1|名稱2|名稱3
+          maxLength: 100
+          type: string
+        InvoiceItemCount:
+          description: "**商品數量**  \n預設不可為空字串且格式為 數量 1 | 數量 2 | 數量 3 | … | 數量 n，當含有\
+            二筆或以上的商品名稱時，則以「|」符號區隔。\n"
+          example: 1|1
+          type: string
+        InvoiceItemWord:
+          description: "**商品單位**  \n商品單位若超過二筆以上請以「|」符號區隔單位最大長度為 6 碼。  \n請將參數做 UrlEncode\
+            \ 方式編碼。\n"
+          type: string
+        InvoiceItemPrice:
+          description: "**商品價格**  \n預設不可為空字串且格式為 價格 1 | 價格 2 | 價格 3 | … | 價格 n，當含有\
+            二筆或以上的商品價格時，則以「|」符號區隔。\n"
+          type: string
+        InvoiceItemTaxType:
+          description: "**商品課稅別**  \n1：應稅  \n2：零稅率  \n3：免稅  \n注意事項：  \n1. 預設為空字串，當\
+            課稅類別 [TaxType] = 9 時，此欄位不可為空。  \n2. 格式為課稅 類別 1 | 課稅類別 2 | 課稅類別 3 | … |\
+            \ 課稅類別 n。當含有二筆或以上的商品課稅類別時，則以「|」符號區隔。  \n3. 課稅類別為混合稅率時，需含二筆或 以 上 的 商 品\
+            \ 課 稅   別[InvoiceItemTaxType]，且至少需有一筆商品課稅別為應稅及至少需有一筆商品課稅別為免稅或零稅率，即混稅發票\
+            只能 1.應稅+免稅 2.應稅+零稅率，免稅和零稅率發票不能同時開立。\n"
+          example: 1|1|3
+          type: string
+        InvoiceRemark:
+          description: |
+            **備註** 當該參數有值時，請將參數值做UrlEncode 方式編碼。
+          type: string
+        DelayDay:
+          description: "**延遲天數**  \n本參數值請帶 0~15(天)，當天數為 0 時，則付款完成後立即開立發票。\n"
+          minimum: 0
+          type: string
+        InvType:
+          description: "**字軌類別**  \n若為一般稅額時，請帶 07。  \n預設值：07  \n"
           type: string
       required:
       - CheckMacValue
@@ -466,6 +552,126 @@ components:
       - TotalAmount
       - TradeDesc
       type: object
+    InvoicePrintEnum:
+      description: "**列印註記**  \n若為不列印或捐贈註記`Donation`為1(捐贈)時，請帶：`0`。  \n若為列印或統一編號`CustomerIdentifier`有\
+        值時，請帶：`1`  \n"
+      enum:
+      - "0"
+      - "1"
+      type: string
+      x-enum-varnames:
+      - PRINT
+      - NOT_PRINT
+      x-enum-descriptions:
+      - 不列印
+      - 列印
+    InvoiceDonationEunm:
+      description: |
+        **捐贈註記**
+        若為捐贈時，參數請帶：`1`。
+        若為不捐贈或統一編號 `CustomerIdentifier` 有值時，參數請帶：`0`。
+      enum:
+      - "1"
+      - "0"
+      type: string
+      x-enum-varnames:
+      - DONATION
+      - NOT_DONATION
+      x-enum-descriptions:
+      - 捐贈
+      - 不捐贈
+    CarruerTypeEnum:
+      description: "**載具類別**  \n若為無載具時，則請帶空字串。  \n若為特店載具時，則請帶 `1`。  \n若為買受人之自然人憑證號\
+        碼時，則請帶 `2`。  \n若為買受人之手機條碼資料時，則請帶`3`。  \n若統一編號 `CustomerIdentifier` 有值時，則載具\
+        類別不可為特店載具或自然人憑證載具。  \n注意事項：當`Print`有值時，載具類別不得有值。  \n"
+      enum:
+      - ""
+      - "1"
+      - "2"
+      - "3"
+      type: string
+      x-enum-varnames:
+      - NO_CARRIER
+      - SHOP_CARRIER
+      - NATURAL_PERSON_CERTIFICATE_CARRIER
+      - PHONE_BARCODE_CARRIER
+      x-enum-descriptions:
+      - 無載具
+      - 特店載具
+      - 買受人之自然人憑證
+      - 手機條碼
+    TaxTypeEnum:
+      description: "**課稅類別**\n若為應稅，請帶 `1`。  \n若為零稅率，請帶 `2`。  \n若為免稅，請帶 `3`。  \n若為混\
+        合應稅與免稅或零稅率時(限收銀機發票無法分辨時使用，且需通過申請核可)，則請帶 `9`。  \n"
+      enum:
+      - "1"
+      - "2"
+      - "3"
+      - "9"
+      type: string
+      x-enum-varnames:
+      - TAXABLE
+      - ZERO_TAX_RATE
+      - DUTY_FREE
+      - MIXED
+      x-enum-descriptions:
+      - 應稅
+      - 零稅率
+      - 免稅
+      - 混合應稅與免稅或零稅率
+    ClearanceMarkEnum:
+      description: "**通關方式**  \n當課稅類別`TaxType`為 `2`(零稅率)時，則該參數請帶 `1`(非經海關出口)或 `2`(經\
+        海關出口)。\n"
+      enum:
+      - "1"
+      - "2"
+      type: string
+      x-enum-varnames:
+      - NOT_CUSTOMS
+      - CUSTOMS
+      x-enum-descriptions:
+      - 非經海關出口
+      - 經海關出口
+    CreditPeriodTypeEnum:
+      description: "**週期種類**  \n可設定以下參數：  \n`D`：以天為週期  \n`M`：以月為週期  \n`Y`：以年為週期  \n"
+      enum:
+      - D
+      - M
+      - "Y"
+      type: string
+      x-enum-varnames:
+      - DAY
+      - MONTH
+      - YEAR
+      x-enum-descriptions:
+      - 以天為週期
+      - 以月為週期
+      - 以年為週期
+    UnionPayEnum:
+      default: 0
+      description: "**銀聯卡交易選項**  \n可帶入以下選項:  \n`0`: 消費者於交易頁面可選擇是否使用銀聯交易。  \n`1`: 只\
+        使用銀聯卡交易，且綠界會將交易頁面直接導到銀聯網站。  \n`2`: 不可使用銀聯卡，綠界會將交易頁面隱藏銀聯選項。  \n注意事項：  \n1.若\
+        需使用銀聯卡服務，請與綠界提出申請方可使用，測試環境未提供銀聯卡服務。  \n2.不支援信用卡分期付款及定期定額。  \n3.不支援信用卡紅利折抵\
+        \  \n4.不支援信用卡記憶卡號功能\n"
+      enum:
+      - 0
+      - 1
+      - 2
+      type: integer
+      x-enum-varnames:
+      - NOT_SPECIFIED
+      - SPECIFIED
+      - HIDDEN
+      x-enum-descriptions:
+      - 消費者於交易頁面可選擇是否使用銀聯交易。
+      - 只使用銀聯卡交易，且綠界會將交易頁面直接導到銀聯網站。
+      - 不可使用銀聯卡，綠界會將交易頁面隱藏銀聯選項。
+    RedeemEnum:
+      description: "**信用卡是否使用紅利折抵**  \n設為 Y 時，當綠界特店選擇信用卡付款時，會進入紅利折抵的交易流程。  \n注意事項：\
+        \  \n紅利折抵請參考信用卡紅利折抵辦法  \n"
+      enum:
+      - "Y"
+      type: string
     ECPaySimulateEnum:
       enum:
       - 0
@@ -487,21 +693,10 @@ components:
       example: aio
       type: string
     ChoosePaymentEnum:
-      description: |
-        **選擇預設付款方式**
-        綠界提供下列付款方式，請於建立訂單時傳送過來:
-        - `Credit`: 信用卡及銀聯卡(需申請開通)
-        - `WebATM`: 網路 ATM
-        - `ATM`: 自動櫃員機
-        - `CVS`: 超商代碼
-        - `BARCODE`: 超商條碼
-        - `ALL`: 不指定付款方式，由綠界顯示付款方式選擇頁面。
-
-        注意事項：
-        1.若為手機版時不支援下列付款方式:
-          - WebATM:網路 ATM
-
-        2.如需要不透過綠界畫面取得 `ATM`、`CVS`、`BARCODE` 的繳費代碼，請參考 FAQ。
+      description: "**選擇預設付款方式**  \n綠界提供下列付款方式，請於建立訂單時傳送過來:  \n- `Credit`: 信用卡及銀聯卡\
+        (需申請開通)  \n- `WebATM`: 網路 ATM  \n- `ATM`: 自動櫃員機  \n- `CVS`: 超商代碼   \n- `BARCODE`:\
+        \ 超商條碼  \n- `ALL`: 不指定付款方式，由綠界顯示付款方式選擇頁面。  \n\n注意事項：\n1.若為手機版時不支援下列付款方式:\n\
+        \  - WebATM:網路 ATM\n\n2.如需要不透過綠界畫面取得 `ATM`、`CVS`、`BARCODE` 的繳費代碼，請參考 FAQ。\n"
       enum:
       - Credit
       - WebATM
@@ -519,26 +714,20 @@ components:
       - 超商條碼
       - 不指定付款方式，由綠界顯示付款方式選擇頁面。
     NeedExtraPaidInfoEnum:
-      default: "N"
-      description: |
-        **是否需要額外的付款資訊**
-        額外的付款資訊：
-        若不回傳額外的付款資訊時，參數值請傳：`Ｎ`；
-        若要回傳額外的付款資訊時，參數值請傳：`Ｙ`，付款完成後綠界會以 Server POST 方式回傳額外付款資訊。
-        注意事項：
-        回傳額外付款資訊參數請參考-額外回傳的參數
+      description: "**是否需要額外的付款資訊**   \n額外的付款資訊：  \n若不回傳額外的付款資訊時，參數值請傳：`Ｎ`；  \n若要回\
+        傳額外的付款資訊時，參數值請傳：`Ｙ`，付款完成後綠界會以 Server POST 方式回傳額外付款資訊。    \n注意事項：  \n回傳額外付款\
+        資訊參數請參考-額外回傳的參數\n"
       enum:
       - "Y"
       - "N"
-      example: "N"
       type: string
+      x-enum-descriptions:
+      - 要回傳額外的付款資訊
+      - 不回傳額外的付款資訊
     InvoiceMarkEnum:
-      description: |
-        **電子發票開立註記**
-        此參數為付款完成後同時開立電子發票。
-        若要使用時，該參數須設定為「Y」，同時還要設定「電子發票介接相關參數」
-        注意事項：
-        正式環境欲使用電子發票功能，須與綠界申請開通，若未開通請致電客服中心 `(02) 2655-1775`。
+      description: "**電子發票開立註記**  \n此參數為付款完成後同時開立電子發票。  \n若要使用時，該參數須設定為「Y」，同時還要設定「\
+        電子發票介接相關參數」  \n注意事項：  \n正式環境欲使用電子發票功能，須與綠界申請開通，若未開通請致電客服中心 `(02) 2655-1775`。\
+        \  \n"
       enum:
       - "Y"
       maxLength: 1
@@ -554,34 +743,31 @@ components:
       x-enum-varnames:
       - SHA256
     LanguageEnum:
-      description: |
-        **語系設定**
-        預設語系為中文，若要變更語系參數值請帶：
-        - 英語：`ENG`
-        - 韓語：`KOR`
-        - 日語：`JPN`
-        - 簡體中文：`CHI`
+      description: "**語系設定**  \n預設語系為中文，若要變更語系參數值請帶：  \n- 英語：`ENG`  \n- 韓語：`KOR` \
+        \ \n- 日語：`JPN`  \n- 簡體中文：`CHI`  \n"
       enum:
       - ENG
       - KOR
       - JPN
       - CHI
-      example: ENG
       type: string
+      x-enum-descriptions:
+      - 英語
+      - 韓語
+      - 日語
+      - 簡體中文
     BindingCardEnum:
-      description: |
-        **記憶卡號**
-        使用記憶信用卡
-        使用：請傳 `1`
-        不使用：請傳 `0`
+      description: "**記憶卡號**  \n使用記憶信用卡  \n使用：請傳 `1`    \n不使用：請傳 `0`  \n"
       enum:
       - 1
       - 0
-      example: 1
       type: integer
       x-enum-varnames:
-      - Binding
-      - NotBinding
+      - BINDING
+      - NOT_BINDING
+      x-enum-descriptions:
+      - 記憶信用卡
+      - 不記憶
     PaymentTypeEnum:
       enum:
       - WebATM_TAISHIN
