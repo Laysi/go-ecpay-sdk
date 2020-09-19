@@ -9,10 +9,142 @@
 
 package base
 
+import (
+	"encoding/json"
+)
+
 // AioCheckOutChoosePaymentCreditOption struct for AioCheckOutChoosePaymentCreditOption
 type AioCheckOutChoosePaymentCreditOption struct {
 	// **記憶卡號** 使用記憶信用卡 使用：請傳 `1` 不使用：請傳 `0`
-	BindingCard int32 `json:"BindingCard,omitempty"`
+	BindingCard *int32 `json:"BindingCard,omitempty"`
 	// **記憶卡號識別碼** 記憶卡號識別碼 (特店代號 `MerchantID` + `廠商會員編號`)
-	MerchantMemberID string `json:"MerchantMemberID,omitempty"`
+	MerchantMemberID *string `json:"MerchantMemberID,omitempty"`
+}
+
+// NewAioCheckOutChoosePaymentCreditOption instantiates a new AioCheckOutChoosePaymentCreditOption object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func NewAioCheckOutChoosePaymentCreditOption() *AioCheckOutChoosePaymentCreditOption {
+	this := AioCheckOutChoosePaymentCreditOption{}
+	return &this
+}
+
+// NewAioCheckOutChoosePaymentCreditOptionWithDefaults instantiates a new AioCheckOutChoosePaymentCreditOption object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewAioCheckOutChoosePaymentCreditOptionWithDefaults() *AioCheckOutChoosePaymentCreditOption {
+	this := AioCheckOutChoosePaymentCreditOption{}
+	return &this
+}
+
+// GetBindingCard returns the BindingCard field value if set, zero value otherwise.
+func (o *AioCheckOutChoosePaymentCreditOption) GetBindingCard() int32 {
+	if o == nil || o.BindingCard == nil {
+		var ret int32
+		return ret
+	}
+	return *o.BindingCard
+}
+
+// GetBindingCardOk returns a tuple with the BindingCard field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AioCheckOutChoosePaymentCreditOption) GetBindingCardOk() (*int32, bool) {
+	if o == nil || o.BindingCard == nil {
+		return nil, false
+	}
+	return o.BindingCard, true
+}
+
+// HasBindingCard returns a boolean if a field has been set.
+func (o *AioCheckOutChoosePaymentCreditOption) HasBindingCard() bool {
+	if o != nil && o.BindingCard != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetBindingCard gets a reference to the given int32 and assigns it to the BindingCard field.
+func (o *AioCheckOutChoosePaymentCreditOption) SetBindingCard(v int32) {
+	o.BindingCard = &v
+}
+
+// GetMerchantMemberID returns the MerchantMemberID field value if set, zero value otherwise.
+func (o *AioCheckOutChoosePaymentCreditOption) GetMerchantMemberID() string {
+	if o == nil || o.MerchantMemberID == nil {
+		var ret string
+		return ret
+	}
+	return *o.MerchantMemberID
+}
+
+// GetMerchantMemberIDOk returns a tuple with the MerchantMemberID field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AioCheckOutChoosePaymentCreditOption) GetMerchantMemberIDOk() (*string, bool) {
+	if o == nil || o.MerchantMemberID == nil {
+		return nil, false
+	}
+	return o.MerchantMemberID, true
+}
+
+// HasMerchantMemberID returns a boolean if a field has been set.
+func (o *AioCheckOutChoosePaymentCreditOption) HasMerchantMemberID() bool {
+	if o != nil && o.MerchantMemberID != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetMerchantMemberID gets a reference to the given string and assigns it to the MerchantMemberID field.
+func (o *AioCheckOutChoosePaymentCreditOption) SetMerchantMemberID(v string) {
+	o.MerchantMemberID = &v
+}
+
+func (o AioCheckOutChoosePaymentCreditOption) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if o.BindingCard != nil {
+		toSerialize["BindingCard"] = o.BindingCard
+	}
+	if o.MerchantMemberID != nil {
+		toSerialize["MerchantMemberID"] = o.MerchantMemberID
+	}
+	return json.Marshal(toSerialize)
+}
+
+type NullableAioCheckOutChoosePaymentCreditOption struct {
+	value *AioCheckOutChoosePaymentCreditOption
+	isSet bool
+}
+
+func (v NullableAioCheckOutChoosePaymentCreditOption) Get() *AioCheckOutChoosePaymentCreditOption {
+	return v.value
+}
+
+func (v *NullableAioCheckOutChoosePaymentCreditOption) Set(val *AioCheckOutChoosePaymentCreditOption) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableAioCheckOutChoosePaymentCreditOption) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableAioCheckOutChoosePaymentCreditOption) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableAioCheckOutChoosePaymentCreditOption(val *AioCheckOutChoosePaymentCreditOption) *NullableAioCheckOutChoosePaymentCreditOption {
+	return &NullableAioCheckOutChoosePaymentCreditOption{value: val, isSet: true}
+}
+
+func (v NullableAioCheckOutChoosePaymentCreditOption) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.value)
+}
+
+func (v *NullableAioCheckOutChoosePaymentCreditOption) UnmarshalJSON(src []byte) error {
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }

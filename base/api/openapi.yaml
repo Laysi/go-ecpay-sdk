@@ -217,7 +217,8 @@ components:
     AioCheckOut_General_Option:
       properties:
         MerchantID:
-          description: 特店編號(由綠界提供)
+          description: |
+            **特店編號(由綠界提供)**
           example: "2000132"
           maxLength: 10
           type: string
@@ -246,14 +247,14 @@ components:
           maxLength: 20
           type: string
         PaymentType:
-          default: aio
-          description: |
-            **交易類型** 請固定填入 `aio`
-          enum:
-          - aio
-          example: aio
-          maxLength: 20
-          type: string
+          allOf:
+          - $ref: '#/components/schemas/AioCheckPaymentType'
+          - default: aio
+            description: |
+              **交易類型** 請固定填入 `aio`
+            example: aio
+            maxLength: 20
+            type: string
         TotalAmount:
           description: |
             **交易金額**
@@ -578,6 +579,10 @@ components:
       x-enum-descriptions:
       - 不是模擬付款
       - 是模擬付款
+    AioCheckPaymentType:
+      enum:
+      - aio
+      type: string
     PaymentType:
       enum:
       - WebATM_TAISHIN

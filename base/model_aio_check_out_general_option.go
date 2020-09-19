@@ -13,8 +13,8 @@ import (
 	"encoding/json"
 )
 
-// AioCheckOutRequest struct for AioCheckOutRequest
-type AioCheckOutRequest struct {
+// AioCheckOutGeneralOption struct for AioCheckOutGeneralOption
+type AioCheckOutGeneralOption struct {
 	// **特店編號(由綠界提供)**
 	MerchantID string `json:"MerchantID"`
 	// **特店交易編號(由特店提供)** 特店交易編號均為唯一值，不可重複使用。 英數字大小寫混合 如何避免訂單編號重複請參考 FAQ 如有使用 `PlatformID` ，平台商底下所有商家之訂單編號亦不可重複。
@@ -68,32 +68,14 @@ type AioCheckOutRequest struct {
 	EncryptType int32 `json:"EncryptType"`
 	// **語系設定** 預設語系為中文，若要變更語系參數值請帶： - 英語：`ENG` - 韓語：`KOR` - 日語：`JPN` - 簡體中文：`CHI`
 	Language *string `json:"Language,omitempty"`
-	// **超商繳費截止時間** 注意事項： `CVS`:以分鐘為單位 `BARCODE`:以天為單位 若未設定此參數，`CVS` 預設為 `10080` 分鐘(`7` 天)；BARCODE 預設為 `7` 天。 若需設定此參數，請於建立訂單時將此參數送給綠界。提醒您，CVS 帶入數值不可超過 `86400` 分鐘，超過時一律以 `86400` 分鐘計(`60` 天) 例：`08/01` 的 `20:15` 分購買商品，繳費期限為 `7` 天，表示 `8/08` 的 `20:15` 分前您必須前往超商繳費。 範例: `CVS`=`1440`(共 `1` 天)、`BARCODE`=`7`(共 `7` 天)
-	StoreExpireDate *int32 `json:"StoreExpireDate,omitempty"`
-	// **交易描述1** 會出現在超商繳費平台螢幕上
-	Desc1 *string `json:"Desc_1,omitempty"`
-	// **交易描述2** 會出現在超商繳費平台螢幕上
-	Desc2 *string `json:"Desc_2,omitempty"`
-	// **交易描述3** 會出現在超商繳費平台螢幕上
-	Desc3 *string `json:"Desc_3,omitempty"`
-	// **交易描述4** 會出現在超商繳費平台螢幕上
-	Desc4 *string `json:"Desc_4,omitempty"`
-	// **Server 端回傳付款相關資訊** 若有設定此參數，訂單建立完成後(非付款完成)，綠界會 Server 端背景回傳消費者付款方式相關資訊(例：繳費代碼與繳費超商)。 請參考[`ATM`、`CVS` 或 `BARCODE` 的取號結果通知.] 注意事項： 頁面將會停留在綠界，顯示繳費的相關資訊。 回傳只有三段號碼，並不會回傳條碼圖，需自行轉換成 code39 的三段條碼。
-	PaymentInfoURL *string `json:"PaymentInfoURL,omitempty"`
-	// **Client端回傳付款方式相關資訊** 若有設定此參數，訂單建立完成後(非付款完成)，綠界會從 Client 端回傳消費者付款方式相關資訊(例：繳費代碼與繳費超商)且將頁面轉到特店指定的頁面。 請參考[`ATM`、`CVS` 或 `BARCODE` 的取號結果通知.] 注意事項： 若設定此參數，將會使設定的返回特店的按鈕連結[ClientBackURL]失效。 若導回網址未使用 https 時，部份瀏覽器可能會出現警告訊息。 回傳只有三段號碼，並不會回傳條碼圖，需自行轉換成 code39 的三段條碼。
-	ClientRedirectURL *string `json:"ClientRedirectURL,omitempty"`
-	// **記憶卡號** 使用記憶信用卡 使用：請傳 `1` 不使用：請傳 `0`
-	BindingCard *int32 `json:"BindingCard,omitempty"`
-	// **記憶卡號識別碼** 記憶卡號識別碼 (特店代號 `MerchantID` + `廠商會員編號`)
-	MerchantMemberID *string `json:"MerchantMemberID,omitempty"`
 }
 
-// NewAioCheckOutRequest instantiates a new AioCheckOutRequest object
+// NewAioCheckOutGeneralOption instantiates a new AioCheckOutGeneralOption object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewAioCheckOutRequest(merchantID string, merchantTradeNo string, merchantTradeDate ECPayDateTime, paymentType AioCheckPaymentType, totalAmount int32, tradeDesc string, itemName string, returnURL string, choosePayment string, checkMacValue string, encryptType int32) *AioCheckOutRequest {
-	this := AioCheckOutRequest{}
+func NewAioCheckOutGeneralOption(merchantID string, merchantTradeNo string, merchantTradeDate ECPayDateTime, paymentType AioCheckPaymentType, totalAmount int32, tradeDesc string, itemName string, returnURL string, choosePayment string, checkMacValue string, encryptType int32) *AioCheckOutGeneralOption {
+	this := AioCheckOutGeneralOption{}
 	this.MerchantID = merchantID
 	this.MerchantTradeNo = merchantTradeNo
 	this.MerchantTradeDate = merchantTradeDate
@@ -110,11 +92,11 @@ func NewAioCheckOutRequest(merchantID string, merchantTradeNo string, merchantTr
 	return &this
 }
 
-// NewAioCheckOutRequestWithDefaults instantiates a new AioCheckOutRequest object
+// NewAioCheckOutGeneralOptionWithDefaults instantiates a new AioCheckOutGeneralOption object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewAioCheckOutRequestWithDefaults() *AioCheckOutRequest {
-	this := AioCheckOutRequest{}
+func NewAioCheckOutGeneralOptionWithDefaults() *AioCheckOutGeneralOption {
+	this := AioCheckOutGeneralOption{}
 	var needExtraPaidInfo string = "N"
 	this.NeedExtraPaidInfo = &needExtraPaidInfo
 	var encryptType int32 = 1
@@ -123,7 +105,7 @@ func NewAioCheckOutRequestWithDefaults() *AioCheckOutRequest {
 }
 
 // GetMerchantID returns the MerchantID field value
-func (o *AioCheckOutRequest) GetMerchantID() string {
+func (o *AioCheckOutGeneralOption) GetMerchantID() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -134,7 +116,7 @@ func (o *AioCheckOutRequest) GetMerchantID() string {
 
 // GetMerchantIDOk returns a tuple with the MerchantID field value
 // and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetMerchantIDOk() (*string, bool) {
+func (o *AioCheckOutGeneralOption) GetMerchantIDOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -142,12 +124,12 @@ func (o *AioCheckOutRequest) GetMerchantIDOk() (*string, bool) {
 }
 
 // SetMerchantID sets field value
-func (o *AioCheckOutRequest) SetMerchantID(v string) {
+func (o *AioCheckOutGeneralOption) SetMerchantID(v string) {
 	o.MerchantID = v
 }
 
 // GetMerchantTradeNo returns the MerchantTradeNo field value
-func (o *AioCheckOutRequest) GetMerchantTradeNo() string {
+func (o *AioCheckOutGeneralOption) GetMerchantTradeNo() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -158,7 +140,7 @@ func (o *AioCheckOutRequest) GetMerchantTradeNo() string {
 
 // GetMerchantTradeNoOk returns a tuple with the MerchantTradeNo field value
 // and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetMerchantTradeNoOk() (*string, bool) {
+func (o *AioCheckOutGeneralOption) GetMerchantTradeNoOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -166,12 +148,12 @@ func (o *AioCheckOutRequest) GetMerchantTradeNoOk() (*string, bool) {
 }
 
 // SetMerchantTradeNo sets field value
-func (o *AioCheckOutRequest) SetMerchantTradeNo(v string) {
+func (o *AioCheckOutGeneralOption) SetMerchantTradeNo(v string) {
 	o.MerchantTradeNo = v
 }
 
 // GetStoreID returns the StoreID field value if set, zero value otherwise.
-func (o *AioCheckOutRequest) GetStoreID() string {
+func (o *AioCheckOutGeneralOption) GetStoreID() string {
 	if o == nil || o.StoreID == nil {
 		var ret string
 		return ret
@@ -181,7 +163,7 @@ func (o *AioCheckOutRequest) GetStoreID() string {
 
 // GetStoreIDOk returns a tuple with the StoreID field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetStoreIDOk() (*string, bool) {
+func (o *AioCheckOutGeneralOption) GetStoreIDOk() (*string, bool) {
 	if o == nil || o.StoreID == nil {
 		return nil, false
 	}
@@ -189,7 +171,7 @@ func (o *AioCheckOutRequest) GetStoreIDOk() (*string, bool) {
 }
 
 // HasStoreID returns a boolean if a field has been set.
-func (o *AioCheckOutRequest) HasStoreID() bool {
+func (o *AioCheckOutGeneralOption) HasStoreID() bool {
 	if o != nil && o.StoreID != nil {
 		return true
 	}
@@ -198,12 +180,12 @@ func (o *AioCheckOutRequest) HasStoreID() bool {
 }
 
 // SetStoreID gets a reference to the given string and assigns it to the StoreID field.
-func (o *AioCheckOutRequest) SetStoreID(v string) {
+func (o *AioCheckOutGeneralOption) SetStoreID(v string) {
 	o.StoreID = &v
 }
 
 // GetMerchantTradeDate returns the MerchantTradeDate field value
-func (o *AioCheckOutRequest) GetMerchantTradeDate() ECPayDateTime {
+func (o *AioCheckOutGeneralOption) GetMerchantTradeDate() ECPayDateTime {
 	if o == nil {
 		var ret ECPayDateTime
 		return ret
@@ -214,7 +196,7 @@ func (o *AioCheckOutRequest) GetMerchantTradeDate() ECPayDateTime {
 
 // GetMerchantTradeDateOk returns a tuple with the MerchantTradeDate field value
 // and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetMerchantTradeDateOk() (*ECPayDateTime, bool) {
+func (o *AioCheckOutGeneralOption) GetMerchantTradeDateOk() (*ECPayDateTime, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -222,12 +204,12 @@ func (o *AioCheckOutRequest) GetMerchantTradeDateOk() (*ECPayDateTime, bool) {
 }
 
 // SetMerchantTradeDate sets field value
-func (o *AioCheckOutRequest) SetMerchantTradeDate(v ECPayDateTime) {
+func (o *AioCheckOutGeneralOption) SetMerchantTradeDate(v ECPayDateTime) {
 	o.MerchantTradeDate = v
 }
 
 // GetPaymentType returns the PaymentType field value
-func (o *AioCheckOutRequest) GetPaymentType() AioCheckPaymentType {
+func (o *AioCheckOutGeneralOption) GetPaymentType() AioCheckPaymentType {
 	if o == nil {
 		var ret AioCheckPaymentType
 		return ret
@@ -238,7 +220,7 @@ func (o *AioCheckOutRequest) GetPaymentType() AioCheckPaymentType {
 
 // GetPaymentTypeOk returns a tuple with the PaymentType field value
 // and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetPaymentTypeOk() (*AioCheckPaymentType, bool) {
+func (o *AioCheckOutGeneralOption) GetPaymentTypeOk() (*AioCheckPaymentType, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -246,12 +228,12 @@ func (o *AioCheckOutRequest) GetPaymentTypeOk() (*AioCheckPaymentType, bool) {
 }
 
 // SetPaymentType sets field value
-func (o *AioCheckOutRequest) SetPaymentType(v AioCheckPaymentType) {
+func (o *AioCheckOutGeneralOption) SetPaymentType(v AioCheckPaymentType) {
 	o.PaymentType = v
 }
 
 // GetTotalAmount returns the TotalAmount field value
-func (o *AioCheckOutRequest) GetTotalAmount() int32 {
+func (o *AioCheckOutGeneralOption) GetTotalAmount() int32 {
 	if o == nil {
 		var ret int32
 		return ret
@@ -262,7 +244,7 @@ func (o *AioCheckOutRequest) GetTotalAmount() int32 {
 
 // GetTotalAmountOk returns a tuple with the TotalAmount field value
 // and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetTotalAmountOk() (*int32, bool) {
+func (o *AioCheckOutGeneralOption) GetTotalAmountOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -270,12 +252,12 @@ func (o *AioCheckOutRequest) GetTotalAmountOk() (*int32, bool) {
 }
 
 // SetTotalAmount sets field value
-func (o *AioCheckOutRequest) SetTotalAmount(v int32) {
+func (o *AioCheckOutGeneralOption) SetTotalAmount(v int32) {
 	o.TotalAmount = v
 }
 
 // GetTradeDesc returns the TradeDesc field value
-func (o *AioCheckOutRequest) GetTradeDesc() string {
+func (o *AioCheckOutGeneralOption) GetTradeDesc() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -286,7 +268,7 @@ func (o *AioCheckOutRequest) GetTradeDesc() string {
 
 // GetTradeDescOk returns a tuple with the TradeDesc field value
 // and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetTradeDescOk() (*string, bool) {
+func (o *AioCheckOutGeneralOption) GetTradeDescOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -294,12 +276,12 @@ func (o *AioCheckOutRequest) GetTradeDescOk() (*string, bool) {
 }
 
 // SetTradeDesc sets field value
-func (o *AioCheckOutRequest) SetTradeDesc(v string) {
+func (o *AioCheckOutGeneralOption) SetTradeDesc(v string) {
 	o.TradeDesc = v
 }
 
 // GetItemName returns the ItemName field value
-func (o *AioCheckOutRequest) GetItemName() string {
+func (o *AioCheckOutGeneralOption) GetItemName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -310,7 +292,7 @@ func (o *AioCheckOutRequest) GetItemName() string {
 
 // GetItemNameOk returns a tuple with the ItemName field value
 // and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetItemNameOk() (*string, bool) {
+func (o *AioCheckOutGeneralOption) GetItemNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -318,12 +300,12 @@ func (o *AioCheckOutRequest) GetItemNameOk() (*string, bool) {
 }
 
 // SetItemName sets field value
-func (o *AioCheckOutRequest) SetItemName(v string) {
+func (o *AioCheckOutGeneralOption) SetItemName(v string) {
 	o.ItemName = v
 }
 
 // GetReturnURL returns the ReturnURL field value
-func (o *AioCheckOutRequest) GetReturnURL() string {
+func (o *AioCheckOutGeneralOption) GetReturnURL() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -334,7 +316,7 @@ func (o *AioCheckOutRequest) GetReturnURL() string {
 
 // GetReturnURLOk returns a tuple with the ReturnURL field value
 // and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetReturnURLOk() (*string, bool) {
+func (o *AioCheckOutGeneralOption) GetReturnURLOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -342,12 +324,12 @@ func (o *AioCheckOutRequest) GetReturnURLOk() (*string, bool) {
 }
 
 // SetReturnURL sets field value
-func (o *AioCheckOutRequest) SetReturnURL(v string) {
+func (o *AioCheckOutGeneralOption) SetReturnURL(v string) {
 	o.ReturnURL = v
 }
 
 // GetChoosePayment returns the ChoosePayment field value
-func (o *AioCheckOutRequest) GetChoosePayment() string {
+func (o *AioCheckOutGeneralOption) GetChoosePayment() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -358,7 +340,7 @@ func (o *AioCheckOutRequest) GetChoosePayment() string {
 
 // GetChoosePaymentOk returns a tuple with the ChoosePayment field value
 // and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetChoosePaymentOk() (*string, bool) {
+func (o *AioCheckOutGeneralOption) GetChoosePaymentOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -366,12 +348,12 @@ func (o *AioCheckOutRequest) GetChoosePaymentOk() (*string, bool) {
 }
 
 // SetChoosePayment sets field value
-func (o *AioCheckOutRequest) SetChoosePayment(v string) {
+func (o *AioCheckOutGeneralOption) SetChoosePayment(v string) {
 	o.ChoosePayment = v
 }
 
 // GetCheckMacValue returns the CheckMacValue field value
-func (o *AioCheckOutRequest) GetCheckMacValue() string {
+func (o *AioCheckOutGeneralOption) GetCheckMacValue() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -382,7 +364,7 @@ func (o *AioCheckOutRequest) GetCheckMacValue() string {
 
 // GetCheckMacValueOk returns a tuple with the CheckMacValue field value
 // and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetCheckMacValueOk() (*string, bool) {
+func (o *AioCheckOutGeneralOption) GetCheckMacValueOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -390,12 +372,12 @@ func (o *AioCheckOutRequest) GetCheckMacValueOk() (*string, bool) {
 }
 
 // SetCheckMacValue sets field value
-func (o *AioCheckOutRequest) SetCheckMacValue(v string) {
+func (o *AioCheckOutGeneralOption) SetCheckMacValue(v string) {
 	o.CheckMacValue = v
 }
 
 // GetClientBackURL returns the ClientBackURL field value if set, zero value otherwise.
-func (o *AioCheckOutRequest) GetClientBackURL() string {
+func (o *AioCheckOutGeneralOption) GetClientBackURL() string {
 	if o == nil || o.ClientBackURL == nil {
 		var ret string
 		return ret
@@ -405,7 +387,7 @@ func (o *AioCheckOutRequest) GetClientBackURL() string {
 
 // GetClientBackURLOk returns a tuple with the ClientBackURL field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetClientBackURLOk() (*string, bool) {
+func (o *AioCheckOutGeneralOption) GetClientBackURLOk() (*string, bool) {
 	if o == nil || o.ClientBackURL == nil {
 		return nil, false
 	}
@@ -413,7 +395,7 @@ func (o *AioCheckOutRequest) GetClientBackURLOk() (*string, bool) {
 }
 
 // HasClientBackURL returns a boolean if a field has been set.
-func (o *AioCheckOutRequest) HasClientBackURL() bool {
+func (o *AioCheckOutGeneralOption) HasClientBackURL() bool {
 	if o != nil && o.ClientBackURL != nil {
 		return true
 	}
@@ -422,12 +404,12 @@ func (o *AioCheckOutRequest) HasClientBackURL() bool {
 }
 
 // SetClientBackURL gets a reference to the given string and assigns it to the ClientBackURL field.
-func (o *AioCheckOutRequest) SetClientBackURL(v string) {
+func (o *AioCheckOutGeneralOption) SetClientBackURL(v string) {
 	o.ClientBackURL = &v
 }
 
 // GetItemURL returns the ItemURL field value if set, zero value otherwise.
-func (o *AioCheckOutRequest) GetItemURL() string {
+func (o *AioCheckOutGeneralOption) GetItemURL() string {
 	if o == nil || o.ItemURL == nil {
 		var ret string
 		return ret
@@ -437,7 +419,7 @@ func (o *AioCheckOutRequest) GetItemURL() string {
 
 // GetItemURLOk returns a tuple with the ItemURL field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetItemURLOk() (*string, bool) {
+func (o *AioCheckOutGeneralOption) GetItemURLOk() (*string, bool) {
 	if o == nil || o.ItemURL == nil {
 		return nil, false
 	}
@@ -445,7 +427,7 @@ func (o *AioCheckOutRequest) GetItemURLOk() (*string, bool) {
 }
 
 // HasItemURL returns a boolean if a field has been set.
-func (o *AioCheckOutRequest) HasItemURL() bool {
+func (o *AioCheckOutGeneralOption) HasItemURL() bool {
 	if o != nil && o.ItemURL != nil {
 		return true
 	}
@@ -454,12 +436,12 @@ func (o *AioCheckOutRequest) HasItemURL() bool {
 }
 
 // SetItemURL gets a reference to the given string and assigns it to the ItemURL field.
-func (o *AioCheckOutRequest) SetItemURL(v string) {
+func (o *AioCheckOutGeneralOption) SetItemURL(v string) {
 	o.ItemURL = &v
 }
 
 // GetRemark returns the Remark field value if set, zero value otherwise.
-func (o *AioCheckOutRequest) GetRemark() string {
+func (o *AioCheckOutGeneralOption) GetRemark() string {
 	if o == nil || o.Remark == nil {
 		var ret string
 		return ret
@@ -469,7 +451,7 @@ func (o *AioCheckOutRequest) GetRemark() string {
 
 // GetRemarkOk returns a tuple with the Remark field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetRemarkOk() (*string, bool) {
+func (o *AioCheckOutGeneralOption) GetRemarkOk() (*string, bool) {
 	if o == nil || o.Remark == nil {
 		return nil, false
 	}
@@ -477,7 +459,7 @@ func (o *AioCheckOutRequest) GetRemarkOk() (*string, bool) {
 }
 
 // HasRemark returns a boolean if a field has been set.
-func (o *AioCheckOutRequest) HasRemark() bool {
+func (o *AioCheckOutGeneralOption) HasRemark() bool {
 	if o != nil && o.Remark != nil {
 		return true
 	}
@@ -486,12 +468,12 @@ func (o *AioCheckOutRequest) HasRemark() bool {
 }
 
 // SetRemark gets a reference to the given string and assigns it to the Remark field.
-func (o *AioCheckOutRequest) SetRemark(v string) {
+func (o *AioCheckOutGeneralOption) SetRemark(v string) {
 	o.Remark = &v
 }
 
 // GetChooseSubPayment returns the ChooseSubPayment field value if set, zero value otherwise.
-func (o *AioCheckOutRequest) GetChooseSubPayment() string {
+func (o *AioCheckOutGeneralOption) GetChooseSubPayment() string {
 	if o == nil || o.ChooseSubPayment == nil {
 		var ret string
 		return ret
@@ -501,7 +483,7 @@ func (o *AioCheckOutRequest) GetChooseSubPayment() string {
 
 // GetChooseSubPaymentOk returns a tuple with the ChooseSubPayment field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetChooseSubPaymentOk() (*string, bool) {
+func (o *AioCheckOutGeneralOption) GetChooseSubPaymentOk() (*string, bool) {
 	if o == nil || o.ChooseSubPayment == nil {
 		return nil, false
 	}
@@ -509,7 +491,7 @@ func (o *AioCheckOutRequest) GetChooseSubPaymentOk() (*string, bool) {
 }
 
 // HasChooseSubPayment returns a boolean if a field has been set.
-func (o *AioCheckOutRequest) HasChooseSubPayment() bool {
+func (o *AioCheckOutGeneralOption) HasChooseSubPayment() bool {
 	if o != nil && o.ChooseSubPayment != nil {
 		return true
 	}
@@ -518,12 +500,12 @@ func (o *AioCheckOutRequest) HasChooseSubPayment() bool {
 }
 
 // SetChooseSubPayment gets a reference to the given string and assigns it to the ChooseSubPayment field.
-func (o *AioCheckOutRequest) SetChooseSubPayment(v string) {
+func (o *AioCheckOutGeneralOption) SetChooseSubPayment(v string) {
 	o.ChooseSubPayment = &v
 }
 
 // GetOrderResultURL returns the OrderResultURL field value if set, zero value otherwise.
-func (o *AioCheckOutRequest) GetOrderResultURL() string {
+func (o *AioCheckOutGeneralOption) GetOrderResultURL() string {
 	if o == nil || o.OrderResultURL == nil {
 		var ret string
 		return ret
@@ -533,7 +515,7 @@ func (o *AioCheckOutRequest) GetOrderResultURL() string {
 
 // GetOrderResultURLOk returns a tuple with the OrderResultURL field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetOrderResultURLOk() (*string, bool) {
+func (o *AioCheckOutGeneralOption) GetOrderResultURLOk() (*string, bool) {
 	if o == nil || o.OrderResultURL == nil {
 		return nil, false
 	}
@@ -541,7 +523,7 @@ func (o *AioCheckOutRequest) GetOrderResultURLOk() (*string, bool) {
 }
 
 // HasOrderResultURL returns a boolean if a field has been set.
-func (o *AioCheckOutRequest) HasOrderResultURL() bool {
+func (o *AioCheckOutGeneralOption) HasOrderResultURL() bool {
 	if o != nil && o.OrderResultURL != nil {
 		return true
 	}
@@ -550,12 +532,12 @@ func (o *AioCheckOutRequest) HasOrderResultURL() bool {
 }
 
 // SetOrderResultURL gets a reference to the given string and assigns it to the OrderResultURL field.
-func (o *AioCheckOutRequest) SetOrderResultURL(v string) {
+func (o *AioCheckOutGeneralOption) SetOrderResultURL(v string) {
 	o.OrderResultURL = &v
 }
 
 // GetNeedExtraPaidInfo returns the NeedExtraPaidInfo field value if set, zero value otherwise.
-func (o *AioCheckOutRequest) GetNeedExtraPaidInfo() string {
+func (o *AioCheckOutGeneralOption) GetNeedExtraPaidInfo() string {
 	if o == nil || o.NeedExtraPaidInfo == nil {
 		var ret string
 		return ret
@@ -565,7 +547,7 @@ func (o *AioCheckOutRequest) GetNeedExtraPaidInfo() string {
 
 // GetNeedExtraPaidInfoOk returns a tuple with the NeedExtraPaidInfo field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetNeedExtraPaidInfoOk() (*string, bool) {
+func (o *AioCheckOutGeneralOption) GetNeedExtraPaidInfoOk() (*string, bool) {
 	if o == nil || o.NeedExtraPaidInfo == nil {
 		return nil, false
 	}
@@ -573,7 +555,7 @@ func (o *AioCheckOutRequest) GetNeedExtraPaidInfoOk() (*string, bool) {
 }
 
 // HasNeedExtraPaidInfo returns a boolean if a field has been set.
-func (o *AioCheckOutRequest) HasNeedExtraPaidInfo() bool {
+func (o *AioCheckOutGeneralOption) HasNeedExtraPaidInfo() bool {
 	if o != nil && o.NeedExtraPaidInfo != nil {
 		return true
 	}
@@ -582,12 +564,12 @@ func (o *AioCheckOutRequest) HasNeedExtraPaidInfo() bool {
 }
 
 // SetNeedExtraPaidInfo gets a reference to the given string and assigns it to the NeedExtraPaidInfo field.
-func (o *AioCheckOutRequest) SetNeedExtraPaidInfo(v string) {
+func (o *AioCheckOutGeneralOption) SetNeedExtraPaidInfo(v string) {
 	o.NeedExtraPaidInfo = &v
 }
 
 // GetDeviceSource returns the DeviceSource field value if set, zero value otherwise.
-func (o *AioCheckOutRequest) GetDeviceSource() string {
+func (o *AioCheckOutGeneralOption) GetDeviceSource() string {
 	if o == nil || o.DeviceSource == nil {
 		var ret string
 		return ret
@@ -597,7 +579,7 @@ func (o *AioCheckOutRequest) GetDeviceSource() string {
 
 // GetDeviceSourceOk returns a tuple with the DeviceSource field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetDeviceSourceOk() (*string, bool) {
+func (o *AioCheckOutGeneralOption) GetDeviceSourceOk() (*string, bool) {
 	if o == nil || o.DeviceSource == nil {
 		return nil, false
 	}
@@ -605,7 +587,7 @@ func (o *AioCheckOutRequest) GetDeviceSourceOk() (*string, bool) {
 }
 
 // HasDeviceSource returns a boolean if a field has been set.
-func (o *AioCheckOutRequest) HasDeviceSource() bool {
+func (o *AioCheckOutGeneralOption) HasDeviceSource() bool {
 	if o != nil && o.DeviceSource != nil {
 		return true
 	}
@@ -614,12 +596,12 @@ func (o *AioCheckOutRequest) HasDeviceSource() bool {
 }
 
 // SetDeviceSource gets a reference to the given string and assigns it to the DeviceSource field.
-func (o *AioCheckOutRequest) SetDeviceSource(v string) {
+func (o *AioCheckOutGeneralOption) SetDeviceSource(v string) {
 	o.DeviceSource = &v
 }
 
 // GetIgnorePayment returns the IgnorePayment field value if set, zero value otherwise.
-func (o *AioCheckOutRequest) GetIgnorePayment() string {
+func (o *AioCheckOutGeneralOption) GetIgnorePayment() string {
 	if o == nil || o.IgnorePayment == nil {
 		var ret string
 		return ret
@@ -629,7 +611,7 @@ func (o *AioCheckOutRequest) GetIgnorePayment() string {
 
 // GetIgnorePaymentOk returns a tuple with the IgnorePayment field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetIgnorePaymentOk() (*string, bool) {
+func (o *AioCheckOutGeneralOption) GetIgnorePaymentOk() (*string, bool) {
 	if o == nil || o.IgnorePayment == nil {
 		return nil, false
 	}
@@ -637,7 +619,7 @@ func (o *AioCheckOutRequest) GetIgnorePaymentOk() (*string, bool) {
 }
 
 // HasIgnorePayment returns a boolean if a field has been set.
-func (o *AioCheckOutRequest) HasIgnorePayment() bool {
+func (o *AioCheckOutGeneralOption) HasIgnorePayment() bool {
 	if o != nil && o.IgnorePayment != nil {
 		return true
 	}
@@ -646,12 +628,12 @@ func (o *AioCheckOutRequest) HasIgnorePayment() bool {
 }
 
 // SetIgnorePayment gets a reference to the given string and assigns it to the IgnorePayment field.
-func (o *AioCheckOutRequest) SetIgnorePayment(v string) {
+func (o *AioCheckOutGeneralOption) SetIgnorePayment(v string) {
 	o.IgnorePayment = &v
 }
 
 // GetPlatformID returns the PlatformID field value if set, zero value otherwise.
-func (o *AioCheckOutRequest) GetPlatformID() string {
+func (o *AioCheckOutGeneralOption) GetPlatformID() string {
 	if o == nil || o.PlatformID == nil {
 		var ret string
 		return ret
@@ -661,7 +643,7 @@ func (o *AioCheckOutRequest) GetPlatformID() string {
 
 // GetPlatformIDOk returns a tuple with the PlatformID field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetPlatformIDOk() (*string, bool) {
+func (o *AioCheckOutGeneralOption) GetPlatformIDOk() (*string, bool) {
 	if o == nil || o.PlatformID == nil {
 		return nil, false
 	}
@@ -669,7 +651,7 @@ func (o *AioCheckOutRequest) GetPlatformIDOk() (*string, bool) {
 }
 
 // HasPlatformID returns a boolean if a field has been set.
-func (o *AioCheckOutRequest) HasPlatformID() bool {
+func (o *AioCheckOutGeneralOption) HasPlatformID() bool {
 	if o != nil && o.PlatformID != nil {
 		return true
 	}
@@ -678,12 +660,12 @@ func (o *AioCheckOutRequest) HasPlatformID() bool {
 }
 
 // SetPlatformID gets a reference to the given string and assigns it to the PlatformID field.
-func (o *AioCheckOutRequest) SetPlatformID(v string) {
+func (o *AioCheckOutGeneralOption) SetPlatformID(v string) {
 	o.PlatformID = &v
 }
 
 // GetInvoiceMark returns the InvoiceMark field value if set, zero value otherwise.
-func (o *AioCheckOutRequest) GetInvoiceMark() string {
+func (o *AioCheckOutGeneralOption) GetInvoiceMark() string {
 	if o == nil || o.InvoiceMark == nil {
 		var ret string
 		return ret
@@ -693,7 +675,7 @@ func (o *AioCheckOutRequest) GetInvoiceMark() string {
 
 // GetInvoiceMarkOk returns a tuple with the InvoiceMark field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetInvoiceMarkOk() (*string, bool) {
+func (o *AioCheckOutGeneralOption) GetInvoiceMarkOk() (*string, bool) {
 	if o == nil || o.InvoiceMark == nil {
 		return nil, false
 	}
@@ -701,7 +683,7 @@ func (o *AioCheckOutRequest) GetInvoiceMarkOk() (*string, bool) {
 }
 
 // HasInvoiceMark returns a boolean if a field has been set.
-func (o *AioCheckOutRequest) HasInvoiceMark() bool {
+func (o *AioCheckOutGeneralOption) HasInvoiceMark() bool {
 	if o != nil && o.InvoiceMark != nil {
 		return true
 	}
@@ -710,12 +692,12 @@ func (o *AioCheckOutRequest) HasInvoiceMark() bool {
 }
 
 // SetInvoiceMark gets a reference to the given string and assigns it to the InvoiceMark field.
-func (o *AioCheckOutRequest) SetInvoiceMark(v string) {
+func (o *AioCheckOutGeneralOption) SetInvoiceMark(v string) {
 	o.InvoiceMark = &v
 }
 
 // GetCustomField1 returns the CustomField1 field value if set, zero value otherwise.
-func (o *AioCheckOutRequest) GetCustomField1() string {
+func (o *AioCheckOutGeneralOption) GetCustomField1() string {
 	if o == nil || o.CustomField1 == nil {
 		var ret string
 		return ret
@@ -725,7 +707,7 @@ func (o *AioCheckOutRequest) GetCustomField1() string {
 
 // GetCustomField1Ok returns a tuple with the CustomField1 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetCustomField1Ok() (*string, bool) {
+func (o *AioCheckOutGeneralOption) GetCustomField1Ok() (*string, bool) {
 	if o == nil || o.CustomField1 == nil {
 		return nil, false
 	}
@@ -733,7 +715,7 @@ func (o *AioCheckOutRequest) GetCustomField1Ok() (*string, bool) {
 }
 
 // HasCustomField1 returns a boolean if a field has been set.
-func (o *AioCheckOutRequest) HasCustomField1() bool {
+func (o *AioCheckOutGeneralOption) HasCustomField1() bool {
 	if o != nil && o.CustomField1 != nil {
 		return true
 	}
@@ -742,12 +724,12 @@ func (o *AioCheckOutRequest) HasCustomField1() bool {
 }
 
 // SetCustomField1 gets a reference to the given string and assigns it to the CustomField1 field.
-func (o *AioCheckOutRequest) SetCustomField1(v string) {
+func (o *AioCheckOutGeneralOption) SetCustomField1(v string) {
 	o.CustomField1 = &v
 }
 
 // GetCustomField2 returns the CustomField2 field value if set, zero value otherwise.
-func (o *AioCheckOutRequest) GetCustomField2() string {
+func (o *AioCheckOutGeneralOption) GetCustomField2() string {
 	if o == nil || o.CustomField2 == nil {
 		var ret string
 		return ret
@@ -757,7 +739,7 @@ func (o *AioCheckOutRequest) GetCustomField2() string {
 
 // GetCustomField2Ok returns a tuple with the CustomField2 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetCustomField2Ok() (*string, bool) {
+func (o *AioCheckOutGeneralOption) GetCustomField2Ok() (*string, bool) {
 	if o == nil || o.CustomField2 == nil {
 		return nil, false
 	}
@@ -765,7 +747,7 @@ func (o *AioCheckOutRequest) GetCustomField2Ok() (*string, bool) {
 }
 
 // HasCustomField2 returns a boolean if a field has been set.
-func (o *AioCheckOutRequest) HasCustomField2() bool {
+func (o *AioCheckOutGeneralOption) HasCustomField2() bool {
 	if o != nil && o.CustomField2 != nil {
 		return true
 	}
@@ -774,12 +756,12 @@ func (o *AioCheckOutRequest) HasCustomField2() bool {
 }
 
 // SetCustomField2 gets a reference to the given string and assigns it to the CustomField2 field.
-func (o *AioCheckOutRequest) SetCustomField2(v string) {
+func (o *AioCheckOutGeneralOption) SetCustomField2(v string) {
 	o.CustomField2 = &v
 }
 
 // GetCustomField3 returns the CustomField3 field value if set, zero value otherwise.
-func (o *AioCheckOutRequest) GetCustomField3() string {
+func (o *AioCheckOutGeneralOption) GetCustomField3() string {
 	if o == nil || o.CustomField3 == nil {
 		var ret string
 		return ret
@@ -789,7 +771,7 @@ func (o *AioCheckOutRequest) GetCustomField3() string {
 
 // GetCustomField3Ok returns a tuple with the CustomField3 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetCustomField3Ok() (*string, bool) {
+func (o *AioCheckOutGeneralOption) GetCustomField3Ok() (*string, bool) {
 	if o == nil || o.CustomField3 == nil {
 		return nil, false
 	}
@@ -797,7 +779,7 @@ func (o *AioCheckOutRequest) GetCustomField3Ok() (*string, bool) {
 }
 
 // HasCustomField3 returns a boolean if a field has been set.
-func (o *AioCheckOutRequest) HasCustomField3() bool {
+func (o *AioCheckOutGeneralOption) HasCustomField3() bool {
 	if o != nil && o.CustomField3 != nil {
 		return true
 	}
@@ -806,12 +788,12 @@ func (o *AioCheckOutRequest) HasCustomField3() bool {
 }
 
 // SetCustomField3 gets a reference to the given string and assigns it to the CustomField3 field.
-func (o *AioCheckOutRequest) SetCustomField3(v string) {
+func (o *AioCheckOutGeneralOption) SetCustomField3(v string) {
 	o.CustomField3 = &v
 }
 
 // GetCustomField4 returns the CustomField4 field value if set, zero value otherwise.
-func (o *AioCheckOutRequest) GetCustomField4() string {
+func (o *AioCheckOutGeneralOption) GetCustomField4() string {
 	if o == nil || o.CustomField4 == nil {
 		var ret string
 		return ret
@@ -821,7 +803,7 @@ func (o *AioCheckOutRequest) GetCustomField4() string {
 
 // GetCustomField4Ok returns a tuple with the CustomField4 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetCustomField4Ok() (*string, bool) {
+func (o *AioCheckOutGeneralOption) GetCustomField4Ok() (*string, bool) {
 	if o == nil || o.CustomField4 == nil {
 		return nil, false
 	}
@@ -829,7 +811,7 @@ func (o *AioCheckOutRequest) GetCustomField4Ok() (*string, bool) {
 }
 
 // HasCustomField4 returns a boolean if a field has been set.
-func (o *AioCheckOutRequest) HasCustomField4() bool {
+func (o *AioCheckOutGeneralOption) HasCustomField4() bool {
 	if o != nil && o.CustomField4 != nil {
 		return true
 	}
@@ -838,12 +820,12 @@ func (o *AioCheckOutRequest) HasCustomField4() bool {
 }
 
 // SetCustomField4 gets a reference to the given string and assigns it to the CustomField4 field.
-func (o *AioCheckOutRequest) SetCustomField4(v string) {
+func (o *AioCheckOutGeneralOption) SetCustomField4(v string) {
 	o.CustomField4 = &v
 }
 
 // GetEncryptType returns the EncryptType field value
-func (o *AioCheckOutRequest) GetEncryptType() int32 {
+func (o *AioCheckOutGeneralOption) GetEncryptType() int32 {
 	if o == nil {
 		var ret int32
 		return ret
@@ -854,7 +836,7 @@ func (o *AioCheckOutRequest) GetEncryptType() int32 {
 
 // GetEncryptTypeOk returns a tuple with the EncryptType field value
 // and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetEncryptTypeOk() (*int32, bool) {
+func (o *AioCheckOutGeneralOption) GetEncryptTypeOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -862,12 +844,12 @@ func (o *AioCheckOutRequest) GetEncryptTypeOk() (*int32, bool) {
 }
 
 // SetEncryptType sets field value
-func (o *AioCheckOutRequest) SetEncryptType(v int32) {
+func (o *AioCheckOutGeneralOption) SetEncryptType(v int32) {
 	o.EncryptType = v
 }
 
 // GetLanguage returns the Language field value if set, zero value otherwise.
-func (o *AioCheckOutRequest) GetLanguage() string {
+func (o *AioCheckOutGeneralOption) GetLanguage() string {
 	if o == nil || o.Language == nil {
 		var ret string
 		return ret
@@ -877,7 +859,7 @@ func (o *AioCheckOutRequest) GetLanguage() string {
 
 // GetLanguageOk returns a tuple with the Language field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetLanguageOk() (*string, bool) {
+func (o *AioCheckOutGeneralOption) GetLanguageOk() (*string, bool) {
 	if o == nil || o.Language == nil {
 		return nil, false
 	}
@@ -885,7 +867,7 @@ func (o *AioCheckOutRequest) GetLanguageOk() (*string, bool) {
 }
 
 // HasLanguage returns a boolean if a field has been set.
-func (o *AioCheckOutRequest) HasLanguage() bool {
+func (o *AioCheckOutGeneralOption) HasLanguage() bool {
 	if o != nil && o.Language != nil {
 		return true
 	}
@@ -894,299 +876,11 @@ func (o *AioCheckOutRequest) HasLanguage() bool {
 }
 
 // SetLanguage gets a reference to the given string and assigns it to the Language field.
-func (o *AioCheckOutRequest) SetLanguage(v string) {
+func (o *AioCheckOutGeneralOption) SetLanguage(v string) {
 	o.Language = &v
 }
 
-// GetStoreExpireDate returns the StoreExpireDate field value if set, zero value otherwise.
-func (o *AioCheckOutRequest) GetStoreExpireDate() int32 {
-	if o == nil || o.StoreExpireDate == nil {
-		var ret int32
-		return ret
-	}
-	return *o.StoreExpireDate
-}
-
-// GetStoreExpireDateOk returns a tuple with the StoreExpireDate field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetStoreExpireDateOk() (*int32, bool) {
-	if o == nil || o.StoreExpireDate == nil {
-		return nil, false
-	}
-	return o.StoreExpireDate, true
-}
-
-// HasStoreExpireDate returns a boolean if a field has been set.
-func (o *AioCheckOutRequest) HasStoreExpireDate() bool {
-	if o != nil && o.StoreExpireDate != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetStoreExpireDate gets a reference to the given int32 and assigns it to the StoreExpireDate field.
-func (o *AioCheckOutRequest) SetStoreExpireDate(v int32) {
-	o.StoreExpireDate = &v
-}
-
-// GetDesc1 returns the Desc1 field value if set, zero value otherwise.
-func (o *AioCheckOutRequest) GetDesc1() string {
-	if o == nil || o.Desc1 == nil {
-		var ret string
-		return ret
-	}
-	return *o.Desc1
-}
-
-// GetDesc1Ok returns a tuple with the Desc1 field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetDesc1Ok() (*string, bool) {
-	if o == nil || o.Desc1 == nil {
-		return nil, false
-	}
-	return o.Desc1, true
-}
-
-// HasDesc1 returns a boolean if a field has been set.
-func (o *AioCheckOutRequest) HasDesc1() bool {
-	if o != nil && o.Desc1 != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetDesc1 gets a reference to the given string and assigns it to the Desc1 field.
-func (o *AioCheckOutRequest) SetDesc1(v string) {
-	o.Desc1 = &v
-}
-
-// GetDesc2 returns the Desc2 field value if set, zero value otherwise.
-func (o *AioCheckOutRequest) GetDesc2() string {
-	if o == nil || o.Desc2 == nil {
-		var ret string
-		return ret
-	}
-	return *o.Desc2
-}
-
-// GetDesc2Ok returns a tuple with the Desc2 field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetDesc2Ok() (*string, bool) {
-	if o == nil || o.Desc2 == nil {
-		return nil, false
-	}
-	return o.Desc2, true
-}
-
-// HasDesc2 returns a boolean if a field has been set.
-func (o *AioCheckOutRequest) HasDesc2() bool {
-	if o != nil && o.Desc2 != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetDesc2 gets a reference to the given string and assigns it to the Desc2 field.
-func (o *AioCheckOutRequest) SetDesc2(v string) {
-	o.Desc2 = &v
-}
-
-// GetDesc3 returns the Desc3 field value if set, zero value otherwise.
-func (o *AioCheckOutRequest) GetDesc3() string {
-	if o == nil || o.Desc3 == nil {
-		var ret string
-		return ret
-	}
-	return *o.Desc3
-}
-
-// GetDesc3Ok returns a tuple with the Desc3 field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetDesc3Ok() (*string, bool) {
-	if o == nil || o.Desc3 == nil {
-		return nil, false
-	}
-	return o.Desc3, true
-}
-
-// HasDesc3 returns a boolean if a field has been set.
-func (o *AioCheckOutRequest) HasDesc3() bool {
-	if o != nil && o.Desc3 != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetDesc3 gets a reference to the given string and assigns it to the Desc3 field.
-func (o *AioCheckOutRequest) SetDesc3(v string) {
-	o.Desc3 = &v
-}
-
-// GetDesc4 returns the Desc4 field value if set, zero value otherwise.
-func (o *AioCheckOutRequest) GetDesc4() string {
-	if o == nil || o.Desc4 == nil {
-		var ret string
-		return ret
-	}
-	return *o.Desc4
-}
-
-// GetDesc4Ok returns a tuple with the Desc4 field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetDesc4Ok() (*string, bool) {
-	if o == nil || o.Desc4 == nil {
-		return nil, false
-	}
-	return o.Desc4, true
-}
-
-// HasDesc4 returns a boolean if a field has been set.
-func (o *AioCheckOutRequest) HasDesc4() bool {
-	if o != nil && o.Desc4 != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetDesc4 gets a reference to the given string and assigns it to the Desc4 field.
-func (o *AioCheckOutRequest) SetDesc4(v string) {
-	o.Desc4 = &v
-}
-
-// GetPaymentInfoURL returns the PaymentInfoURL field value if set, zero value otherwise.
-func (o *AioCheckOutRequest) GetPaymentInfoURL() string {
-	if o == nil || o.PaymentInfoURL == nil {
-		var ret string
-		return ret
-	}
-	return *o.PaymentInfoURL
-}
-
-// GetPaymentInfoURLOk returns a tuple with the PaymentInfoURL field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetPaymentInfoURLOk() (*string, bool) {
-	if o == nil || o.PaymentInfoURL == nil {
-		return nil, false
-	}
-	return o.PaymentInfoURL, true
-}
-
-// HasPaymentInfoURL returns a boolean if a field has been set.
-func (o *AioCheckOutRequest) HasPaymentInfoURL() bool {
-	if o != nil && o.PaymentInfoURL != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetPaymentInfoURL gets a reference to the given string and assigns it to the PaymentInfoURL field.
-func (o *AioCheckOutRequest) SetPaymentInfoURL(v string) {
-	o.PaymentInfoURL = &v
-}
-
-// GetClientRedirectURL returns the ClientRedirectURL field value if set, zero value otherwise.
-func (o *AioCheckOutRequest) GetClientRedirectURL() string {
-	if o == nil || o.ClientRedirectURL == nil {
-		var ret string
-		return ret
-	}
-	return *o.ClientRedirectURL
-}
-
-// GetClientRedirectURLOk returns a tuple with the ClientRedirectURL field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetClientRedirectURLOk() (*string, bool) {
-	if o == nil || o.ClientRedirectURL == nil {
-		return nil, false
-	}
-	return o.ClientRedirectURL, true
-}
-
-// HasClientRedirectURL returns a boolean if a field has been set.
-func (o *AioCheckOutRequest) HasClientRedirectURL() bool {
-	if o != nil && o.ClientRedirectURL != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetClientRedirectURL gets a reference to the given string and assigns it to the ClientRedirectURL field.
-func (o *AioCheckOutRequest) SetClientRedirectURL(v string) {
-	o.ClientRedirectURL = &v
-}
-
-// GetBindingCard returns the BindingCard field value if set, zero value otherwise.
-func (o *AioCheckOutRequest) GetBindingCard() int32 {
-	if o == nil || o.BindingCard == nil {
-		var ret int32
-		return ret
-	}
-	return *o.BindingCard
-}
-
-// GetBindingCardOk returns a tuple with the BindingCard field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetBindingCardOk() (*int32, bool) {
-	if o == nil || o.BindingCard == nil {
-		return nil, false
-	}
-	return o.BindingCard, true
-}
-
-// HasBindingCard returns a boolean if a field has been set.
-func (o *AioCheckOutRequest) HasBindingCard() bool {
-	if o != nil && o.BindingCard != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetBindingCard gets a reference to the given int32 and assigns it to the BindingCard field.
-func (o *AioCheckOutRequest) SetBindingCard(v int32) {
-	o.BindingCard = &v
-}
-
-// GetMerchantMemberID returns the MerchantMemberID field value if set, zero value otherwise.
-func (o *AioCheckOutRequest) GetMerchantMemberID() string {
-	if o == nil || o.MerchantMemberID == nil {
-		var ret string
-		return ret
-	}
-	return *o.MerchantMemberID
-}
-
-// GetMerchantMemberIDOk returns a tuple with the MerchantMemberID field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AioCheckOutRequest) GetMerchantMemberIDOk() (*string, bool) {
-	if o == nil || o.MerchantMemberID == nil {
-		return nil, false
-	}
-	return o.MerchantMemberID, true
-}
-
-// HasMerchantMemberID returns a boolean if a field has been set.
-func (o *AioCheckOutRequest) HasMerchantMemberID() bool {
-	if o != nil && o.MerchantMemberID != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetMerchantMemberID gets a reference to the given string and assigns it to the MerchantMemberID field.
-func (o *AioCheckOutRequest) SetMerchantMemberID(v string) {
-	o.MerchantMemberID = &v
-}
-
-func (o AioCheckOutRequest) MarshalJSON() ([]byte, error) {
+func (o AioCheckOutGeneralOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["MerchantID"] = o.MerchantID
@@ -1269,68 +963,41 @@ func (o AioCheckOutRequest) MarshalJSON() ([]byte, error) {
 	if o.Language != nil {
 		toSerialize["Language"] = o.Language
 	}
-	if o.StoreExpireDate != nil {
-		toSerialize["StoreExpireDate"] = o.StoreExpireDate
-	}
-	if o.Desc1 != nil {
-		toSerialize["Desc_1"] = o.Desc1
-	}
-	if o.Desc2 != nil {
-		toSerialize["Desc_2"] = o.Desc2
-	}
-	if o.Desc3 != nil {
-		toSerialize["Desc_3"] = o.Desc3
-	}
-	if o.Desc4 != nil {
-		toSerialize["Desc_4"] = o.Desc4
-	}
-	if o.PaymentInfoURL != nil {
-		toSerialize["PaymentInfoURL"] = o.PaymentInfoURL
-	}
-	if o.ClientRedirectURL != nil {
-		toSerialize["ClientRedirectURL"] = o.ClientRedirectURL
-	}
-	if o.BindingCard != nil {
-		toSerialize["BindingCard"] = o.BindingCard
-	}
-	if o.MerchantMemberID != nil {
-		toSerialize["MerchantMemberID"] = o.MerchantMemberID
-	}
 	return json.Marshal(toSerialize)
 }
 
-type NullableAioCheckOutRequest struct {
-	value *AioCheckOutRequest
+type NullableAioCheckOutGeneralOption struct {
+	value *AioCheckOutGeneralOption
 	isSet bool
 }
 
-func (v NullableAioCheckOutRequest) Get() *AioCheckOutRequest {
+func (v NullableAioCheckOutGeneralOption) Get() *AioCheckOutGeneralOption {
 	return v.value
 }
 
-func (v *NullableAioCheckOutRequest) Set(val *AioCheckOutRequest) {
+func (v *NullableAioCheckOutGeneralOption) Set(val *AioCheckOutGeneralOption) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableAioCheckOutRequest) IsSet() bool {
+func (v NullableAioCheckOutGeneralOption) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableAioCheckOutRequest) Unset() {
+func (v *NullableAioCheckOutGeneralOption) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableAioCheckOutRequest(val *AioCheckOutRequest) *NullableAioCheckOutRequest {
-	return &NullableAioCheckOutRequest{value: val, isSet: true}
+func NewNullableAioCheckOutGeneralOption(val *AioCheckOutGeneralOption) *NullableAioCheckOutGeneralOption {
+	return &NullableAioCheckOutGeneralOption{value: val, isSet: true}
 }
 
-func (v NullableAioCheckOutRequest) MarshalJSON() ([]byte, error) {
+func (v NullableAioCheckOutGeneralOption) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableAioCheckOutRequest) UnmarshalJSON(src []byte) error {
+func (v *NullableAioCheckOutGeneralOption) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

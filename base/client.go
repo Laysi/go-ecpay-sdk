@@ -17,7 +17,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"mime/multipart"
 	"net/http"
@@ -182,13 +181,7 @@ func (c *APIClient) callAPI(request *http.Request) (*http.Response, error) {
 		}
 		log.Printf("\n%s\n", string(dump))
 	}
-
 	return resp, err
-}
-
-// ChangeBasePath changes base path to allow switching to mocks
-func (c *APIClient) ChangeBasePath(path string) {
-	c.cfg.BasePath = path
 }
 
 // Allow modification of underlying config for alternate implementations and testing
@@ -351,13 +344,11 @@ func (c *APIClient) prepareRequest(
 		if auth, ok := ctx.Value(ContextAccessToken).(string); ok {
 			localVarRequest.Header.Add("Authorization", "Bearer "+auth)
 		}
-
 	}
 
 	for header, value := range c.cfg.DefaultHeader {
 		localVarRequest.Header.Add(header, value)
 	}
-
 	return localVarRequest, nil
 }
 
@@ -368,15 +359,6 @@ func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err err
 	if s, ok := v.(*string); ok {
 		*s = string(b)
 		return nil
-	}
-	if f, ok := v.(**os.File); ok {
-		*f, err = ioutil.TempFile("", "HttpClientFile")
-		if err != nil {
-			return
-		}
-		_, err = (*f).Write(b)
-		_, err = (*f).Seek(0, io.SeekStart)
-		return
 	}
 	if xmlCheck.MatchString(contentType) {
 		if err = xml.Unmarshal(b, v); err != nil {

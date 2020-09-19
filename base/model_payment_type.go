@@ -9,6 +9,10 @@
 
 package base
 
+import (
+	"encoding/json"
+)
+
 // PaymentType the model 'PaymentType'
 type PaymentType string
 
@@ -42,3 +46,44 @@ const (
 	PAYMENTTYPE_BARCODE_BARCODE    PaymentType = "BARCODE_BARCODE"
 	PAYMENTTYPE_CREDIT_CREDIT_CARD PaymentType = "Credit_CreditCard"
 )
+
+// Ptr returns reference to PaymentType value
+func (v PaymentType) Ptr() *PaymentType {
+	return &v
+}
+
+type NullablePaymentType struct {
+	value *PaymentType
+	isSet bool
+}
+
+func (v NullablePaymentType) Get() *PaymentType {
+	return v.value
+}
+
+func (v *NullablePaymentType) Set(val *PaymentType) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullablePaymentType) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullablePaymentType) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullablePaymentType(val *PaymentType) *NullablePaymentType {
+	return &NullablePaymentType{value: val, isSet: true}
+}
+
+func (v NullablePaymentType) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.value)
+}
+
+func (v *NullablePaymentType) UnmarshalJSON(src []byte) error {
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
+}

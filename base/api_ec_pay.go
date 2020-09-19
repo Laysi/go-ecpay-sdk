@@ -24,11 +24,28 @@ var (
 // ECPayApiService ECPayApi service
 type ECPayApiService service
 
+type apiAioCheckOutRequest struct {
+	ctx        _context.Context
+	apiService *ECPayApiService
+}
+
 /*
 AioCheckOut Method for AioCheckOut
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+@return apiAioCheckOutRequest
 */
-func (a *ECPayApiService) AioCheckOut(ctx _context.Context) (*_nethttp.Response, error) {
+func (a *ECPayApiService) AioCheckOut(ctx _context.Context) apiAioCheckOutRequest {
+	return apiAioCheckOutRequest{
+		apiService: a,
+		ctx:        ctx,
+	}
+}
+
+/*
+Execute executes the request
+
+*/
+func (r apiAioCheckOutRequest) Execute() (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
@@ -37,8 +54,13 @@ func (a *ECPayApiService) AioCheckOut(ctx _context.Context) (*_nethttp.Response,
 		localVarFileBytes    []byte
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/Cashier/AioCheckOut/V5"
+	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "ECPayApiService.AioCheckOut")
+	if err != nil {
+		return nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/Cashier/AioCheckOut/V5"
+
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
@@ -60,12 +82,12 @@ func (a *ECPayApiService) AioCheckOut(ctx _context.Context) (*_nethttp.Response,
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := r.apiService.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
 	}
 
-	localVarHTTPResponse, err := a.client.callAPI(r)
+	localVarHTTPResponse, err := r.apiService.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarHTTPResponse, err
 	}
