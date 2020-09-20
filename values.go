@@ -16,6 +16,14 @@ type ECPayValues struct {
 	url.Values
 }
 
+func NewECPayValuesFromMap(values map[string]string) *ECPayValues {
+	v := ECPayValues{Values: url.Values{}}
+	for key, value := range values {
+		v.Set(key, value)
+	}
+	return &v
+}
+
 func (v ECPayValues) Encode() string {
 	if v.Values == nil {
 		return ""
