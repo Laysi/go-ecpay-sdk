@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: ECPay API
   description: 綠界金流 API 定義文件
-  version: 0.0.9
+  version: 0.0.10
 
 servers:
   - description: 正式環境
@@ -43,126 +43,11 @@ paths:
       security: []
       tags:
         - CallBack
-      parameters:
-        - name: MerchantID
-          description: 特店編號
-          required: true
-          in: query
-          schema:
-            type: string
-            example: 2000132
-        - name: MerchantTradeNo
-          description: 特店交易編號
-          required: true
-          in: query
-          schema:
-            type: string
-            example: 123456abc
-        - name: StoreID
-          description: 特店旗下店舖代號
-          required: true
-          in: query
-          schema:
-            type: string
-        - name: RtnCode
-          description: 交易狀態
-          required: true
-          in: query
-          schema:
-            type: number
-            example: 1
-        - name: RtnMsg
-          description: 交易訊息
-          required: true
-          in: query
-          schema:
-            type: string
-            enum:
-              - 交易成功
-              - paid
-              - Succeeded
-            example: 交易成功
-
-        - name: TradeNo
-          description: 綠界的交易編號
-          required: true
-          in: query
-          schema:
-            type: string
-            example: 20120315174058256424
-        - name: TradeAmt
-          description: 交易金額
-          required: true
-          in: query
-          schema:
-            type: integer
-            minimum: 0
-            example: 20000
-        - name: PaymentDate
-          description: 付款時間
-          required: true
-          in: query
-          schema:
-            type: string
-            example: 2012/03/16 12:03:12
-        - name: PaymentType
-          description: 特店選擇的付款方式
-          required: true
-          in: query
-          schema:
-            $ref: '#/components/schemas/PaymentTypeEnum'
-        - name: PaymentTypeChargeFee
-          description: 通路費
-          required: true
-          in: query
-          schema:
-            type: integer
-            minimum: 0
-            example: 25
-        - name: TradeDate
-          description: 訂單成立時間
-          required: true
-          in: query
-          schema:
-            type: string
-            example: 2012/03/15 17:40:58
-        - name: CheckMacValue
-          description: 檢查碼
-          required: true
-          in: query
-          schema:
-            type: string
-        - name: SimulatePaid
-          description: 是否為模擬付款
-          required: true
-          in: query
-          schema:
-            $ref: '#/components/schemas/ECPaySimulateEnum'
-        - name: CustomField1
-          description: 自訂名稱欄位 1
-          in: query
-          schema:
-            type: string
-        - name: CustomField2
-          description: 自訂名稱欄位 2
-          in: query
-          schema:
-            type: string
-        - name: CustomField3
-          description: 自訂名稱欄位 3
-          in: query
-          schema:
-            type: string
-        - name: CustomField4
-          description: 自訂名稱欄位 4
-          in: query
-          schema:
-            type: string
-        - name: CustomField5
-          description: 自訂名稱欄位 5
-          in: query
-          schema:
-            type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ReturnData'
 
 
       responses:
@@ -177,7 +62,7 @@ paths:
 
 components:
   schemas:
-    AioCheckOutGeneral:
+    AioCheckOutGeneralOption:
       type: object
       required:
         - MerchantID
@@ -729,6 +614,133 @@ components:
             **字軌類別**  
             若為一般稅額時，請帶 07。  
             預設值：07  
+    ReturnData:
+      type: object
+      required:
+        - MerchantID
+        - MerchantTradeNo
+        - StoreID
+        - RtnCode
+        - RtnMsg
+        - TradeNo
+        - TradeAmt
+        - PaymentDate
+        - PaymentType
+        - PaymentTypeChargeFee
+        - TradeDate
+        - CheckMacValue
+        - SimulatePaid
+        - CustomField1
+        - CustomField2
+        - CustomField3
+        - CustomField4
+        - CustomField5
+      properties:
+        MerchantID:
+          type: string
+          maxLength: 10
+          example: 2000132
+          description: |
+            **特店編號**
+        MerchantTradeNo:
+          type: string
+          pattern: '^[\w\d]*$'
+          maxLength: 20
+          example: 123456abc
+          description: |
+            **特店交易編號** 訂單產生時傳送給綠界的特店交易編號。英數字大小寫混合
+        StoreID:
+          type: string
+          pattern: '^[\w\d]*$'
+          maxLength: 20
+          description: |
+            **特店旗下店舖代號** 提供特店填入分店代號使用，僅可用英數字大小寫混合。
+        RtnCode:
+          type: integer
+          example: 1
+          description: |
+            **交易狀態**  
+            若回傳值為 1 時，為付款成功  
+            其餘代碼皆為交易異常，請至廠商管理後台確認後再出貨。
+        RtnMsg:
+          type: string
+          maxLength: 200
+          # enum:
+          #   - 交易成功
+          #   - paid
+          #   - Succeeded
+          example: 交易成功
+          description: |
+            **交易訊息**
+            Server POST 成功回傳:交易成功  
+            Server POST 補送通知回傳:paid  
+            Client POST 成功回傳:Succeeded  
+        TradeNo:
+          type: string
+          example: 20120315174058256424
+          description: |
+            **綠界的交易編號** 請保存綠界的交易編號與特店交易編號[MerchantTradeNo]的關連。
+        TradeAmt:
+          type: integer
+          minimum: 0
+          example: 20000
+          description: |
+            **交易金額**
+        PaymentDate:
+          type: string
+          format: ecpay-date-time
+          example: 2012/03/16 12:03:12
+          description: |
+            **付款時間** 格式為 yyyy/MM/dd HH:mm:ss
+        PaymentType:
+          $ref: '#/components/schemas/PaymentTypeEnum'
+        PaymentTypeChargeFee:
+          type: integer
+          minimum: 0
+          example: 25
+          description: |
+            **通路費**
+        TradeDate:
+          type: string
+          format: ecpay-date-time
+          example: 2012/03/15 17:40:58
+          description: |
+            **訂單成立時間** 格式為 yyyy/MM/dd HH:mm:ss
+        CheckMacValue:
+          type: string
+          description: |
+            **檢查碼** 特店必須檢查檢查碼`CheckMacValue`來驗證，請參考附錄檢查碼機制。
+        SimulatePaid:
+          $ref: '#/components/schemas/SimulatePaidEnum'
+        CustomField1:
+          type: string
+          description: |
+            **自訂名稱欄位1**  
+            提供合作廠商使用記錄用客製化使用欄位
+        CustomField2:
+          type: string
+          description: |
+            **自訂名稱欄位2**  
+            提供合作廠商使用記錄用客製化使用欄位
+        CustomField3:
+          type: string
+          description: |
+            **自訂名稱欄位3**  
+            提供合作廠商使用記錄用客製化使用欄位
+        CustomField4:
+          type: string
+          description: |
+            **自訂名稱欄位4**  
+            提供合作廠商使用記錄用客製化使用欄位
+        CustomField5:
+          type: string
+          description: |
+            **自訂名稱欄位5**  
+            提供合作廠商使用記錄用客製化使用欄位
+
+
+
+
 
     InvoicePrintEnum:
       type: string
@@ -889,7 +901,7 @@ components:
         注意事項：  
         紅利折抵請參考信用卡紅利折抵辦法  
 
-    ECPaySimulateEnum:
+    SimulatePaidEnum:
       type: integer
       enum:
         - 0
@@ -901,6 +913,14 @@ components:
         - 不是模擬付款
         - 是模擬付款
       example: 0
+      description: |
+        **是否為模擬付款**  
+        回傳值：  
+        若為 1 時，代表此交易為模擬付款，請勿出貨。  
+        若為 0 時，代表此交易非模擬付款。    
+        注意事項：  
+        特店可透過廠商後台網站來針對單筆訂單模擬綠界回傳付款通知，以方便介接 API 的測試。
+
     AioCheckPaymentTypeEnum:
       type: string
       enum:
@@ -1023,6 +1043,8 @@ components:
     PaymentTypeEnum:
       type: string
       example: Credit_CreditCard
+      description: |
+        **特店選擇的付款方式** 請參考回覆付款方式一覽表
       enum:
         - WebATM_TAISHIN
         - WebATM_ESUN
@@ -1051,5 +1073,6 @@ components:
         - CVS_IBON
         - BARCODE_BARCODE
         - Credit_CreditCard
+      
 
 

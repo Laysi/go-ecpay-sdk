@@ -1,4 +1,4 @@
-# AioCheckOutGeneral
+# AioCheckOutGeneralOption
 
 ## Properties
 
@@ -34,640 +34,640 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewAioCheckOutGeneral
+### NewAioCheckOutGeneralOption
 
-`func NewAioCheckOutGeneral(merchantID string, merchantTradeNo string, merchantTradeDate ECPayDateTime, paymentType AioCheckPaymentTypeEnum, totalAmount int32, tradeDesc string, itemName string, returnURL string, choosePayment ChoosePaymentEnum, checkMacValue string, encryptType EncryptTypeEnum, ) *AioCheckOutGeneral`
+`func NewAioCheckOutGeneralOption(merchantID string, merchantTradeNo string, merchantTradeDate ECPayDateTime, paymentType AioCheckPaymentTypeEnum, totalAmount int32, tradeDesc string, itemName string, returnURL string, choosePayment ChoosePaymentEnum, checkMacValue string, encryptType EncryptTypeEnum, ) *AioCheckOutGeneralOption`
 
-NewAioCheckOutGeneral instantiates a new AioCheckOutGeneral object
+NewAioCheckOutGeneralOption instantiates a new AioCheckOutGeneralOption object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewAioCheckOutGeneralWithDefaults
+### NewAioCheckOutGeneralOptionWithDefaults
 
-`func NewAioCheckOutGeneralWithDefaults() *AioCheckOutGeneral`
+`func NewAioCheckOutGeneralOptionWithDefaults() *AioCheckOutGeneralOption`
 
-NewAioCheckOutGeneralWithDefaults instantiates a new AioCheckOutGeneral object
+NewAioCheckOutGeneralOptionWithDefaults instantiates a new AioCheckOutGeneralOption object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetMerchantID
 
-`func (o *AioCheckOutGeneral) GetMerchantID() string`
+`func (o *AioCheckOutGeneralOption) GetMerchantID() string`
 
 GetMerchantID returns the MerchantID field if non-nil, zero value otherwise.
 
 ### GetMerchantIDOk
 
-`func (o *AioCheckOutGeneral) GetMerchantIDOk() (*string, bool)`
+`func (o *AioCheckOutGeneralOption) GetMerchantIDOk() (*string, bool)`
 
 GetMerchantIDOk returns a tuple with the MerchantID field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMerchantID
 
-`func (o *AioCheckOutGeneral) SetMerchantID(v string)`
+`func (o *AioCheckOutGeneralOption) SetMerchantID(v string)`
 
 SetMerchantID sets MerchantID field to given value.
 
 
 ### GetMerchantTradeNo
 
-`func (o *AioCheckOutGeneral) GetMerchantTradeNo() string`
+`func (o *AioCheckOutGeneralOption) GetMerchantTradeNo() string`
 
 GetMerchantTradeNo returns the MerchantTradeNo field if non-nil, zero value otherwise.
 
 ### GetMerchantTradeNoOk
 
-`func (o *AioCheckOutGeneral) GetMerchantTradeNoOk() (*string, bool)`
+`func (o *AioCheckOutGeneralOption) GetMerchantTradeNoOk() (*string, bool)`
 
 GetMerchantTradeNoOk returns a tuple with the MerchantTradeNo field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMerchantTradeNo
 
-`func (o *AioCheckOutGeneral) SetMerchantTradeNo(v string)`
+`func (o *AioCheckOutGeneralOption) SetMerchantTradeNo(v string)`
 
 SetMerchantTradeNo sets MerchantTradeNo field to given value.
 
 
 ### GetStoreID
 
-`func (o *AioCheckOutGeneral) GetStoreID() string`
+`func (o *AioCheckOutGeneralOption) GetStoreID() string`
 
 GetStoreID returns the StoreID field if non-nil, zero value otherwise.
 
 ### GetStoreIDOk
 
-`func (o *AioCheckOutGeneral) GetStoreIDOk() (*string, bool)`
+`func (o *AioCheckOutGeneralOption) GetStoreIDOk() (*string, bool)`
 
 GetStoreIDOk returns a tuple with the StoreID field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStoreID
 
-`func (o *AioCheckOutGeneral) SetStoreID(v string)`
+`func (o *AioCheckOutGeneralOption) SetStoreID(v string)`
 
 SetStoreID sets StoreID field to given value.
 
 ### HasStoreID
 
-`func (o *AioCheckOutGeneral) HasStoreID() bool`
+`func (o *AioCheckOutGeneralOption) HasStoreID() bool`
 
 HasStoreID returns a boolean if a field has been set.
 
 ### GetMerchantTradeDate
 
-`func (o *AioCheckOutGeneral) GetMerchantTradeDate() ECPayDateTime`
+`func (o *AioCheckOutGeneralOption) GetMerchantTradeDate() ECPayDateTime`
 
 GetMerchantTradeDate returns the MerchantTradeDate field if non-nil, zero value otherwise.
 
 ### GetMerchantTradeDateOk
 
-`func (o *AioCheckOutGeneral) GetMerchantTradeDateOk() (*ECPayDateTime, bool)`
+`func (o *AioCheckOutGeneralOption) GetMerchantTradeDateOk() (*ECPayDateTime, bool)`
 
 GetMerchantTradeDateOk returns a tuple with the MerchantTradeDate field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMerchantTradeDate
 
-`func (o *AioCheckOutGeneral) SetMerchantTradeDate(v ECPayDateTime)`
+`func (o *AioCheckOutGeneralOption) SetMerchantTradeDate(v ECPayDateTime)`
 
 SetMerchantTradeDate sets MerchantTradeDate field to given value.
 
 
 ### GetPaymentType
 
-`func (o *AioCheckOutGeneral) GetPaymentType() AioCheckPaymentTypeEnum`
+`func (o *AioCheckOutGeneralOption) GetPaymentType() AioCheckPaymentTypeEnum`
 
 GetPaymentType returns the PaymentType field if non-nil, zero value otherwise.
 
 ### GetPaymentTypeOk
 
-`func (o *AioCheckOutGeneral) GetPaymentTypeOk() (*AioCheckPaymentTypeEnum, bool)`
+`func (o *AioCheckOutGeneralOption) GetPaymentTypeOk() (*AioCheckPaymentTypeEnum, bool)`
 
 GetPaymentTypeOk returns a tuple with the PaymentType field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPaymentType
 
-`func (o *AioCheckOutGeneral) SetPaymentType(v AioCheckPaymentTypeEnum)`
+`func (o *AioCheckOutGeneralOption) SetPaymentType(v AioCheckPaymentTypeEnum)`
 
 SetPaymentType sets PaymentType field to given value.
 
 
 ### GetTotalAmount
 
-`func (o *AioCheckOutGeneral) GetTotalAmount() int32`
+`func (o *AioCheckOutGeneralOption) GetTotalAmount() int32`
 
 GetTotalAmount returns the TotalAmount field if non-nil, zero value otherwise.
 
 ### GetTotalAmountOk
 
-`func (o *AioCheckOutGeneral) GetTotalAmountOk() (*int32, bool)`
+`func (o *AioCheckOutGeneralOption) GetTotalAmountOk() (*int32, bool)`
 
 GetTotalAmountOk returns a tuple with the TotalAmount field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTotalAmount
 
-`func (o *AioCheckOutGeneral) SetTotalAmount(v int32)`
+`func (o *AioCheckOutGeneralOption) SetTotalAmount(v int32)`
 
 SetTotalAmount sets TotalAmount field to given value.
 
 
 ### GetTradeDesc
 
-`func (o *AioCheckOutGeneral) GetTradeDesc() string`
+`func (o *AioCheckOutGeneralOption) GetTradeDesc() string`
 
 GetTradeDesc returns the TradeDesc field if non-nil, zero value otherwise.
 
 ### GetTradeDescOk
 
-`func (o *AioCheckOutGeneral) GetTradeDescOk() (*string, bool)`
+`func (o *AioCheckOutGeneralOption) GetTradeDescOk() (*string, bool)`
 
 GetTradeDescOk returns a tuple with the TradeDesc field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTradeDesc
 
-`func (o *AioCheckOutGeneral) SetTradeDesc(v string)`
+`func (o *AioCheckOutGeneralOption) SetTradeDesc(v string)`
 
 SetTradeDesc sets TradeDesc field to given value.
 
 
 ### GetItemName
 
-`func (o *AioCheckOutGeneral) GetItemName() string`
+`func (o *AioCheckOutGeneralOption) GetItemName() string`
 
 GetItemName returns the ItemName field if non-nil, zero value otherwise.
 
 ### GetItemNameOk
 
-`func (o *AioCheckOutGeneral) GetItemNameOk() (*string, bool)`
+`func (o *AioCheckOutGeneralOption) GetItemNameOk() (*string, bool)`
 
 GetItemNameOk returns a tuple with the ItemName field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetItemName
 
-`func (o *AioCheckOutGeneral) SetItemName(v string)`
+`func (o *AioCheckOutGeneralOption) SetItemName(v string)`
 
 SetItemName sets ItemName field to given value.
 
 
 ### GetReturnURL
 
-`func (o *AioCheckOutGeneral) GetReturnURL() string`
+`func (o *AioCheckOutGeneralOption) GetReturnURL() string`
 
 GetReturnURL returns the ReturnURL field if non-nil, zero value otherwise.
 
 ### GetReturnURLOk
 
-`func (o *AioCheckOutGeneral) GetReturnURLOk() (*string, bool)`
+`func (o *AioCheckOutGeneralOption) GetReturnURLOk() (*string, bool)`
 
 GetReturnURLOk returns a tuple with the ReturnURL field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetReturnURL
 
-`func (o *AioCheckOutGeneral) SetReturnURL(v string)`
+`func (o *AioCheckOutGeneralOption) SetReturnURL(v string)`
 
 SetReturnURL sets ReturnURL field to given value.
 
 
 ### GetChoosePayment
 
-`func (o *AioCheckOutGeneral) GetChoosePayment() ChoosePaymentEnum`
+`func (o *AioCheckOutGeneralOption) GetChoosePayment() ChoosePaymentEnum`
 
 GetChoosePayment returns the ChoosePayment field if non-nil, zero value otherwise.
 
 ### GetChoosePaymentOk
 
-`func (o *AioCheckOutGeneral) GetChoosePaymentOk() (*ChoosePaymentEnum, bool)`
+`func (o *AioCheckOutGeneralOption) GetChoosePaymentOk() (*ChoosePaymentEnum, bool)`
 
 GetChoosePaymentOk returns a tuple with the ChoosePayment field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetChoosePayment
 
-`func (o *AioCheckOutGeneral) SetChoosePayment(v ChoosePaymentEnum)`
+`func (o *AioCheckOutGeneralOption) SetChoosePayment(v ChoosePaymentEnum)`
 
 SetChoosePayment sets ChoosePayment field to given value.
 
 
 ### GetCheckMacValue
 
-`func (o *AioCheckOutGeneral) GetCheckMacValue() string`
+`func (o *AioCheckOutGeneralOption) GetCheckMacValue() string`
 
 GetCheckMacValue returns the CheckMacValue field if non-nil, zero value otherwise.
 
 ### GetCheckMacValueOk
 
-`func (o *AioCheckOutGeneral) GetCheckMacValueOk() (*string, bool)`
+`func (o *AioCheckOutGeneralOption) GetCheckMacValueOk() (*string, bool)`
 
 GetCheckMacValueOk returns a tuple with the CheckMacValue field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCheckMacValue
 
-`func (o *AioCheckOutGeneral) SetCheckMacValue(v string)`
+`func (o *AioCheckOutGeneralOption) SetCheckMacValue(v string)`
 
 SetCheckMacValue sets CheckMacValue field to given value.
 
 
 ### GetClientBackURL
 
-`func (o *AioCheckOutGeneral) GetClientBackURL() string`
+`func (o *AioCheckOutGeneralOption) GetClientBackURL() string`
 
 GetClientBackURL returns the ClientBackURL field if non-nil, zero value otherwise.
 
 ### GetClientBackURLOk
 
-`func (o *AioCheckOutGeneral) GetClientBackURLOk() (*string, bool)`
+`func (o *AioCheckOutGeneralOption) GetClientBackURLOk() (*string, bool)`
 
 GetClientBackURLOk returns a tuple with the ClientBackURL field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetClientBackURL
 
-`func (o *AioCheckOutGeneral) SetClientBackURL(v string)`
+`func (o *AioCheckOutGeneralOption) SetClientBackURL(v string)`
 
 SetClientBackURL sets ClientBackURL field to given value.
 
 ### HasClientBackURL
 
-`func (o *AioCheckOutGeneral) HasClientBackURL() bool`
+`func (o *AioCheckOutGeneralOption) HasClientBackURL() bool`
 
 HasClientBackURL returns a boolean if a field has been set.
 
 ### GetItemURL
 
-`func (o *AioCheckOutGeneral) GetItemURL() string`
+`func (o *AioCheckOutGeneralOption) GetItemURL() string`
 
 GetItemURL returns the ItemURL field if non-nil, zero value otherwise.
 
 ### GetItemURLOk
 
-`func (o *AioCheckOutGeneral) GetItemURLOk() (*string, bool)`
+`func (o *AioCheckOutGeneralOption) GetItemURLOk() (*string, bool)`
 
 GetItemURLOk returns a tuple with the ItemURL field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetItemURL
 
-`func (o *AioCheckOutGeneral) SetItemURL(v string)`
+`func (o *AioCheckOutGeneralOption) SetItemURL(v string)`
 
 SetItemURL sets ItemURL field to given value.
 
 ### HasItemURL
 
-`func (o *AioCheckOutGeneral) HasItemURL() bool`
+`func (o *AioCheckOutGeneralOption) HasItemURL() bool`
 
 HasItemURL returns a boolean if a field has been set.
 
 ### GetRemark
 
-`func (o *AioCheckOutGeneral) GetRemark() string`
+`func (o *AioCheckOutGeneralOption) GetRemark() string`
 
 GetRemark returns the Remark field if non-nil, zero value otherwise.
 
 ### GetRemarkOk
 
-`func (o *AioCheckOutGeneral) GetRemarkOk() (*string, bool)`
+`func (o *AioCheckOutGeneralOption) GetRemarkOk() (*string, bool)`
 
 GetRemarkOk returns a tuple with the Remark field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRemark
 
-`func (o *AioCheckOutGeneral) SetRemark(v string)`
+`func (o *AioCheckOutGeneralOption) SetRemark(v string)`
 
 SetRemark sets Remark field to given value.
 
 ### HasRemark
 
-`func (o *AioCheckOutGeneral) HasRemark() bool`
+`func (o *AioCheckOutGeneralOption) HasRemark() bool`
 
 HasRemark returns a boolean if a field has been set.
 
 ### GetChooseSubPayment
 
-`func (o *AioCheckOutGeneral) GetChooseSubPayment() string`
+`func (o *AioCheckOutGeneralOption) GetChooseSubPayment() string`
 
 GetChooseSubPayment returns the ChooseSubPayment field if non-nil, zero value otherwise.
 
 ### GetChooseSubPaymentOk
 
-`func (o *AioCheckOutGeneral) GetChooseSubPaymentOk() (*string, bool)`
+`func (o *AioCheckOutGeneralOption) GetChooseSubPaymentOk() (*string, bool)`
 
 GetChooseSubPaymentOk returns a tuple with the ChooseSubPayment field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetChooseSubPayment
 
-`func (o *AioCheckOutGeneral) SetChooseSubPayment(v string)`
+`func (o *AioCheckOutGeneralOption) SetChooseSubPayment(v string)`
 
 SetChooseSubPayment sets ChooseSubPayment field to given value.
 
 ### HasChooseSubPayment
 
-`func (o *AioCheckOutGeneral) HasChooseSubPayment() bool`
+`func (o *AioCheckOutGeneralOption) HasChooseSubPayment() bool`
 
 HasChooseSubPayment returns a boolean if a field has been set.
 
 ### GetOrderResultURL
 
-`func (o *AioCheckOutGeneral) GetOrderResultURL() string`
+`func (o *AioCheckOutGeneralOption) GetOrderResultURL() string`
 
 GetOrderResultURL returns the OrderResultURL field if non-nil, zero value otherwise.
 
 ### GetOrderResultURLOk
 
-`func (o *AioCheckOutGeneral) GetOrderResultURLOk() (*string, bool)`
+`func (o *AioCheckOutGeneralOption) GetOrderResultURLOk() (*string, bool)`
 
 GetOrderResultURLOk returns a tuple with the OrderResultURL field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetOrderResultURL
 
-`func (o *AioCheckOutGeneral) SetOrderResultURL(v string)`
+`func (o *AioCheckOutGeneralOption) SetOrderResultURL(v string)`
 
 SetOrderResultURL sets OrderResultURL field to given value.
 
 ### HasOrderResultURL
 
-`func (o *AioCheckOutGeneral) HasOrderResultURL() bool`
+`func (o *AioCheckOutGeneralOption) HasOrderResultURL() bool`
 
 HasOrderResultURL returns a boolean if a field has been set.
 
 ### GetNeedExtraPaidInfo
 
-`func (o *AioCheckOutGeneral) GetNeedExtraPaidInfo() NeedExtraPaidInfoEnum`
+`func (o *AioCheckOutGeneralOption) GetNeedExtraPaidInfo() NeedExtraPaidInfoEnum`
 
 GetNeedExtraPaidInfo returns the NeedExtraPaidInfo field if non-nil, zero value otherwise.
 
 ### GetNeedExtraPaidInfoOk
 
-`func (o *AioCheckOutGeneral) GetNeedExtraPaidInfoOk() (*NeedExtraPaidInfoEnum, bool)`
+`func (o *AioCheckOutGeneralOption) GetNeedExtraPaidInfoOk() (*NeedExtraPaidInfoEnum, bool)`
 
 GetNeedExtraPaidInfoOk returns a tuple with the NeedExtraPaidInfo field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetNeedExtraPaidInfo
 
-`func (o *AioCheckOutGeneral) SetNeedExtraPaidInfo(v NeedExtraPaidInfoEnum)`
+`func (o *AioCheckOutGeneralOption) SetNeedExtraPaidInfo(v NeedExtraPaidInfoEnum)`
 
 SetNeedExtraPaidInfo sets NeedExtraPaidInfo field to given value.
 
 ### HasNeedExtraPaidInfo
 
-`func (o *AioCheckOutGeneral) HasNeedExtraPaidInfo() bool`
+`func (o *AioCheckOutGeneralOption) HasNeedExtraPaidInfo() bool`
 
 HasNeedExtraPaidInfo returns a boolean if a field has been set.
 
 ### GetDeviceSource
 
-`func (o *AioCheckOutGeneral) GetDeviceSource() string`
+`func (o *AioCheckOutGeneralOption) GetDeviceSource() string`
 
 GetDeviceSource returns the DeviceSource field if non-nil, zero value otherwise.
 
 ### GetDeviceSourceOk
 
-`func (o *AioCheckOutGeneral) GetDeviceSourceOk() (*string, bool)`
+`func (o *AioCheckOutGeneralOption) GetDeviceSourceOk() (*string, bool)`
 
 GetDeviceSourceOk returns a tuple with the DeviceSource field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDeviceSource
 
-`func (o *AioCheckOutGeneral) SetDeviceSource(v string)`
+`func (o *AioCheckOutGeneralOption) SetDeviceSource(v string)`
 
 SetDeviceSource sets DeviceSource field to given value.
 
 ### HasDeviceSource
 
-`func (o *AioCheckOutGeneral) HasDeviceSource() bool`
+`func (o *AioCheckOutGeneralOption) HasDeviceSource() bool`
 
 HasDeviceSource returns a boolean if a field has been set.
 
 ### GetIgnorePayment
 
-`func (o *AioCheckOutGeneral) GetIgnorePayment() string`
+`func (o *AioCheckOutGeneralOption) GetIgnorePayment() string`
 
 GetIgnorePayment returns the IgnorePayment field if non-nil, zero value otherwise.
 
 ### GetIgnorePaymentOk
 
-`func (o *AioCheckOutGeneral) GetIgnorePaymentOk() (*string, bool)`
+`func (o *AioCheckOutGeneralOption) GetIgnorePaymentOk() (*string, bool)`
 
 GetIgnorePaymentOk returns a tuple with the IgnorePayment field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetIgnorePayment
 
-`func (o *AioCheckOutGeneral) SetIgnorePayment(v string)`
+`func (o *AioCheckOutGeneralOption) SetIgnorePayment(v string)`
 
 SetIgnorePayment sets IgnorePayment field to given value.
 
 ### HasIgnorePayment
 
-`func (o *AioCheckOutGeneral) HasIgnorePayment() bool`
+`func (o *AioCheckOutGeneralOption) HasIgnorePayment() bool`
 
 HasIgnorePayment returns a boolean if a field has been set.
 
 ### GetPlatformID
 
-`func (o *AioCheckOutGeneral) GetPlatformID() string`
+`func (o *AioCheckOutGeneralOption) GetPlatformID() string`
 
 GetPlatformID returns the PlatformID field if non-nil, zero value otherwise.
 
 ### GetPlatformIDOk
 
-`func (o *AioCheckOutGeneral) GetPlatformIDOk() (*string, bool)`
+`func (o *AioCheckOutGeneralOption) GetPlatformIDOk() (*string, bool)`
 
 GetPlatformIDOk returns a tuple with the PlatformID field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPlatformID
 
-`func (o *AioCheckOutGeneral) SetPlatformID(v string)`
+`func (o *AioCheckOutGeneralOption) SetPlatformID(v string)`
 
 SetPlatformID sets PlatformID field to given value.
 
 ### HasPlatformID
 
-`func (o *AioCheckOutGeneral) HasPlatformID() bool`
+`func (o *AioCheckOutGeneralOption) HasPlatformID() bool`
 
 HasPlatformID returns a boolean if a field has been set.
 
 ### GetInvoiceMark
 
-`func (o *AioCheckOutGeneral) GetInvoiceMark() InvoiceMarkEnum`
+`func (o *AioCheckOutGeneralOption) GetInvoiceMark() InvoiceMarkEnum`
 
 GetInvoiceMark returns the InvoiceMark field if non-nil, zero value otherwise.
 
 ### GetInvoiceMarkOk
 
-`func (o *AioCheckOutGeneral) GetInvoiceMarkOk() (*InvoiceMarkEnum, bool)`
+`func (o *AioCheckOutGeneralOption) GetInvoiceMarkOk() (*InvoiceMarkEnum, bool)`
 
 GetInvoiceMarkOk returns a tuple with the InvoiceMark field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetInvoiceMark
 
-`func (o *AioCheckOutGeneral) SetInvoiceMark(v InvoiceMarkEnum)`
+`func (o *AioCheckOutGeneralOption) SetInvoiceMark(v InvoiceMarkEnum)`
 
 SetInvoiceMark sets InvoiceMark field to given value.
 
 ### HasInvoiceMark
 
-`func (o *AioCheckOutGeneral) HasInvoiceMark() bool`
+`func (o *AioCheckOutGeneralOption) HasInvoiceMark() bool`
 
 HasInvoiceMark returns a boolean if a field has been set.
 
 ### GetCustomField1
 
-`func (o *AioCheckOutGeneral) GetCustomField1() string`
+`func (o *AioCheckOutGeneralOption) GetCustomField1() string`
 
 GetCustomField1 returns the CustomField1 field if non-nil, zero value otherwise.
 
 ### GetCustomField1Ok
 
-`func (o *AioCheckOutGeneral) GetCustomField1Ok() (*string, bool)`
+`func (o *AioCheckOutGeneralOption) GetCustomField1Ok() (*string, bool)`
 
 GetCustomField1Ok returns a tuple with the CustomField1 field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCustomField1
 
-`func (o *AioCheckOutGeneral) SetCustomField1(v string)`
+`func (o *AioCheckOutGeneralOption) SetCustomField1(v string)`
 
 SetCustomField1 sets CustomField1 field to given value.
 
 ### HasCustomField1
 
-`func (o *AioCheckOutGeneral) HasCustomField1() bool`
+`func (o *AioCheckOutGeneralOption) HasCustomField1() bool`
 
 HasCustomField1 returns a boolean if a field has been set.
 
 ### GetCustomField2
 
-`func (o *AioCheckOutGeneral) GetCustomField2() string`
+`func (o *AioCheckOutGeneralOption) GetCustomField2() string`
 
 GetCustomField2 returns the CustomField2 field if non-nil, zero value otherwise.
 
 ### GetCustomField2Ok
 
-`func (o *AioCheckOutGeneral) GetCustomField2Ok() (*string, bool)`
+`func (o *AioCheckOutGeneralOption) GetCustomField2Ok() (*string, bool)`
 
 GetCustomField2Ok returns a tuple with the CustomField2 field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCustomField2
 
-`func (o *AioCheckOutGeneral) SetCustomField2(v string)`
+`func (o *AioCheckOutGeneralOption) SetCustomField2(v string)`
 
 SetCustomField2 sets CustomField2 field to given value.
 
 ### HasCustomField2
 
-`func (o *AioCheckOutGeneral) HasCustomField2() bool`
+`func (o *AioCheckOutGeneralOption) HasCustomField2() bool`
 
 HasCustomField2 returns a boolean if a field has been set.
 
 ### GetCustomField3
 
-`func (o *AioCheckOutGeneral) GetCustomField3() string`
+`func (o *AioCheckOutGeneralOption) GetCustomField3() string`
 
 GetCustomField3 returns the CustomField3 field if non-nil, zero value otherwise.
 
 ### GetCustomField3Ok
 
-`func (o *AioCheckOutGeneral) GetCustomField3Ok() (*string, bool)`
+`func (o *AioCheckOutGeneralOption) GetCustomField3Ok() (*string, bool)`
 
 GetCustomField3Ok returns a tuple with the CustomField3 field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCustomField3
 
-`func (o *AioCheckOutGeneral) SetCustomField3(v string)`
+`func (o *AioCheckOutGeneralOption) SetCustomField3(v string)`
 
 SetCustomField3 sets CustomField3 field to given value.
 
 ### HasCustomField3
 
-`func (o *AioCheckOutGeneral) HasCustomField3() bool`
+`func (o *AioCheckOutGeneralOption) HasCustomField3() bool`
 
 HasCustomField3 returns a boolean if a field has been set.
 
 ### GetCustomField4
 
-`func (o *AioCheckOutGeneral) GetCustomField4() string`
+`func (o *AioCheckOutGeneralOption) GetCustomField4() string`
 
 GetCustomField4 returns the CustomField4 field if non-nil, zero value otherwise.
 
 ### GetCustomField4Ok
 
-`func (o *AioCheckOutGeneral) GetCustomField4Ok() (*string, bool)`
+`func (o *AioCheckOutGeneralOption) GetCustomField4Ok() (*string, bool)`
 
 GetCustomField4Ok returns a tuple with the CustomField4 field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCustomField4
 
-`func (o *AioCheckOutGeneral) SetCustomField4(v string)`
+`func (o *AioCheckOutGeneralOption) SetCustomField4(v string)`
 
 SetCustomField4 sets CustomField4 field to given value.
 
 ### HasCustomField4
 
-`func (o *AioCheckOutGeneral) HasCustomField4() bool`
+`func (o *AioCheckOutGeneralOption) HasCustomField4() bool`
 
 HasCustomField4 returns a boolean if a field has been set.
 
 ### GetEncryptType
 
-`func (o *AioCheckOutGeneral) GetEncryptType() EncryptTypeEnum`
+`func (o *AioCheckOutGeneralOption) GetEncryptType() EncryptTypeEnum`
 
 GetEncryptType returns the EncryptType field if non-nil, zero value otherwise.
 
 ### GetEncryptTypeOk
 
-`func (o *AioCheckOutGeneral) GetEncryptTypeOk() (*EncryptTypeEnum, bool)`
+`func (o *AioCheckOutGeneralOption) GetEncryptTypeOk() (*EncryptTypeEnum, bool)`
 
 GetEncryptTypeOk returns a tuple with the EncryptType field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEncryptType
 
-`func (o *AioCheckOutGeneral) SetEncryptType(v EncryptTypeEnum)`
+`func (o *AioCheckOutGeneralOption) SetEncryptType(v EncryptTypeEnum)`
 
 SetEncryptType sets EncryptType field to given value.
 
 
 ### GetLanguage
 
-`func (o *AioCheckOutGeneral) GetLanguage() LanguageEnum`
+`func (o *AioCheckOutGeneralOption) GetLanguage() LanguageEnum`
 
 GetLanguage returns the Language field if non-nil, zero value otherwise.
 
 ### GetLanguageOk
 
-`func (o *AioCheckOutGeneral) GetLanguageOk() (*LanguageEnum, bool)`
+`func (o *AioCheckOutGeneralOption) GetLanguageOk() (*LanguageEnum, bool)`
 
 GetLanguageOk returns a tuple with the Language field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetLanguage
 
-`func (o *AioCheckOutGeneral) SetLanguage(v LanguageEnum)`
+`func (o *AioCheckOutGeneralOption) SetLanguage(v LanguageEnum)`
 
 SetLanguage sets Language field to given value.
 
 ### HasLanguage
 
-`func (o *AioCheckOutGeneral) HasLanguage() bool`
+`func (o *AioCheckOutGeneralOption) HasLanguage() bool`
 
 HasLanguage returns a boolean if a field has been set.
 

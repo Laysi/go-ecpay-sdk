@@ -29,28 +29,28 @@ import (
 )
 
 func main() {
-    merchantID := "merchantID_example" // string | 特店編號
-    merchantTradeNo := "merchantTradeNo_example" // string | 特店交易編號
-    storeID := "storeID_example" // string | 特店旗下店舖代號
-    rtnCode := 987 // float32 | 交易狀態
-    rtnMsg := "rtnMsg_example" // string | 交易訊息
-    tradeNo := "tradeNo_example" // string | 綠界的交易編號
-    tradeAmt := 987 // int32 | 交易金額
-    paymentDate := "paymentDate_example" // string | 付款時間
-    paymentType := openapiclient.PaymentTypeEnum{} // PaymentTypeEnum | 特店選擇的付款方式
-    paymentTypeChargeFee := 987 // int32 | 通路費
-    tradeDate := "tradeDate_example" // string | 訂單成立時間
-    checkMacValue := "checkMacValue_example" // string | 檢查碼
-    simulatePaid := openapiclient.ECPaySimulateEnum{} // ECPaySimulateEnum | 是否為模擬付款
-    customField1 := "customField1_example" // string | 自訂名稱欄位 1 (optional)
-    customField2 := "customField2_example" // string | 自訂名稱欄位 2 (optional)
-    customField3 := "customField3_example" // string | 自訂名稱欄位 3 (optional)
-    customField4 := "customField4_example" // string | 自訂名稱欄位 4 (optional)
-    customField5 := "customField5_example" // string | 自訂名稱欄位 5 (optional)
+    merchantID := "merchantID_example" // string | **特店編號** 
+    merchantTradeNo := "merchantTradeNo_example" // string | **特店交易編號** 訂單產生時傳送給綠界的特店交易編號。英數字大小寫混合 
+    storeID := "storeID_example" // string | **特店旗下店舖代號** 提供特店填入分店代號使用，僅可用英數字大小寫混合。 
+    rtnCode := 987 // int32 | **交易狀態**   若回傳值為 1 時，為付款成功   其餘代碼皆為交易異常，請至廠商管理後台確認後再出貨。 
+    rtnMsg := "rtnMsg_example" // string | **交易訊息** Server POST 成功回傳:交易成功   Server POST 補送通知回傳:paid   Client POST 成功回傳:Succeeded   
+    tradeNo := "tradeNo_example" // string | **綠界的交易編號** 請保存綠界的交易編號與特店交易編號[MerchantTradeNo]的關連。 
+    tradeAmt := 987 // int32 | **交易金額** 
+    paymentDate := "paymentDate_example" // ECPayDateTime | **付款時間** 格式為 yyyy/MM/dd HH:mm:ss 
+    paymentType := openapiclient.PaymentTypeEnum{} // PaymentTypeEnum | 
+    paymentTypeChargeFee := 987 // int32 | **通路費** 
+    tradeDate := "tradeDate_example" // ECPayDateTime | **訂單成立時間** 格式為 yyyy/MM/dd HH:mm:ss 
+    checkMacValue := "checkMacValue_example" // string | **檢查碼** 特店必須檢查檢查碼`CheckMacValue`來驗證，請參考附錄檢查碼機制。 
+    simulatePaid := openapiclient.SimulatePaidEnum{} // SimulatePaidEnum | 
+    customField1 := "customField1_example" // string | **自訂名稱欄位1**   提供合作廠商使用記錄用客製化使用欄位 
+    customField2 := "customField2_example" // string | **自訂名稱欄位2**   提供合作廠商使用記錄用客製化使用欄位 
+    customField3 := "customField3_example" // string | **自訂名稱欄位3**   提供合作廠商使用記錄用客製化使用欄位 
+    customField4 := "customField4_example" // string | **自訂名稱欄位4**   提供合作廠商使用記錄用客製化使用欄位 
+    customField5 := "customField5_example" // string | **自訂名稱欄位5**   提供合作廠商使用記錄用客製化使用欄位 
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.CallBackApi.CallbackReturnURLPost(context.Background(), merchantID, merchantTradeNo, storeID, rtnCode, rtnMsg, tradeNo, tradeAmt, paymentDate, paymentType, paymentTypeChargeFee, tradeDate, checkMacValue, simulatePaid).CustomField1(customField1).CustomField2(customField2).CustomField3(customField3).CustomField4(customField4).CustomField5(customField5).Execute()
+    resp, r, err := api_client.CallBackApi.CallbackReturnURLPost(context.Background(), merchantID, merchantTradeNo, storeID, rtnCode, rtnMsg, tradeNo, tradeAmt, paymentDate, paymentType, paymentTypeChargeFee, tradeDate, checkMacValue, simulatePaid, customField1, customField2, customField3, customField4, customField5).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `CallBackApi.CallbackReturnURLPost``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -71,24 +71,24 @@ Other parameters are passed through a pointer to a apiCallbackReturnURLPostReque
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **merchantID** | **string** | 特店編號 | 
- **merchantTradeNo** | **string** | 特店交易編號 | 
- **storeID** | **string** | 特店旗下店舖代號 | 
- **rtnCode** | **float32** | 交易狀態 | 
- **rtnMsg** | **string** | 交易訊息 | 
- **tradeNo** | **string** | 綠界的交易編號 | 
- **tradeAmt** | **int32** | 交易金額 | 
- **paymentDate** | **string** | 付款時間 | 
- **paymentType** | [**PaymentTypeEnum**](.md) | 特店選擇的付款方式 | 
- **paymentTypeChargeFee** | **int32** | 通路費 | 
- **tradeDate** | **string** | 訂單成立時間 | 
- **checkMacValue** | **string** | 檢查碼 | 
- **simulatePaid** | [**ECPaySimulateEnum**](.md) | 是否為模擬付款 | 
- **customField1** | **string** | 自訂名稱欄位 1 | 
- **customField2** | **string** | 自訂名稱欄位 2 | 
- **customField3** | **string** | 自訂名稱欄位 3 | 
- **customField4** | **string** | 自訂名稱欄位 4 | 
- **customField5** | **string** | 自訂名稱欄位 5 | 
+ **merchantID** | **string** | **特店編號**  | 
+ **merchantTradeNo** | **string** | **特店交易編號** 訂單產生時傳送給綠界的特店交易編號。英數字大小寫混合  | 
+ **storeID** | **string** | **特店旗下店舖代號** 提供特店填入分店代號使用，僅可用英數字大小寫混合。  | 
+ **rtnCode** | **int32** | **交易狀態**   若回傳值為 1 時，為付款成功   其餘代碼皆為交易異常，請至廠商管理後台確認後再出貨。  | 
+ **rtnMsg** | **string** | **交易訊息** Server POST 成功回傳:交易成功   Server POST 補送通知回傳:paid   Client POST 成功回傳:Succeeded    | 
+ **tradeNo** | **string** | **綠界的交易編號** 請保存綠界的交易編號與特店交易編號[MerchantTradeNo]的關連。  | 
+ **tradeAmt** | **int32** | **交易金額**  | 
+ **paymentDate** | **ECPayDateTime** | **付款時間** 格式為 yyyy/MM/dd HH:mm:ss  | 
+ **paymentType** | [**PaymentTypeEnum**](PaymentTypeEnum.md) |  | 
+ **paymentTypeChargeFee** | **int32** | **通路費**  | 
+ **tradeDate** | **ECPayDateTime** | **訂單成立時間** 格式為 yyyy/MM/dd HH:mm:ss  | 
+ **checkMacValue** | **string** | **檢查碼** 特店必須檢查檢查碼&#x60;CheckMacValue&#x60;來驗證，請參考附錄檢查碼機制。  | 
+ **simulatePaid** | [**SimulatePaidEnum**](SimulatePaidEnum.md) |  | 
+ **customField1** | **string** | **自訂名稱欄位1**   提供合作廠商使用記錄用客製化使用欄位  | 
+ **customField2** | **string** | **自訂名稱欄位2**   提供合作廠商使用記錄用客製化使用欄位  | 
+ **customField3** | **string** | **自訂名稱欄位3**   提供合作廠商使用記錄用客製化使用欄位  | 
+ **customField4** | **string** | **自訂名稱欄位4**   提供合作廠商使用記錄用客製化使用欄位  | 
+ **customField5** | **string** | **自訂名稱欄位5**   提供合作廠商使用記錄用客製化使用欄位  | 
 
 ### Return type
 
@@ -100,7 +100,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/x-www-form-urlencoded
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

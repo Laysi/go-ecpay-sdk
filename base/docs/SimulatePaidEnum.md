@@ -1,4 +1,4 @@
-# ECPaySimulateEnum
+# SimulatePaidEnum
 
 ## Properties
 
