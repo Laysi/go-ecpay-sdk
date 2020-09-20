@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   description: 綠界金流 API 定義文件
   title: ECPay API
-  version: 0.0.8
+  version: 0.0.9
 externalDocs:
   description: 可以在這裡找到完整的 API 文件說明
   url: https://www.ecpay.com.tw/Content/files/ecpay_011.pdf
@@ -19,19 +19,6 @@ tags:
 - description: 回呼
   name: CallBack
 paths:
-  /Cashier/AioCheckOut/V5:
-    post:
-      operationId: AioCheckOut
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/AioCheckOutRequest'
-      responses:
-        "200":
-          description: OK
-      tags:
-      - ECPay
   /callback/ReturnURL:
     post:
       description: 付款結果通知
@@ -209,7 +196,7 @@ paths:
       - CallBack
 components:
   schemas:
-    AioCheckOutRequest:
+    AioCheckOutGeneral:
       properties:
         MerchantID:
           description: |
@@ -340,6 +327,46 @@ components:
           $ref: '#/components/schemas/EncryptTypeEnum'
         Language:
           $ref: '#/components/schemas/LanguageEnum'
+      required:
+      - CheckMacValue
+      - ChoosePayment
+      - EncryptType
+      - ItemName
+      - MerchantID
+      - MerchantTradeDate
+      - MerchantTradeNo
+      - PaymentType
+      - ReturnURL
+      - TotalAmount
+      - TradeDesc
+      type: object
+    AioCheckOutAtmOption:
+      properties:
+        ExpireDate:
+          description: "**允許繳費有效天數**  \n若需設定最長 60 天，最短 1 天。  \n未設定此參數則預設為 3 天  \n注\
+            意事項：以天為單位\n"
+          example: 7
+          maximum: 60
+          minimum: 1
+          type: integer
+        PaymentInfoURL:
+          description: "**Server端回傳付款相關資訊**  \n若有設定此參數，訂單建立完成後(非付款完成)，綠界會 Server 端\
+            背景回傳消費者付款方式相關資訊(例：銀行代碼、繳費虛擬帳號繳費期限…等)。  \n請參考[ATM、CVS 或 BARCODE 的取號結果通知\
+            .]  \n注意事項：  \n頁面將會停留在綠界，顯示繳費的相關資訊。\n"
+          example: http://your.web.site/paymentinfo.php
+          maxLength: 200
+          type: string
+        ClientRedirectURL:
+          description: "**Client端回傳付款相關資訊**  \n若有設定此參數，訂單建立完成後(非付款完成)，綠界會 Client 端\
+            回傳消費者付款方式相關資訊(例：銀行代碼、繳費虛擬帳號繳費期限…等)且將頁面轉到特店指定的頁面。請參考[ATM、CVS 或 BARCODE\
+            \ 的取號結果通知.]  \n注意事項：  \n若設定此參數，將會使設定的返回特店的按鈕連結[ClientBackURL]失效。  \n若導\
+            回網址未使用 https 時，部份瀏覽器可能會出現警告訊息。  \n"
+          example: http://your.web.site/ClientRedirectURL.php
+          maximum: 200
+          type: string
+      type: object
+    AioCheckOutCvsBarcodeOption:
+      properties:
         StoreExpireDate:
           description: "**超商繳費截止時間**  \n注意事項：  \n`CVS`:以分鐘為單位  \n`BARCODE`:以天為單位 \
             \ \n若未設定此參數，`CVS` 預設為 `10080` 分鐘(`7` 天)；BARCODE 預設為 `7` 天。  \n若需設定此參數，\
@@ -386,22 +413,38 @@ components:
             碼。  \n"
           maxLength: 200
           type: string
+      type: object
+    AioCheckOutCreditOption:
+      properties:
         BindingCard:
           $ref: '#/components/schemas/BindingCardEnum'
         MerchantMemberID:
           description: |
             **記憶卡號識別碼** 記憶卡號識別碼 (特店代號 `MerchantID` + `廠商會員編號`)
+          example: Test1234
           maxLength: 30
           type: string
+      type: object
+    AioCheckOutCreditOnceOption:
+      properties:
         Redeem:
           $ref: '#/components/schemas/RedeemEnum'
         UnionPay:
           $ref: '#/components/schemas/UnionPayEnum'
+      type: object
+    AioCheckOutCreditInstallmentOption:
+      properties:
         CreditInstallment:
           description: "**刷卡分期期數**   \n提供刷卡分期期數  \n信用卡分期可用參數為:3,6,12,18,24  \n注意事項\
             ：  \n使用的期數必須先透過申請開通後方能使用，並以申請開通的期數為主。  \n"
+          example: 3,6
           maxLength: 20
           type: string
+      required:
+      - CreditInstallment
+      type: object
+    AioCheckOutCreditPeriodOption:
+      properties:
         PeriodAmount:
           description: "**每次授權金額**  \n每次要授權(扣款)的金額。  \n注意事項：  \n綠界會依此次授權金額`PeriodAmount`所\
             設定的金額做為之後固定授權的金額。  \n交易金額`TotalAmount`設定金額必須和授權金額`PeriodAmount`相同。  \n\
@@ -432,6 +475,14 @@ components:
             定的 URL。  \n回覆內容請參考。  \n"
           maxLength: 200
           type: string
+      required:
+      - ExecTimes
+      - Frequency
+      - PeriodAmount
+      - PeriodType
+      type: object
+    AioCheckOutInvoiceOption:
+      properties:
         RelateNumber:
           description: |
             **特店自訂編號** 此為特店自訂編號，編號均為唯一值不可重複使用。
@@ -540,17 +591,16 @@ components:
           description: "**字軌類別**  \n若為一般稅額時，請帶 07。  \n預設值：07  \n"
           type: string
       required:
-      - CheckMacValue
-      - ChoosePayment
-      - EncryptType
-      - ItemName
-      - MerchantID
-      - MerchantTradeDate
-      - MerchantTradeNo
-      - PaymentType
-      - ReturnURL
-      - TotalAmount
-      - TradeDesc
+      - DelayDay
+      - Donation
+      - InvType
+      - InvoiceItemCount
+      - InvoiceItemName
+      - InvoiceItemPrice
+      - InvoiceItemWord
+      - Print
+      - RelateNumber
+      - TaxType
       type: object
     InvoicePrintEnum:
       description: "**列印註記**  \n若為不列印或捐贈註記`Donation`為1(捐贈)時，請帶：`0`。  \n若為列印或統一編號`CustomerIdentifier`有\
@@ -657,6 +707,7 @@ components:
       - 0
       - 1
       - 2
+      example: 0
       type: integer
       x-enum-varnames:
       - NOT_SPECIFIED
@@ -671,6 +722,7 @@ components:
         \  \n紅利折抵請參考信用卡紅利折抵辦法  \n"
       enum:
       - "Y"
+      example: "Y"
       type: string
     ECPaySimulateEnum:
       enum:
@@ -750,6 +802,7 @@ components:
       - KOR
       - JPN
       - CHI
+      example: ENG
       type: string
       x-enum-descriptions:
       - 英語
@@ -761,6 +814,7 @@ components:
       enum:
       - 1
       - 0
+      example: 1
       type: integer
       x-enum-varnames:
       - BINDING
