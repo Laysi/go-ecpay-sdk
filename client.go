@@ -1,9 +1,11 @@
 package ecpay
 
 import (
+	"bytes"
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
+	"html/template"
 	"net/url"
 	"strings"
 )
@@ -31,6 +33,29 @@ func (c ECPayClient) GenerateCheckMacValue(params url.Values) string {
 	return checkMac
 }
 
-func GenerateAutoSubmitHtmlForm(params url.Values) {
+var OrderTemplateText = `<form id="order_form" action="{{.Action}}" method="post">
+ {{range $key,$element := .Values -}} 
+	<input type="hidden" name="{{$key}}" id="{{$key}}" value="{{index $element 0}}" /> 
+{{end -}}
+</form>
+<script>$("#order_form").submit();</script>`
 
+type OrderTmplArgs struct {
+	Values url.Values
+	Action string
+}
+
+var OrderTmpl = template.Must(template.New("AutoPostOrder").Parse(OrderTemplateText))
+
+func (c ECPayClient) GenerateAutoSubmitHtmlForm(params url.Values, targetUrl string) string {
+
+	var result bytes.Buffer
+	err := OrderTmpl.Execute(&result, OrderTmplArgs{
+		Values: params,
+		Action: targetUrl,
+	})
+	if err != nil {
+		panic(err)
+	}
+	return result.String()
 }
