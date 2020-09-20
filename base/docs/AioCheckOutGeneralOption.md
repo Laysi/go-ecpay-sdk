@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **StoreID** | Pointer to **string** | **特店旗下店舖代號** 提供特店填入分店代號使用，僅可用英數字大小寫混合。  | [optional] 
 **MerchantTradeDate** | Pointer to [**ECPayDateTime**](ECPayDateTime.md) | **特店交易時間** 格式為 &#x60;yyyy/MM/dd HH:mm:ss&#x60;  | 
 **PaymentType** | Pointer to [**AioCheckPaymentTypeEnum**](AioCheckPaymentTypeEnum.md) |  | [default to "aio"]
-**TotalAmount** | Pointer to **int32** | **交易金額**   請帶整數，不可有小數點。   僅限新台幣。   各付款金額的限制，請參考 &lt;https://www.ecpay.com.tw/CascadeFAQ/CascadeFAQ_Qa?nID&#x3D;3605&gt;  | 
+**TotalAmount** | Pointer to **int** | **交易金額**   請帶整數，不可有小數點。   僅限新台幣。   各付款金額的限制，請參考 &lt;https://www.ecpay.com.tw/CascadeFAQ/CascadeFAQ_Qa?nID&#x3D;3605&gt;  | 
 **TradeDesc** | Pointer to **string** | **交易描述** 傳送到綠界前，請將參數值先做 UrlEncode。  | 
 **ItemName** | Pointer to **string** | **商品名稱**   1. 如果商品名稱有多筆，需在金流選擇頁一行一行顯示商品名稱的話，商品名稱請以符號#分隔。   2. 商品名稱字數限制為中英數 400 字內，超過此限制系統將自動截斷。    | 
 **ReturnURL** | Pointer to **string** | **付款完成通知回傳網址**   當消費者付款完成後，綠界會將付款結果參數以幕後(Server POST)回傳到該網址。   詳細說明請參考付款結果通知   注意事項：    1. 請勿設定與 Client 端接收付款結果網址 OrderResultURL 相同位置，避免程式判斷錯誤。   2. 請在收到 Server 端付款結果通知後，請正確回應 1|OK 給綠界。    | 
@@ -36,7 +36,7 @@ Name | Type | Description | Notes
 
 ### NewAioCheckOutGeneralOption
 
-`func NewAioCheckOutGeneralOption(merchantID string, merchantTradeNo string, merchantTradeDate ECPayDateTime, paymentType AioCheckPaymentTypeEnum, totalAmount int32, tradeDesc string, itemName string, returnURL string, choosePayment ChoosePaymentEnum, checkMacValue string, encryptType EncryptTypeEnum, ) *AioCheckOutGeneralOption`
+`func NewAioCheckOutGeneralOption(merchantID string, merchantTradeNo string, merchantTradeDate ECPayDateTime, paymentType AioCheckPaymentTypeEnum, totalAmount int, tradeDesc string, itemName string, returnURL string, choosePayment ChoosePaymentEnum, checkMacValue string, encryptType EncryptTypeEnum, ) *AioCheckOutGeneralOption`
 
 NewAioCheckOutGeneralOption instantiates a new AioCheckOutGeneralOption object
 This constructor will assign default values to properties that have it defined,
@@ -158,20 +158,20 @@ SetPaymentType sets PaymentType field to given value.
 
 ### GetTotalAmount
 
-`func (o *AioCheckOutGeneralOption) GetTotalAmount() int32`
+`func (o *AioCheckOutGeneralOption) GetTotalAmount() int`
 
 GetTotalAmount returns the TotalAmount field if non-nil, zero value otherwise.
 
 ### GetTotalAmountOk
 
-`func (o *AioCheckOutGeneralOption) GetTotalAmountOk() (*int32, bool)`
+`func (o *AioCheckOutGeneralOption) GetTotalAmountOk() (*int, bool)`
 
 GetTotalAmountOk returns a tuple with the TotalAmount field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTotalAmount
 
-`func (o *AioCheckOutGeneralOption) SetTotalAmount(v int32)`
+`func (o *AioCheckOutGeneralOption) SetTotalAmount(v int)`
 
 SetTotalAmount sets TotalAmount field to given value.
 

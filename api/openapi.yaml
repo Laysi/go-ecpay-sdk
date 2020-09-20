@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: ECPay API
   description: 綠界金流 API 定義文件
-  version: 0.0.10
+  version: 0.0.11
 
 servers:
   - description: 正式環境
@@ -266,6 +266,7 @@ components:
           minimum: 1
           maximum: 60
           example: 7
+          default: 3
           description: |
             **允許繳費有效天數**  
             若需設定最長 60 天，最短 1 天。  

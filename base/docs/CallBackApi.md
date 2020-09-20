@@ -32,13 +32,13 @@ func main() {
     merchantID := "merchantID_example" // string | **特店編號** 
     merchantTradeNo := "merchantTradeNo_example" // string | **特店交易編號** 訂單產生時傳送給綠界的特店交易編號。英數字大小寫混合 
     storeID := "storeID_example" // string | **特店旗下店舖代號** 提供特店填入分店代號使用，僅可用英數字大小寫混合。 
-    rtnCode := 987 // int32 | **交易狀態**   若回傳值為 1 時，為付款成功   其餘代碼皆為交易異常，請至廠商管理後台確認後再出貨。 
+    rtnCode := 987 // int | **交易狀態**   若回傳值為 1 時，為付款成功   其餘代碼皆為交易異常，請至廠商管理後台確認後再出貨。 
     rtnMsg := "rtnMsg_example" // string | **交易訊息** Server POST 成功回傳:交易成功   Server POST 補送通知回傳:paid   Client POST 成功回傳:Succeeded   
     tradeNo := "tradeNo_example" // string | **綠界的交易編號** 請保存綠界的交易編號與特店交易編號[MerchantTradeNo]的關連。 
-    tradeAmt := 987 // int32 | **交易金額** 
+    tradeAmt := 987 // int | **交易金額** 
     paymentDate := "paymentDate_example" // ECPayDateTime | **付款時間** 格式為 yyyy/MM/dd HH:mm:ss 
     paymentType := openapiclient.PaymentTypeEnum{} // PaymentTypeEnum | 
-    paymentTypeChargeFee := 987 // int32 | **通路費** 
+    paymentTypeChargeFee := 987 // int | **通路費** 
     tradeDate := "tradeDate_example" // ECPayDateTime | **訂單成立時間** 格式為 yyyy/MM/dd HH:mm:ss 
     checkMacValue := "checkMacValue_example" // string | **檢查碼** 特店必須檢查檢查碼`CheckMacValue`來驗證，請參考附錄檢查碼機制。 
     simulatePaid := openapiclient.SimulatePaidEnum{} // SimulatePaidEnum | 
@@ -74,13 +74,13 @@ Name | Type | Description  | Notes
  **merchantID** | **string** | **特店編號**  | 
  **merchantTradeNo** | **string** | **特店交易編號** 訂單產生時傳送給綠界的特店交易編號。英數字大小寫混合  | 
  **storeID** | **string** | **特店旗下店舖代號** 提供特店填入分店代號使用，僅可用英數字大小寫混合。  | 
- **rtnCode** | **int32** | **交易狀態**   若回傳值為 1 時，為付款成功   其餘代碼皆為交易異常，請至廠商管理後台確認後再出貨。  | 
+ **rtnCode** | **int** | **交易狀態**   若回傳值為 1 時，為付款成功   其餘代碼皆為交易異常，請至廠商管理後台確認後再出貨。  | 
  **rtnMsg** | **string** | **交易訊息** Server POST 成功回傳:交易成功   Server POST 補送通知回傳:paid   Client POST 成功回傳:Succeeded    | 
  **tradeNo** | **string** | **綠界的交易編號** 請保存綠界的交易編號與特店交易編號[MerchantTradeNo]的關連。  | 
- **tradeAmt** | **int32** | **交易金額**  | 
+ **tradeAmt** | **int** | **交易金額**  | 
  **paymentDate** | **ECPayDateTime** | **付款時間** 格式為 yyyy/MM/dd HH:mm:ss  | 
  **paymentType** | [**PaymentTypeEnum**](PaymentTypeEnum.md) |  | 
- **paymentTypeChargeFee** | **int32** | **通路費**  | 
+ **paymentTypeChargeFee** | **int** | **通路費**  | 
  **tradeDate** | **ECPayDateTime** | **訂單成立時間** 格式為 yyyy/MM/dd HH:mm:ss  | 
  **checkMacValue** | **string** | **檢查碼** 特店必須檢查檢查碼&#x60;CheckMacValue&#x60;來驗證，請參考附錄檢查碼機制。  | 
  **simulatePaid** | [**SimulatePaidEnum**](SimulatePaidEnum.md) |  | 

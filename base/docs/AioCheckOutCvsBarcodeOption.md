@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**StoreExpireDate** | Pointer to **int32** | **超商繳費截止時間**   注意事項：   &#x60;CVS&#x60;:以分鐘為單位   &#x60;BARCODE&#x60;:以天為單位   若未設定此參數，&#x60;CVS&#x60; 預設為 &#x60;10080&#x60; 分鐘(&#x60;7&#x60; 天)；BARCODE 預設為 &#x60;7&#x60; 天。   若需設定此參數，請於建立訂單時將此參數送給綠界。提醒您，CVS 帶入數值不可超過 &#x60;86400&#x60; 分鐘，超過時一律以 &#x60;86400&#x60; 分鐘計(&#x60;60&#x60; 天)   例：&#x60;08/01&#x60; 的 &#x60;20:15&#x60; 分購買商品，繳費期限為 &#x60;7&#x60; 天，表示 &#x60;8/08&#x60; 的 &#x60;20:15&#x60; 分前您必須前往超商繳費。   範例: &#x60;CVS&#x60;&#x3D;&#x60;1440&#x60;(共 &#x60;1&#x60; 天)、&#x60;BARCODE&#x60;&#x3D;&#x60;7&#x60;(共 &#x60;7&#x60; 天)    | [optional] 
+**StoreExpireDate** | Pointer to **int** | **超商繳費截止時間**   注意事項：   &#x60;CVS&#x60;:以分鐘為單位   &#x60;BARCODE&#x60;:以天為單位   若未設定此參數，&#x60;CVS&#x60; 預設為 &#x60;10080&#x60; 分鐘(&#x60;7&#x60; 天)；BARCODE 預設為 &#x60;7&#x60; 天。   若需設定此參數，請於建立訂單時將此參數送給綠界。提醒您，CVS 帶入數值不可超過 &#x60;86400&#x60; 分鐘，超過時一律以 &#x60;86400&#x60; 分鐘計(&#x60;60&#x60; 天)   例：&#x60;08/01&#x60; 的 &#x60;20:15&#x60; 分購買商品，繳費期限為 &#x60;7&#x60; 天，表示 &#x60;8/08&#x60; 的 &#x60;20:15&#x60; 分前您必須前往超商繳費。   範例: &#x60;CVS&#x60;&#x3D;&#x60;1440&#x60;(共 &#x60;1&#x60; 天)、&#x60;BARCODE&#x60;&#x3D;&#x60;7&#x60;(共 &#x60;7&#x60; 天)    | [optional] 
 **Desc1** | Pointer to **string** | **交易描述1** 會出現在超商繳費平台螢幕上  | [optional] 
 **Desc2** | Pointer to **string** | **交易描述2** 會出現在超商繳費平台螢幕上  | [optional] 
 **Desc3** | Pointer to **string** | **交易描述3** 會出現在超商繳費平台螢幕上  | [optional] 
@@ -33,20 +33,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetStoreExpireDate
 
-`func (o *AioCheckOutCvsBarcodeOption) GetStoreExpireDate() int32`
+`func (o *AioCheckOutCvsBarcodeOption) GetStoreExpireDate() int`
 
 GetStoreExpireDate returns the StoreExpireDate field if non-nil, zero value otherwise.
 
 ### GetStoreExpireDateOk
 
-`func (o *AioCheckOutCvsBarcodeOption) GetStoreExpireDateOk() (*int32, bool)`
+`func (o *AioCheckOutCvsBarcodeOption) GetStoreExpireDateOk() (*int, bool)`
 
 GetStoreExpireDateOk returns a tuple with the StoreExpireDate field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStoreExpireDate
 
-`func (o *AioCheckOutCvsBarcodeOption) SetStoreExpireDate(v int32)`
+`func (o *AioCheckOutCvsBarcodeOption) SetStoreExpireDate(v int)`
 
 SetStoreExpireDate sets StoreExpireDate field to given value.
 

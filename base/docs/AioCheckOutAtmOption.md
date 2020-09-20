@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ExpireDate** | Pointer to **int32** | **允許繳費有效天數**   若需設定最長 60 天，最短 1 天。   未設定此參數則預設為 3 天   注意事項：以天為單位  | [optional] 
+**ExpireDate** | Pointer to **int** | **允許繳費有效天數**   若需設定最長 60 天，最短 1 天。   未設定此參數則預設為 3 天   注意事項：以天為單位  | [optional] [default to 3]
 **PaymentInfoURL** | Pointer to **string** | **Server端回傳付款相關資訊**   若有設定此參數，訂單建立完成後(非付款完成)，綠界會 Server 端背景回傳消費者付款方式相關資訊(例：銀行代碼、繳費虛擬帳號繳費期限…等)。   請參考[ATM、CVS 或 BARCODE 的取號結果通知.]   注意事項：   頁面將會停留在綠界，顯示繳費的相關資訊。  | [optional] 
 **ClientRedirectURL** | Pointer to **string** | **Client端回傳付款相關資訊**   若有設定此參數，訂單建立完成後(非付款完成)，綠界會 Client 端回傳消費者付款方式相關資訊(例：銀行代碼、繳費虛擬帳號繳費期限…等)且將頁面轉到特店指定的頁面。請參考[ATM、CVS 或 BARCODE 的取號結果通知.]   注意事項：   若設定此參數，將會使設定的返回特店的按鈕連結[ClientBackURL]失效。   若導回網址未使用 https 時，部份瀏覽器可能會出現警告訊息。    | [optional] 
 
@@ -29,20 +29,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetExpireDate
 
-`func (o *AioCheckOutAtmOption) GetExpireDate() int32`
+`func (o *AioCheckOutAtmOption) GetExpireDate() int`
 
 GetExpireDate returns the ExpireDate field if non-nil, zero value otherwise.
 
 ### GetExpireDateOk
 
-`func (o *AioCheckOutAtmOption) GetExpireDateOk() (*int32, bool)`
+`func (o *AioCheckOutAtmOption) GetExpireDateOk() (*int, bool)`
 
 GetExpireDateOk returns a tuple with the ExpireDate field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetExpireDate
 
-`func (o *AioCheckOutAtmOption) SetExpireDate(v int32)`
+`func (o *AioCheckOutAtmOption) SetExpireDate(v int)`
 
 SetExpireDate sets ExpireDate field to given value.
 

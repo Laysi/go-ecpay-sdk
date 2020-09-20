@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   description: 綠界金流 API 定義文件
   title: ECPay API
-  version: 0.0.10
+  version: 0.0.11
 externalDocs:
   description: 可以在這裡找到完整的 API 文件說明
   url: https://www.ecpay.com.tw/Content/files/ecpay_011.pdf
@@ -188,6 +188,7 @@ components:
     AioCheckOutAtmOption:
       properties:
         ExpireDate:
+          default: 3
           description: "**允許繳費有效天數**  \n若需設定最長 60 天，最短 1 天。  \n未設定此參數則預設為 3 天  \n注\
             意事項：以天為單位\n"
           example: 7
