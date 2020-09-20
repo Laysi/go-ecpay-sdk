@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: ECPay API
   description: 綠界金流 API 定義文件
-  version: 0.0.11
+  version: 0.0.12
 
 servers:
   - description: 正式環境
@@ -604,13 +604,15 @@ components:
           description: |
             **備註** 當該參數有值時，請將參數值做UrlEncode 方式編碼。
         DelayDay:
-          type: string
+          type: integer
           minimum: 0
+          maximum: 15
           description: |
             **延遲天數**  
             本參數值請帶 0~15(天)，當天數為 0 時，則付款完成後立即開立發票。
         InvType:
           type: string
+          maxLength: 2
           description: |
             **字軌類別**  
             若為一般稅額時，請帶 07。  

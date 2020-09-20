@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   description: 綠界金流 API 定義文件
   title: ECPay API
-  version: 0.0.11
+  version: 0.0.12
 externalDocs:
   description: 可以在這裡找到完整的 API 文件說明
   url: https://www.ecpay.com.tw/Content/files/ecpay_011.pdf
@@ -431,10 +431,12 @@ components:
           type: string
         DelayDay:
           description: "**延遲天數**  \n本參數值請帶 0~15(天)，當天數為 0 時，則付款完成後立即開立發票。\n"
+          maximum: 15
           minimum: 0
-          type: string
+          type: integer
         InvType:
           description: "**字軌類別**  \n若為一般稅額時，請帶 07。  \n預設值：07  \n"
+          maxLength: 2
           type: string
       required:
       - DelayDay

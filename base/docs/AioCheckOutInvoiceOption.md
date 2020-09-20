@@ -24,14 +24,14 @@ Name | Type | Description | Notes
 **InvoiceItemPrice** | Pointer to **string** | **商品價格**   預設不可為空字串且格式為 價格 1 | 價格 2 | 價格 3 | … | 價格 n，當含有二筆或以上的商品價格時，則以「|」符號區隔。  | 
 **InvoiceItemTaxType** | Pointer to **string** | **商品課稅別**   1：應稅   2：零稅率   3：免稅   注意事項：   1. 預設為空字串，當課稅類別 [TaxType] &#x3D; 9 時，此欄位不可為空。   2. 格式為課稅 類別 1 | 課稅類別 2 | 課稅類別 3 | … | 課稅類別 n。當含有二筆或以上的商品課稅類別時，則以「|」符號區隔。   3. 課稅類別為混合稅率時，需含二筆或 以 上 的 商 品 課 稅   別[InvoiceItemTaxType]，且至少需有一筆商品課稅別為應稅及至少需有一筆商品課稅別為免稅或零稅率，即混稅發票只能 1.應稅+免稅 2.應稅+零稅率，免稅和零稅率發票不能同時開立。  | [optional] 
 **InvoiceRemark** | Pointer to **string** | **備註** 當該參數有值時，請將參數值做UrlEncode 方式編碼。  | [optional] 
-**DelayDay** | Pointer to **string** | **延遲天數**   本參數值請帶 0~15(天)，當天數為 0 時，則付款完成後立即開立發票。  | 
+**DelayDay** | Pointer to **int** | **延遲天數**   本參數值請帶 0~15(天)，當天數為 0 時，則付款完成後立即開立發票。  | 
 **InvType** | Pointer to **string** | **字軌類別**   若為一般稅額時，請帶 07。   預設值：07    | 
 
 ## Methods
 
 ### NewAioCheckOutInvoiceOption
 
-`func NewAioCheckOutInvoiceOption(relateNumber string, taxType TaxTypeEnum, donation InvoiceDonationEunm, print InvoicePrintEnum, invoiceItemName string, invoiceItemCount string, invoiceItemWord string, invoiceItemPrice string, delayDay string, invType string, ) *AioCheckOutInvoiceOption`
+`func NewAioCheckOutInvoiceOption(relateNumber string, taxType TaxTypeEnum, donation InvoiceDonationEunm, print InvoicePrintEnum, invoiceItemName string, invoiceItemCount string, invoiceItemWord string, invoiceItemPrice string, delayDay int, invType string, ) *AioCheckOutInvoiceOption`
 
 NewAioCheckOutInvoiceOption instantiates a new AioCheckOutInvoiceOption object
 This constructor will assign default values to properties that have it defined,
@@ -508,20 +508,20 @@ HasInvoiceRemark returns a boolean if a field has been set.
 
 ### GetDelayDay
 
-`func (o *AioCheckOutInvoiceOption) GetDelayDay() string`
+`func (o *AioCheckOutInvoiceOption) GetDelayDay() int`
 
 GetDelayDay returns the DelayDay field if non-nil, zero value otherwise.
 
 ### GetDelayDayOk
 
-`func (o *AioCheckOutInvoiceOption) GetDelayDayOk() (*string, bool)`
+`func (o *AioCheckOutInvoiceOption) GetDelayDayOk() (*int, bool)`
 
 GetDelayDayOk returns a tuple with the DelayDay field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDelayDay
 
-`func (o *AioCheckOutInvoiceOption) SetDelayDay(v string)`
+`func (o *AioCheckOutInvoiceOption) SetDelayDay(v int)`
 
 SetDelayDay sets DelayDay field to given value.
 
