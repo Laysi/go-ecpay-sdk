@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   description: 綠界金流 API 定義文件
   title: ECPay API
-  version: 0.0.14
+  version: 0.0.15
 externalDocs:
   description: 可以在這裡找到完整的 API 文件說明
   url: https://www.ecpay.com.tw/Content/files/ecpay_011.pdf
@@ -119,11 +119,7 @@ components:
           maxLength: 100
           type: string
         ChooseSubPayment:
-          description: "**付款子項目**  \n若設定此參數，建立訂單將轉導至綠界訂單成立頁，依設定的付款方式及付款子項目帶入訂單，無法選\
-            擇其他付款子項目。  \n請參考付款方式一覽表  \n"
-          example: TAISHIN
-          maxLength: 20
-          type: string
+          $ref: '#/components/schemas/ChooseSubPaymentEnum'
         OrderResultURL:
           description: "**Client端回傳付款結果網址**    \n當消費者付款完成後，綠界會將付款結果參數以幕前(Client POST)回\
             傳到該網址。  \n詳細說明請參考付款結果通知  \n注意事項：  \n1. 若與[ClientBackURL]同時設定，將會以此參數為主。\
@@ -499,7 +495,7 @@ components:
           format: ecpay-date-time
           type: string
         PaymentType:
-          $ref: '#/components/schemas/PaymentTypeEnum'
+          $ref: '#/components/schemas/ReturnPaymentTypeEnum'
         PaymentTypeChargeFee:
           description: |
             **通路費**
@@ -776,7 +772,32 @@ components:
       x-enum-descriptions:
       - 記憶信用卡
       - 不記憶
-    PaymentTypeEnum:
+    ChooseSubPaymentEnum:
+      description: "**付款子項目**  \n若設定此參數，建立訂單將轉導至綠界訂單成立頁，依設定的付款方式及付款子項目帶入訂單，無法選擇其他付\
+        款子項目。  \n請參考付款方式一覽表  \n"
+      enum:
+      - TAISHIN
+      - ESUN
+      - BOT
+      - FUBON
+      - CHINATRUST
+      - FIRST
+      - CATHAY
+      - MEGA
+      - LAND
+      - TACHONG
+      - SINOPAC
+      - CVS
+      - OK
+      - FAMILY
+      - HILIFE
+      - IBON
+      - BARCODE
+      - ""
+      example: TAISHIN
+      maxLength: 20
+      type: string
+    ReturnPaymentTypeEnum:
       description: |
         **特店選擇的付款方式** 請參考回覆付款方式一覽表
       enum:

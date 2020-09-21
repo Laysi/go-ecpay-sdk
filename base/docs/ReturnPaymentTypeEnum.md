@@ -1,4 +1,4 @@
-# PaymentTypeEnum
+# ReturnPaymentTypeEnum
 
 ## Properties
 

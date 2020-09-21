@@ -37,7 +37,7 @@ func main() {
     tradeNo := "tradeNo_example" // string | **綠界的交易編號** 請保存綠界的交易編號與特店交易編號[MerchantTradeNo]的關連。 
     tradeAmt := 987 // int | **交易金額** 
     paymentDate := "paymentDate_example" // ECPayDateTime | **付款時間** 格式為 yyyy/MM/dd HH:mm:ss 
-    paymentType := openapiclient.PaymentTypeEnum{} // PaymentTypeEnum | 
+    paymentType := openapiclient.ReturnPaymentTypeEnum{} // ReturnPaymentTypeEnum | 
     paymentTypeChargeFee := 987 // int | **通路費** 
     tradeDate := "tradeDate_example" // ECPayDateTime | **訂單成立時間** 格式為 yyyy/MM/dd HH:mm:ss 
     checkMacValue := "checkMacValue_example" // string | **檢查碼** 特店必須檢查檢查碼`CheckMacValue`來驗證，請參考附錄檢查碼機制。 
@@ -79,7 +79,7 @@ Name | Type | Description  | Notes
  **tradeNo** | **string** | **綠界的交易編號** 請保存綠界的交易編號與特店交易編號[MerchantTradeNo]的關連。  | 
  **tradeAmt** | **int** | **交易金額**  | 
  **paymentDate** | **ECPayDateTime** | **付款時間** 格式為 yyyy/MM/dd HH:mm:ss  | 
- **paymentType** | [**PaymentTypeEnum**](PaymentTypeEnum.md) |  | 
+ **paymentType** | [**ReturnPaymentTypeEnum**](ReturnPaymentTypeEnum.md) |  | 
  **paymentTypeChargeFee** | **int** | **通路費**  | 
  **tradeDate** | **ECPayDateTime** | **訂單成立時間** 格式為 yyyy/MM/dd HH:mm:ss  | 
  **checkMacValue** | **string** | **檢查碼** 特店必須檢查檢查碼&#x60;CheckMacValue&#x60;來驗證，請參考附錄檢查碼機制。  | 

@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **TradeNo** | Pointer to **string** | **綠界的交易編號** 請保存綠界的交易編號與特店交易編號[MerchantTradeNo]的關連。  | 
 **TradeAmt** | Pointer to **int** | **交易金額**  | 
 **PaymentDate** | Pointer to [**ECPayDateTime**](ECPayDateTime.md) | **付款時間** 格式為 yyyy/MM/dd HH:mm:ss  | 
-**PaymentType** | Pointer to [**PaymentTypeEnum**](PaymentTypeEnum.md) |  | 
+**PaymentType** | Pointer to [**ReturnPaymentTypeEnum**](ReturnPaymentTypeEnum.md) |  | 
 **PaymentTypeChargeFee** | Pointer to **int** | **通路費**  | 
 **TradeDate** | Pointer to [**ECPayDateTime**](ECPayDateTime.md) | **訂單成立時間** 格式為 yyyy/MM/dd HH:mm:ss  | 
 **CheckMacValue** | Pointer to **string** | **檢查碼** 特店必須檢查檢查碼&#x60;CheckMacValue&#x60;來驗證，請參考附錄檢查碼機制。  | 
@@ -27,7 +27,7 @@ Name | Type | Description | Notes
 
 ### NewReturnData
 
-`func NewReturnData(merchantID string, merchantTradeNo string, storeID string, rtnCode int, rtnMsg string, tradeNo string, tradeAmt int, paymentDate ECPayDateTime, paymentType PaymentTypeEnum, paymentTypeChargeFee int, tradeDate ECPayDateTime, checkMacValue string, simulatePaid SimulatePaidEnum, customField1 string, customField2 string, customField3 string, customField4 string, customField5 string, ) *ReturnData`
+`func NewReturnData(merchantID string, merchantTradeNo string, storeID string, rtnCode int, rtnMsg string, tradeNo string, tradeAmt int, paymentDate ECPayDateTime, paymentType ReturnPaymentTypeEnum, paymentTypeChargeFee int, tradeDate ECPayDateTime, checkMacValue string, simulatePaid SimulatePaidEnum, customField1 string, customField2 string, customField3 string, customField4 string, customField5 string, ) *ReturnData`
 
 NewReturnData instantiates a new ReturnData object
 This constructor will assign default values to properties that have it defined,
@@ -204,20 +204,20 @@ SetPaymentDate sets PaymentDate field to given value.
 
 ### GetPaymentType
 
-`func (o *ReturnData) GetPaymentType() PaymentTypeEnum`
+`func (o *ReturnData) GetPaymentType() ReturnPaymentTypeEnum`
 
 GetPaymentType returns the PaymentType field if non-nil, zero value otherwise.
 
 ### GetPaymentTypeOk
 
-`func (o *ReturnData) GetPaymentTypeOk() (*PaymentTypeEnum, bool)`
+`func (o *ReturnData) GetPaymentTypeOk() (*ReturnPaymentTypeEnum, bool)`
 
 GetPaymentTypeOk returns a tuple with the PaymentType field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPaymentType
 
-`func (o *ReturnData) SetPaymentType(v PaymentTypeEnum)`
+`func (o *ReturnData) SetPaymentType(v ReturnPaymentTypeEnum)`
 
 SetPaymentType sets PaymentType field to given value.
 

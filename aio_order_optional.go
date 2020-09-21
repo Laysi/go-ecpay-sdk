@@ -12,7 +12,7 @@ type AioCheckOutGeneralOptional struct {
 	// **備註欄位**
 	Remark *string `json:"Remark,omitempty"`
 	// **付款子項目**   若設定此參數，建立訂單將轉導至綠界訂單成立頁，依設定的付款方式及付款子項目帶入訂單，無法選擇其他付款子項目。   請參考付款方式一覽表
-	ChooseSubPayment *string `json:"ChooseSubPayment,omitempty"`
+	ChooseSubPayment *base.ChooseSubPaymentEnum `json:"ChooseSubPayment,omitempty"`
 	// **Client端回傳付款結果網址**     當消費者付款完成後，綠界會將付款結果參數以幕前(Client POST)回傳到該網址。   詳細說明請參考付款結果通知   注意事項：   1. 若與[ClientBackURL]同時設定，將會以此參數為主。   2. 銀聯卡及非即時交易(ATM、CVS、BARCODE)不支援此參數。
 	OrderResultURL    *string                     `json:"OrderResultURL,omitempty"`
 	NeedExtraPaidInfo *base.NeedExtraPaidInfoEnum `json:"NeedExtraPaidInfo,omitempty"`

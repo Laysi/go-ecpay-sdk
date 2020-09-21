@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: ECPay API
   description: 綠界金流 API 定義文件
-  version: 0.0.14
+  version: 0.0.15
 
 servers:
   - description: 正式環境
@@ -173,13 +173,7 @@ components:
           description: |
             **備註欄位**
         ChooseSubPayment:
-          type: string
-          maxLength: 20
-          example: TAISHIN #TODO: enum list
-          description: |
-            **付款子項目**  
-            若設定此參數，建立訂單將轉導至綠界訂單成立頁，依設定的付款方式及付款子項目帶入訂單，無法選擇其他付款子項目。  
-            請參考付款方式一覽表  
+          $ref: '#/components/schemas/ChooseSubPaymentEnum'
         OrderResultURL:
           type: string
           maxLength: 200
@@ -696,7 +690,7 @@ components:
           description: |
             **付款時間** 格式為 yyyy/MM/dd HH:mm:ss
         PaymentType:
-          $ref: '#/components/schemas/PaymentTypeEnum'
+          $ref: '#/components/schemas/ReturnPaymentTypeEnum'
         PaymentTypeChargeFee:
           type: integer
           minimum: 0
@@ -1044,7 +1038,34 @@ components:
         使用記憶信用卡  
         使用：請傳 `1`    
         不使用：請傳 `0`  
-    PaymentTypeEnum:
+    ChooseSubPaymentEnum:
+      type: string
+      maxLength: 20
+      example: TAISHIN #TODO: enum list
+      description: |
+        **付款子項目**  
+        若設定此參數，建立訂單將轉導至綠界訂單成立頁，依設定的付款方式及付款子項目帶入訂單，無法選擇其他付款子項目。  
+        請參考付款方式一覽表  
+      enum:
+        - TAISHIN
+        - ESUN
+        - BOT
+        - FUBON
+        - CHINATRUST
+        - FIRST
+        - CATHAY
+        - MEGA
+        - LAND
+        - TACHONG
+        - SINOPAC
+        - CVS
+        - OK
+        - FAMILY
+        - HILIFE
+        - IBON
+        - BARCODE
+        - ''
+    ReturnPaymentTypeEnum:
       type: string
       example: Credit_CreditCard
       description: |

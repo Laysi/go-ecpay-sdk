@@ -18,7 +18,7 @@ Name | Type | Description | Notes
 **ClientBackURL** | Pointer to **string** | **Client端返回特店的按鈕連結**   消費者點選此按鈕後，會將頁面導回到此設定的網址   注意事項：   導回時不會帶付款結果到此網址，只是將頁面導回而已。   設定此參數，綠界會在付款完成或取號完成頁面上顯示[返回商店]的按鈕。   設定此參數，發生簡訊 OTP 驗證失敗時，頁面上會顯示[返回商店]的按鈕。   若未設定此參數，則綠界付款完成頁或取號完成頁面，不會顯示[返回商店]的按鈕。   若導回網址未使用 https 時，部份瀏覽器可能會出現警告訊息。    | [optional] 
 **ItemURL** | Pointer to **string** | **商品銷售網址**  | [optional] 
 **Remark** | Pointer to **string** | **備註欄位**  | [optional] 
-**ChooseSubPayment** | Pointer to **string** | **付款子項目**   若設定此參數，建立訂單將轉導至綠界訂單成立頁，依設定的付款方式及付款子項目帶入訂單，無法選擇其他付款子項目。   請參考付款方式一覽表    | [optional] 
+**ChooseSubPayment** | Pointer to [**ChooseSubPaymentEnum**](ChooseSubPaymentEnum.md) |  | [optional] 
 **OrderResultURL** | Pointer to **string** | **Client端回傳付款結果網址**     當消費者付款完成後，綠界會將付款結果參數以幕前(Client POST)回傳到該網址。   詳細說明請參考付款結果通知   注意事項：   1. 若與[ClientBackURL]同時設定，將會以此參數為主。   2. 銀聯卡及非即時交易(ATM、CVS、BARCODE)不支援此參數。    | [optional] 
 **NeedExtraPaidInfo** | Pointer to [**NeedExtraPaidInfoEnum**](NeedExtraPaidInfoEnum.md) |  | [optional] 
 **DeviceSource** | Pointer to **string** | **裝置來源** 請帶空值，由系統自動判定。  | [optional] 
@@ -353,20 +353,20 @@ HasRemark returns a boolean if a field has been set.
 
 ### GetChooseSubPayment
 
-`func (o *AioCheckOutGeneralOption) GetChooseSubPayment() string`
+`func (o *AioCheckOutGeneralOption) GetChooseSubPayment() ChooseSubPaymentEnum`
 
 GetChooseSubPayment returns the ChooseSubPayment field if non-nil, zero value otherwise.
 
 ### GetChooseSubPaymentOk
 
-`func (o *AioCheckOutGeneralOption) GetChooseSubPaymentOk() (*string, bool)`
+`func (o *AioCheckOutGeneralOption) GetChooseSubPaymentOk() (*ChooseSubPaymentEnum, bool)`
 
 GetChooseSubPaymentOk returns a tuple with the ChooseSubPayment field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetChooseSubPayment
 
-`func (o *AioCheckOutGeneralOption) SetChooseSubPayment(v string)`
+`func (o *AioCheckOutGeneralOption) SetChooseSubPayment(v ChooseSubPaymentEnum)`
 
 SetChooseSubPayment sets ChooseSubPayment field to given value.
 
