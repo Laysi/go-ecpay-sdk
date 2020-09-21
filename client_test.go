@@ -50,7 +50,7 @@ var _ = Describe("Client", func() {
 				SetCreditPayment().
 				GenerateRequestHtml()
 			//print(html)
-			Expect(html).To(Equal(`<form id="order_form" action="" method="post">
+			Expect(html).To(Equal(`<form id="order_form" action="https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5" method="post">
  <input type="hidden" name="CheckMacValue" id="CheckMacValue" value="9EB83EF0F2CB264252E1BCEEE7630D99BF6129941E63BF7BE5862ECA39F9062C" /> 
 <input type="hidden" name="ChoosePayment" id="ChoosePayment" value="Credit" /> 
 <input type="hidden" name="EncryptType" id="EncryptType" value="1" /> 
