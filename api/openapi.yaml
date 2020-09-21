@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: ECPay API
   description: 綠界金流 API 定義文件
-  version: 0.0.12
+  version: 0.0.13
 
 servers:
   - description: 正式環境
@@ -368,7 +368,7 @@ components:
             **記憶卡號識別碼** 記憶卡號識別碼 (特店代號 `MerchantID` + `廠商會員編號`)
 
         # === Credit Option 一次付清 ===        
-    AioCheckOutCreditOnceOption:
+    AioCheckOutCreditOnetimeOption:
       type: object
       properties:
         Redeem:

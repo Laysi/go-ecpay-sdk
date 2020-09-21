@@ -271,7 +271,7 @@ components:
           maxLength: 30
           type: string
       type: object
-    AioCheckOutCreditOnceOption:
+    AioCheckOutCreditOnetimeOption:
       properties:
         Redeem:
           $ref: '#/components/schemas/RedeemEnum'

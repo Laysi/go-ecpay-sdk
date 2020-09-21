@@ -328,8 +328,10 @@ func (v *NullableTime) UnmarshalJSON(src []byte) error {
 
 type ECPayDateTime time.Time
 
+const ECPayDateTimeFormat = "2006/01/02 15:04:05"
+
 func (t ECPayDateTime) MarshalJSON() ([]byte, error) {
-	return json.Marshal(time.Time(t).Format("2006-01-02 15:04:05"))
+	return json.Marshal(t.String())
 }
 
 func (t *ECPayDateTime) UnmarshalJSON(data []byte) error {
@@ -338,7 +340,7 @@ func (t *ECPayDateTime) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
-	parseTime, err := time.Parse("2006-01-02 15:04:05", value)
+	parseTime, err := time.Parse(ECPayDateTimeFormat, value)
 	if err != nil {
 		return err
 	}
@@ -347,5 +349,21 @@ func (t *ECPayDateTime) UnmarshalJSON(data []byte) error {
 }
 
 func (t ECPayDateTime) String() string {
-	return time.Time(t).Format("2006-01-02 15:04:05")
+	return time.Time(t).Format(ECPayDateTimeFormat)
+}
+
+func ParseECPayDateTime(s string) (ECPayDateTime, error) {
+	parseTime, err := time.Parse(ECPayDateTimeFormat, s)
+	if err != nil {
+		return ECPayDateTime{}, err
+	}
+	return ECPayDateTime(parseTime), nil
+}
+
+func MustParseECPayDateTime(s string) ECPayDateTime {
+	parseTime, err := ParseECPayDateTime(s)
+	if err != nil {
+		panic(err)
+	}
+	return parseTime
 }

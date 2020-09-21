@@ -79,7 +79,7 @@ Class | Method | HTTP request | Description
 
  - [AioCheckOutAtmOption](docs/AioCheckOutAtmOption.md)
  - [AioCheckOutCreditInstallmentOption](docs/AioCheckOutCreditInstallmentOption.md)
- - [AioCheckOutCreditOnceOption](docs/AioCheckOutCreditOnceOption.md)
+ - [AioCheckOutCreditOnetimeOption](docs/AioCheckOutCreditOnetimeOption.md)
  - [AioCheckOutCreditOption](docs/AioCheckOutCreditOption.md)
  - [AioCheckOutCreditPeriodOption](docs/AioCheckOutCreditPeriodOption.md)
  - [AioCheckOutCvsBarcodeOption](docs/AioCheckOutCvsBarcodeOption.md)
