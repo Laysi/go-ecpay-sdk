@@ -16,6 +16,8 @@ type AioCheckOutGeneralOptional struct {
 	// **Client端回傳付款結果網址**     當消費者付款完成後，綠界會將付款結果參數以幕前(Client POST)回傳到該網址。   詳細說明請參考付款結果通知   注意事項：   1. 若與[ClientBackURL]同時設定，將會以此參數為主。   2. 銀聯卡及非即時交易(ATM、CVS、BARCODE)不支援此參數。
 	OrderResultURL    *string                     `json:"OrderResultURL,omitempty"`
 	NeedExtraPaidInfo *base.NeedExtraPaidInfoEnum `json:"NeedExtraPaidInfo,omitempty"`
+	// **裝置來源** 請帶空值，由系統自動判定。
+	// DeviceSource *string `json:"DeviceSource,omitempty"` 預設留空
 	// **隱藏付款**   當付款方式 `ChoosePayment` 為 `ALL` 時，可隱藏不需要的付款方式，多筆請以井號分隔(#)。   可用的參數值：   - `Credit`: 信用卡   - `WebATM`: 網路 ATM   - `ATM`: 自動櫃員機   - `CVS`: 超商代碼   - `BARCODE`: 超商條碼
 	IgnorePayment *string `json:"IgnorePayment,omitempty"`
 	// **特約合作平台商代號(由綠界提供)**   為專案合作的平台商使用。   一般特店或平台商本身介接，則參數請帶放空值。   若為專案合作平台商的特店使用時，則參數請帶平台商所綁的特店編號 `MerchantID`。
@@ -63,7 +65,7 @@ type AioCheckOutCreditOptional struct {
 	MerchantMemberID *string `json:"MerchantMemberID,omitempty"`
 }
 
-type AioCheckOutCreditOnceOptional struct {
+type AioCheckOutCreditOnetimeOptional struct {
 	Redeem   *base.RedeemEnum   `json:"Redeem,omitempty"`
 	UnionPay *base.UnionPayEnum `json:"UnionPay,omitempty"`
 }

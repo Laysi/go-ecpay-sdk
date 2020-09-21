@@ -36,14 +36,15 @@ func (v ECPayValues) Encode() string {
 	sort.Sort(LowerStringSlice(keys))
 	for _, k := range keys {
 		vs := v.Values[k]
-		keyEscaped := url.QueryEscape(k)
+		//keyEscaped := url.QueryEscape(k)
+		keyEscaped := k
 		for _, v := range vs {
 			if buf.Len() > 0 {
 				buf.WriteByte('&')
 			}
 			buf.WriteString(keyEscaped)
 			buf.WriteByte('=')
-			buf.WriteString(url.QueryEscape(v))
+			buf.WriteString(v)
 		}
 	}
 	return buf.String()
