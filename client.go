@@ -32,6 +32,7 @@ type ECPayClient struct {
 	MerchantID      string
 	AioCheckOutPath string
 	ReturnURL       string
+	PeriodReturnURL string
 	HashKey         string
 	HashIV          string
 	mode            ECPayMode
@@ -39,12 +40,13 @@ type ECPayClient struct {
 	apiClient *base.APIClient
 }
 
-func NewECPayClient(merchantID string, returnURL string, hashIV string, hashKey string) *ECPayClient {
+func NewECPayClient(merchantID string, returnURL string, periodReturnURL string, hashIV string, hashKey string) *ECPayClient {
 
 	return &ECPayClient{
 		MerchantID:      merchantID,
 		AioCheckOutPath: AioCheckOutPath,
 		ReturnURL:       returnURL,
+		PeriodReturnURL: periodReturnURL,
 		HashKey:         hashIV,
 		HashIV:          hashKey,
 		mode:            PRODUCTION_MODE,

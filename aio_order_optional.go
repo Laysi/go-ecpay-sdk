@@ -72,7 +72,7 @@ type AioCheckOutCreditOnetimeOptional struct {
 
 type AioCheckOutCreditPeriodOptional struct {
 	// **定期定額的執行結果回應URL**   若交易是信用卡定期定額的方式，則每次執行授權完，會將授權結果回傳到這個設定的 URL。   回覆內容請參考。
-	PeriodReturnURL *string `json:"PeriodReturnURL,omitempty"`
+	//PeriodReturnURL *string `json:"PeriodReturnURL,omitempty"` //這個會自動填入
 }
 
 type AioCheckOutInvoiceOptional struct {
