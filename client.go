@@ -82,20 +82,25 @@ func (e ECPayClient) WithContext(c context.Context) context.Context {
 	return context.WithValue(c, base.ContextServerIndex, e.mode)
 }
 
+func FormUrlEncode(s string) string {
+	s = url.QueryEscape(s)
+	s = strings.ReplaceAll(s, "%2d", "-")
+	s = strings.ReplaceAll(s, "%5f", "_")
+	s = strings.ReplaceAll(s, "%2e", ".")
+	s = strings.ReplaceAll(s, "%21", "!")
+	s = strings.ReplaceAll(s, "%2a", "*")
+	s = strings.ReplaceAll(s, "%28", "(")
+	s = strings.ReplaceAll(s, "%29", ")")
+	return s
+}
+
 func (e ECPayClient) GenerateCheckMacValue(params map[string]string) string {
 	delete(params, "CheckMacValue")
 	delete(params, "HashKey")
 	delete(params, "HashIV")
 	encodedParams := NewECPayValuesFromMap(params).Encode()
 	encodedParams = fmt.Sprintf("HashKey=%s&%s&HashIV=%s", e.HashKey, encodedParams, e.HashIV)
-	encodedParams = url.QueryEscape(encodedParams)
-	encodedParams = strings.ReplaceAll(encodedParams, "%2d", "-")
-	encodedParams = strings.ReplaceAll(encodedParams, "%5f", "_")
-	encodedParams = strings.ReplaceAll(encodedParams, "%2e", ".")
-	encodedParams = strings.ReplaceAll(encodedParams, "%21", "!")
-	encodedParams = strings.ReplaceAll(encodedParams, "%2a", "*")
-	encodedParams = strings.ReplaceAll(encodedParams, "%28", "(")
-	encodedParams = strings.ReplaceAll(encodedParams, "%29", ")")
+	encodedParams = FormUrlEncode(encodedParams)
 	encodedParams = strings.ToLower(encodedParams)
 	//fmt.Println(encodedParams)
 	sum := sha256.Sum256([]byte(encodedParams))
