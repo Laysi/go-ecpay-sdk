@@ -36,7 +36,7 @@ var _ = Describe("Client", func() {
 <input type="hidden" name="Test" id="Test" value="C" /> 
 <input type="hidden" name="test" id="test" value="test" /> 
 </form>
-<script>$("#order_form").submit();</script>`))
+<script>document.querySelector("#order_form").submit();</script>`))
 		})
 	})
 
@@ -49,9 +49,9 @@ var _ = Describe("Client", func() {
 				//}).
 				SetCreditPayment().
 				GenerateRequestHtml()
-			//print(html)
+			print(html)
 			Expect(html).To(Equal(`<form id="order_form" action="https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5" method="post">
- <input type="hidden" name="CheckMacValue" id="CheckMacValue" value="9EB83EF0F2CB264252E1BCEEE7630D99BF6129941E63BF7BE5862ECA39F9062C" /> 
+ <input type="hidden" name="CheckMacValue" id="CheckMacValue" value="9720809C30E5AD50C4792A10065CBE49C212E6A3CB920F6BE40713AC5B8737AC" /> 
 <input type="hidden" name="ChoosePayment" id="ChoosePayment" value="Credit" /> 
 <input type="hidden" name="EncryptType" id="EncryptType" value="1" /> 
 <input type="hidden" name="ItemName" id="ItemName" value="你好" /> 
@@ -59,11 +59,11 @@ var _ = Describe("Client", func() {
 <input type="hidden" name="MerchantTradeDate" id="MerchantTradeDate" value="2020/09/21 15:02:01" /> 
 <input type="hidden" name="MerchantTradeNo" id="MerchantTradeNo" value="r44q2g423gq" /> 
 <input type="hidden" name="PaymentType" id="PaymentType" value="aio" /> 
-<input type="hidden" name="ReturnURL" id="ReturnURL" value="" /> 
+<input type="hidden" name="ReturnURL" id="ReturnURL" value="https://example.com/return" /> 
 <input type="hidden" name="TotalAmount" id="TotalAmount" value="400" /> 
 <input type="hidden" name="TradeDesc" id="TradeDesc" value="世界好" /> 
 </form>
-<script>$("#order_form").submit();</script>`))
+<script>document.querySelector("#order_form").submit();</script>`))
 		})
 	})
 })

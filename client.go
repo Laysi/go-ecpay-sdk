@@ -1,12 +1,14 @@
 package ecpay
 
 import (
+	"bytes"
 	"context"
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"github.com/Laysi/go-ecpay-sdk/base"
+	"html/template"
 	"net/url"
 	"reflect"
 	"strconv"
@@ -55,6 +57,7 @@ func NewStageECPayClient() *ECPayClient {
 	return &ECPayClient{
 		MerchantID:      "2000132",
 		AioCheckOutPath: AioCheckOutPath,
+		ReturnURL:       "https://example.com/return",
 		HashKey:         "5294y06JbISpM5x9",
 		HashIV:          "v77hoKGq4kWxNNIS",
 		mode:            STAGE_MODE,
@@ -98,6 +101,33 @@ func (e ECPayClient) GenerateCheckMacValue(params map[string]string) string {
 	sum := sha256.Sum256([]byte(encodedParams))
 	checkMac := strings.ToUpper(hex.EncodeToString(sum[:]))
 	return checkMac
+}
+
+var OrderTemplateText = `<form id="order_form" action="{{.Action}}" method="post">
+ {{range $key,$element := .Values -}} 
+	<input type="hidden" name="{{$key}}" id="{{$key}}" value="{{$element}}" /> 
+{{end -}}
+</form>
+<script>document.querySelector("#order_form").submit();</script>`
+
+type OrderTmplArgs struct {
+	Values map[string]string
+	Action string
+}
+
+var OrderTmpl = template.Must(template.New("AutoPostOrder").Parse(OrderTemplateText))
+
+func (e ECPayClient) GenerateAutoSubmitHtmlForm(params map[string]string, targetUrl string) string {
+
+	var result bytes.Buffer
+	err := OrderTmpl.Execute(&result, OrderTmplArgs{
+		Values: params,
+		Action: targetUrl,
+	})
+	if err != nil {
+		panic(err)
+	}
+	return result.String()
 }
 
 func StructToParamsMap(data interface{}) map[string]string {

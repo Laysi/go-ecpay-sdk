@@ -1,40 +1,11 @@
 package ecpay
 
 import (
-	"bytes"
 	"github.com/Laysi/go-ecpay-sdk/base"
-	"html/template"
 	"strconv"
 	"strings"
 	"time"
 )
-
-var OrderTemplateText = `<form id="order_form" action="{{.Action}}" method="post">
- {{range $key,$element := .Values -}} 
-	<input type="hidden" name="{{$key}}" id="{{$key}}" value="{{$element}}" /> 
-{{end -}}
-</form>
-<script>$("#order_form").submit();</script>`
-
-type OrderTmplArgs struct {
-	Values map[string]string
-	Action string
-}
-
-var OrderTmpl = template.Must(template.New("AutoPostOrder").Parse(OrderTemplateText))
-
-func (e ECPayClient) GenerateAutoSubmitHtmlForm(params map[string]string, targetUrl string) string {
-
-	var result bytes.Buffer
-	err := OrderTmpl.Execute(&result, OrderTmplArgs{
-		Values: params,
-		Action: targetUrl,
-	})
-	if err != nil {
-		panic(err)
-	}
-	return result.String()
-}
 
 type AioOrderRequest struct {
 	base.AioCheckOutGeneralOption
