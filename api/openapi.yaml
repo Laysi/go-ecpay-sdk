@@ -1191,7 +1191,7 @@ components:
     ChooseSubPaymentEnum:
       type: string
       maxLength: 20
-      example: TAISHIN #TODO: enum list
+      example: TAISHIN
       description: |
         **付款子項目**  
         若設定此參數，建立訂單將轉導至綠界訂單成立頁，依設定的付款方式及付款子項目帶入訂單，無法選擇其他付款子項目。  
