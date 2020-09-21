@@ -21,13 +21,12 @@ Name | Type | Description | Notes
 **CustomField2** | Pointer to **string** | **自訂名稱欄位2**   提供合作廠商使用記錄用客製化使用欄位  | 
 **CustomField3** | Pointer to **string** | **自訂名稱欄位3**   提供合作廠商使用記錄用客製化使用欄位  | 
 **CustomField4** | Pointer to **string** | **自訂名稱欄位4**   提供合作廠商使用記錄用客製化使用欄位  | 
-**CustomField5** | Pointer to **string** | **自訂名稱欄位5**   提供合作廠商使用記錄用客製化使用欄位  | 
 
 ## Methods
 
 ### NewReturnData
 
-`func NewReturnData(merchantID string, merchantTradeNo string, storeID string, rtnCode int, rtnMsg string, tradeNo string, tradeAmt int, paymentDate ECPayDateTime, paymentType ReturnPaymentTypeEnum, paymentTypeChargeFee int, tradeDate ECPayDateTime, checkMacValue string, simulatePaid SimulatePaidEnum, customField1 string, customField2 string, customField3 string, customField4 string, customField5 string, ) *ReturnData`
+`func NewReturnData(merchantID string, merchantTradeNo string, storeID string, rtnCode int, rtnMsg string, tradeNo string, tradeAmt int, paymentDate ECPayDateTime, paymentType ReturnPaymentTypeEnum, paymentTypeChargeFee int, tradeDate ECPayDateTime, checkMacValue string, simulatePaid SimulatePaidEnum, customField1 string, customField2 string, customField3 string, customField4 string, ) *ReturnData`
 
 NewReturnData instantiates a new ReturnData object
 This constructor will assign default values to properties that have it defined,
@@ -380,26 +379,6 @@ and a boolean to check if the value has been set.
 `func (o *ReturnData) SetCustomField4(v string)`
 
 SetCustomField4 sets CustomField4 field to given value.
-
-
-### GetCustomField5
-
-`func (o *ReturnData) GetCustomField5() string`
-
-GetCustomField5 returns the CustomField5 field if non-nil, zero value otherwise.
-
-### GetCustomField5Ok
-
-`func (o *ReturnData) GetCustomField5Ok() (*string, bool)`
-
-GetCustomField5Ok returns a tuple with the CustomField5 field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetCustomField5
-
-`func (o *ReturnData) SetCustomField5(v string)`
-
-SetCustomField5 sets CustomField5 field to given value.
 
 
 

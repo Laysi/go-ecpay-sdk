@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   description: 綠界金流 API 定義文件
   title: ECPay API
-  version: 0.0.15
+  version: 0.0.16
 externalDocs:
   description: 可以在這裡找到完整的 API 文件說明
   url: https://www.ecpay.com.tw/Content/files/ecpay_011.pdf
@@ -27,6 +27,26 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/ReturnData'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                default: 1|OK
+                example: 1|OK
+                type: string
+          description: 接收成功
+      security: []
+      tags:
+      - CallBack
+  /callback/PeriodReturnURL:
+    post:
+      description: 付款結果通知
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PeriodReturnData'
       responses:
         "200":
           content:
@@ -526,16 +546,12 @@ components:
         CustomField4:
           description: "**自訂名稱欄位4**  \n提供合作廠商使用記錄用客製化使用欄位\n"
           type: string
-        CustomField5:
-          description: "**自訂名稱欄位5**  \n提供合作廠商使用記錄用客製化使用欄位\n"
-          type: string
       required:
       - CheckMacValue
       - CustomField1
       - CustomField2
       - CustomField3
       - CustomField4
-      - CustomField5
       - MerchantID
       - MerchantTradeNo
       - PaymentDate
@@ -548,6 +564,126 @@ components:
       - TradeAmt
       - TradeDate
       - TradeNo
+      type: object
+    PeriodReturnData:
+      properties:
+        MerchantID:
+          description: |
+            **特店編號**
+          example: "2000132"
+          maxLength: 10
+          type: string
+        MerchantTradeNo:
+          description: |
+            **特店交易編號** 訂單產生時傳送給綠界的特店交易編號。英數字大小寫混合
+          example: 123456abc
+          maxLength: 20
+          pattern: ^[\w\d]*$
+          type: string
+        StoreID:
+          description: |
+            **特店旗下店舖代號** 提供特店填入分店代號使用，僅可用英數字大小寫混合。
+          maxLength: 20
+          pattern: ^[\w\d]*$
+          type: string
+        RtnCode:
+          description: "**交易狀態**  \n若回傳值為 1 時，為付款成功  \n其餘代碼皆為交易異常，請至廠商管理後台確認後再出貨。\n"
+          example: 1
+          type: integer
+        RtnMsg:
+          description: "**交易訊息**\nServer POST 成功回傳:交易成功  \nServer POST 補送通知回傳:paid\
+            \  \nClient POST 成功回傳:Succeeded  \n"
+          example: 交易成功
+          maxLength: 200
+          type: string
+        PeriodType:
+          $ref: '#/components/schemas/CreditPeriodTypeEnum'
+        Frequency:
+          description: |
+            **執行頻率**  訂單建立時所設定的執行頻率
+          maximum: 365
+          minimum: 1
+          type: integer
+        ExecTimes:
+          description: |
+            **執行次數**  訂單建立時所設定的執行頻率
+          maximum: 999
+          minimum: 1
+          type: integer
+        Amount:
+          description: |
+            **本次授權金額**  此次所授權的金額
+          example: 2000
+          minimum: 0
+          type: integer
+        Gwsr:
+          description: |
+            **授權交易單號**  此次所授權的交易單號
+          example: 120326
+          type: integer
+        ProcessDate:
+          description: |
+            **處理時間** 處理時間 ( yyyy/MM/dd HH:mm:ss )
+          example: 2013/11/12 12:01:32
+          format: ecpay-date-time
+          type: string
+        AuthCode:
+          description: |
+            **授權碼** 授權碼
+          example: "777777"
+          maximum: 6
+          type: string
+        FirstAuthAmount:
+          description: |
+            **初次授權金額** 定期定額交易的第一筆授權金額。
+          example: 2000
+          minimum: 0
+          type: integer
+        TotalSuccessTimes:
+          description: |
+            **已執行成功次數**  目前已成功授權的次數。
+          example: 3
+          minimum: 0
+          type: integer
+        CheckMacValue:
+          description: |
+            **檢查碼** 特店必須檢查檢查碼`CheckMacValue`來驗證，請參考附錄檢查碼機制。
+          type: string
+        SimulatePaid:
+          $ref: '#/components/schemas/SimulatePaidEnum'
+        CustomField1:
+          description: "**自訂名稱欄位1**  \n提供合作廠商使用記錄用客製化使用欄位\n"
+          type: string
+        CustomField2:
+          description: "**自訂名稱欄位2**  \n提供合作廠商使用記錄用客製化使用欄位\n"
+          type: string
+        CustomField3:
+          description: "**自訂名稱欄位3**  \n提供合作廠商使用記錄用客製化使用欄位\n"
+          type: string
+        CustomField4:
+          description: "**自訂名稱欄位4**  \n提供合作廠商使用記錄用客製化使用欄位\n"
+          type: string
+      required:
+      - Amount
+      - AuthCode
+      - CheckMacValue
+      - CustomField1
+      - CustomField2
+      - CustomField3
+      - CustomField4
+      - ExecTimes
+      - FirstAuthAmount
+      - Frequency
+      - Gwsr
+      - MerchantID
+      - MerchantTradeNo
+      - PeriodType
+      - ProcessDate
+      - RtnCode
+      - RtnMsg
+      - SimulatePaid
+      - StoreID
+      - TotalSuccessTimes
       type: object
     InvoicePrintEnum:
       description: "**列印註記**  \n若為不列印或捐贈註記`Donation`為1(捐贈)時，請帶：`0`。  \n若為列印或統一編號`CustomerIdentifier`有\
@@ -672,8 +808,8 @@ components:
       example: "Y"
       type: string
     SimulatePaidEnum:
-      description: "**是否為模擬付款**  \n回傳值：  \n若為 1 時，代表此交易為模擬付款，請勿出貨。  \n若為 0 時，代表此交易\
-        非模擬付款。    \n注意事項：  \n特店可透過廠商後台網站來針對單筆訂單模擬綠界回傳付款通知，以方便介接 API 的測試。\n"
+      description: "**是否為模擬付款**  \n回傳值：  \n若為 `1` 時，代表此交易為模擬付款，請勿出貨。  \n若為 `0` 時，代\
+        表此交易非模擬付款。    \n注意事項：  \n特店可透過廠商後台網站來針對單筆訂單模擬綠界回傳付款通知，以方便介接 API 的測試。\n"
       enum:
       - 0
       - 1
