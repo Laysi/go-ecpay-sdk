@@ -134,9 +134,9 @@ func (r *AioOrderRequestWithClient) WithCreditInstallmentOptional(installments [
 	return r
 }
 
-func (r *AioOrderRequestWithClient) WithCreditPeriodOptional(periodAmount int, periodType base.CreditPeriodTypeEnum, frequency int, execTimes int) *AioOrderRequestWithClient {
+func (r *AioOrderRequestWithClient) WithCreditPeriodOptional(periodType base.CreditPeriodTypeEnum, frequency int, execTimes int) *AioOrderRequestWithClient {
 	r.AioCheckOutCreditPeriodOption = &base.AioCheckOutCreditPeriodOption{
-		PeriodAmount:    periodAmount,
+		PeriodAmount:    r.TotalAmount,
 		PeriodType:      periodType,
 		Frequency:       frequency,
 		ExecTimes:       execTimes,
