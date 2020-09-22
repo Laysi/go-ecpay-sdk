@@ -24,6 +24,14 @@ func NewECPayValuesFromMap(values map[string]string) *ECPayValues {
 	return &v
 }
 
+func (v ECPayValues) ToMap() map[string]string {
+	result := make(map[string]string)
+	for key, val := range v.Values {
+		result[key] = val[0]
+	}
+	return result
+}
+
 func (v ECPayValues) Encode() string {
 	if v.Values == nil {
 		return ""
