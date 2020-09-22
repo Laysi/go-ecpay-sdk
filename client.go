@@ -111,8 +111,7 @@ func (e ECPayClient) GenerateCheckMacValue(params map[string]string) string {
 }
 
 var OrderTemplateText = `<form id="order_form" action="{{.Action}}" method="post">
- {{range $key,$element := .Values -}} 
-	<input type="hidden" name="{{$key}}" id="{{$key}}" value="{{$element}}" /> 
+{{range $key,$element := .Values}}    <input type="hidden" name="{{$key}}" id="{{$key}}" value="{{$element}}" />
 {{end -}}
 </form>
 <script>document.querySelector("#order_form").submit();</script>`

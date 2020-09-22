@@ -221,6 +221,12 @@ func (r *AioOrderRequestWithClient) GenerateUrlQuery() string {
 
 }
 
+func (r *AioOrderRequestWithClient) GenerateCheckMac() string {
+	params := StructToParamsMap(r.AioOrderRequest)
+	checkMac := r.client.GenerateCheckMacValue(params)
+	return checkMac
+}
+
 func (r *AioOrderRequestWithClient) GenerateRequestHtml() string {
 	params := StructToParamsMap(r.AioOrderRequest)
 	checkMac := r.client.GenerateCheckMacValue(params)

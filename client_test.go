@@ -5,6 +5,7 @@ import (
 	"github.com/Laysi/go-ecpay-sdk/base"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"strconv"
 	"time"
 	//"github.com/Laysi/go-ecpay-sdk"
 )
@@ -31,10 +32,10 @@ var _ = Describe("Client", func() {
 			html := client.GenerateAutoSubmitHtmlForm(values, "http://test.test.test/test")
 			//print(html)
 			Expect(html).To(Equal(`<form id="order_form" action="http://test.test.test/test" method="post">
- <input type="hidden" name="D" id="D" value="E" /> 
-<input type="hidden" name="F" id="F" value="G" /> 
-<input type="hidden" name="Test" id="Test" value="C" /> 
-<input type="hidden" name="test" id="test" value="test" /> 
+    <input type="hidden" name="D" id="D" value="E" />
+    <input type="hidden" name="F" id="F" value="G" />
+    <input type="hidden" name="Test" id="Test" value="C" />
+    <input type="hidden" name="test" id="test" value="test" />
 </form>
 <script>document.querySelector("#order_form").submit();</script>`))
 		})
@@ -43,27 +44,43 @@ var _ = Describe("Client", func() {
 	Context("Order", func() {
 		It("should success to create a normal order request", func() {
 			client := ecpay.NewStageECPayClient()
-			html := client.CreateOrder("r44q2g423gq", time.Time(base.MustParseECPayDateTime("2020/09/21 15:02:01")), 400, "世界好", "你好").
-				//WithOptional(ecpay.AioCheckOutGeneralOptional{
-				//	PlatformID: base.PtrString(""),
-				//}).
+			client.PeriodReturnURL = "https://dev.luckily.today/ecpay/result"
+			client.ReturnURL = "https://dev.luckily.today/ecpay/result"
+			now := time.Now()
+			tradeNo := "testLuck" + strconv.FormatInt(time.Now().UTC().UnixNano(), 36)
+			request := client.CreateOrder(tradeNo, now, 400, "世界好", "你好").
 				SetCreditPayment().
-				GenerateRequestHtml()
-			print(html)
-			Expect(html).To(Equal(`<form id="order_form" action="https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5" method="post">
- <input type="hidden" name="CheckMacValue" id="CheckMacValue" value="9720809C30E5AD50C4792A10065CBE49C212E6A3CB920F6BE40713AC5B8737AC" /> 
-<input type="hidden" name="ChoosePayment" id="ChoosePayment" value="Credit" /> 
-<input type="hidden" name="EncryptType" id="EncryptType" value="1" /> 
-<input type="hidden" name="ItemName" id="ItemName" value="你好" /> 
-<input type="hidden" name="MerchantID" id="MerchantID" value="2000132" /> 
-<input type="hidden" name="MerchantTradeDate" id="MerchantTradeDate" value="2020/09/21 15:02:01" /> 
-<input type="hidden" name="MerchantTradeNo" id="MerchantTradeNo" value="r44q2g423gq" /> 
-<input type="hidden" name="PaymentType" id="PaymentType" value="aio" /> 
-<input type="hidden" name="ReturnURL" id="ReturnURL" value="https://example.com/return" /> 
-<input type="hidden" name="TotalAmount" id="TotalAmount" value="400" /> 
-<input type="hidden" name="TradeDesc" id="TradeDesc" value="世界好" /> 
+				WithCreditOptional(ecpay.AioCheckOutCreditOptional{
+					BindingCard:      base.BINDINGCARDENUM_BINDING.Ptr(),
+					MerchantMemberID: base.PtrString(client.MerchantID + "_test_member"),
+				}).
+				WithCreditPeriodOptional(base.CREDITPERIODTYPEENUM_DAY, 2, 4)
+			mac := request.GenerateCheckMac()
+			html := request.GenerateRequestHtml()
+			//fmt.Println(html)
+			expected := `<form id="order_form" action="https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5" method="post">
+    <input type="hidden" name="BindingCard" id="BindingCard" value="1" />
+    <input type="hidden" name="CheckMacValue" id="CheckMacValue" value="` + mac + `" />
+    <input type="hidden" name="ChoosePayment" id="ChoosePayment" value="Credit" />
+    <input type="hidden" name="EncryptType" id="EncryptType" value="1" />
+    <input type="hidden" name="ExecTimes" id="ExecTimes" value="4" />
+    <input type="hidden" name="Frequency" id="Frequency" value="2" />
+    <input type="hidden" name="ItemName" id="ItemName" value="你好" />
+    <input type="hidden" name="MerchantID" id="MerchantID" value="2000132" />
+    <input type="hidden" name="MerchantMemberID" id="MerchantMemberID" value="2000132_test_member" />
+    <input type="hidden" name="MerchantTradeDate" id="MerchantTradeDate" value="` + base.ECPayDateTime(now).String() + `" />
+    <input type="hidden" name="MerchantTradeNo" id="MerchantTradeNo" value="` + tradeNo + `" />
+    <input type="hidden" name="PaymentType" id="PaymentType" value="aio" />
+    <input type="hidden" name="PeriodAmount" id="PeriodAmount" value="400" />
+    <input type="hidden" name="PeriodReturnURL" id="PeriodReturnURL" value="https://dev.luckily.today/ecpay/result" />
+    <input type="hidden" name="PeriodType" id="PeriodType" value="D" />
+    <input type="hidden" name="ReturnURL" id="ReturnURL" value="https://dev.luckily.today/ecpay/result" />
+    <input type="hidden" name="TotalAmount" id="TotalAmount" value="400" />
+    <input type="hidden" name="TradeDesc" id="TradeDesc" value="世界好" />
 </form>
-<script>document.querySelector("#order_form").submit();</script>`))
+<script>document.querySelector("#order_form").submit();</script>`
+			//fmt.Println(expected)
+			Expect(html).To(Equal(expected))
 		})
 	})
 })
