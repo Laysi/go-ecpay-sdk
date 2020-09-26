@@ -4,13 +4,13 @@ All URIs are relative to *https://payment.ecpay.com.tw*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CashierQueryCreditCardPeriodInfoPost**](ECPayApi.md#CashierQueryCreditCardPeriodInfoPost) | **Post** /Cashier/QueryCreditCardPeriodInfo | 
+[**QueryCreditCardPeriodInfo**](ECPayApi.md#QueryCreditCardPeriodInfo) | **Post** /Cashier/QueryCreditCardPeriodInfo | 
 
 
 
-## CashierQueryCreditCardPeriodInfoPost
+## QueryCreditCardPeriodInfo
 
-> CreditCardPeriodInfo CashierQueryCreditCardPeriodInfoPost(ctx).MerchantID(merchantID).MerchantTradeNo(merchantTradeNo).TimeStamp(timeStamp).CheckMacValue(checkMacValue).Execute()
+> CreditCardPeriodInfo QueryCreditCardPeriodInfo(ctx).MerchantID(merchantID).MerchantTradeNo(merchantTradeNo).TimeStamp(timeStamp).CheckMacValue(checkMacValue).Execute()
 
 
 
@@ -34,13 +34,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ECPayApi.CashierQueryCreditCardPeriodInfoPost(context.Background(), merchantID, merchantTradeNo, timeStamp, checkMacValue).Execute()
+    resp, r, err := api_client.ECPayApi.QueryCreditCardPeriodInfo(context.Background(), merchantID, merchantTradeNo, timeStamp, checkMacValue).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `ECPayApi.CashierQueryCreditCardPeriodInfoPost``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `ECPayApi.QueryCreditCardPeriodInfo``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `CashierQueryCreditCardPeriodInfoPost`: CreditCardPeriodInfo
-    fmt.Fprintf(os.Stdout, "Response from `ECPayApi.CashierQueryCreditCardPeriodInfoPost`: %v\n", resp)
+    // response from `QueryCreditCardPeriodInfo`: CreditCardPeriodInfo
+    fmt.Fprintf(os.Stdout, "Response from `ECPayApi.QueryCreditCardPeriodInfo`: %v\n", resp)
 }
 ```
 
@@ -50,7 +50,7 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiCashierQueryCreditCardPeriodInfoPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiQueryCreditCardPeriodInfoRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
