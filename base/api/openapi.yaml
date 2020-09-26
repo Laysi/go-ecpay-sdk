@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   description: 綠界金流 API 定義文件
   title: ECPay API
-  version: 0.0.16
+  version: 0.0.17
 externalDocs:
   description: 可以在這裡找到完整的 API 文件說明
   url: https://www.ecpay.com.tw/Content/files/ecpay_011.pdf
@@ -19,6 +19,25 @@ tags:
 - description: 回呼
   name: CallBack
 paths:
+  /Cashier/QueryCreditCardPeriodInfo:
+    post:
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/QueryCreditCardPeriodInfoRequest'
+      responses:
+        "200":
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/CreditCardPeriodInfo'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditCardPeriodInfo'
+          description: OK
+      tags:
+      - ECPay
   /callback/ReturnURL:
     post:
       description: 付款結果通知
@@ -61,6 +80,222 @@ paths:
       - CallBack
 components:
   schemas:
+    QueryCreditCardPeriodInfoRequest:
+      properties:
+        MerchantID:
+          description: |
+            **特店編號(由綠界提供)**
+          example: "2000132"
+          maxLength: 10
+          type: string
+        MerchantTradeNo:
+          description: |
+            **特店交易編號(由特店提供)** 訂單產生時傳送給綠界的特店交易編號。
+          example: ecPay1234
+          maxLength: 20
+          pattern: ^[\w\d]*$
+          type: string
+        TimeStamp:
+          description: "**驗證時間**  \n將當下的時間轉為UnixTimeStamp(見範例)用於驗證此次介接的時間區間。  \n綠界\
+            驗證時間區間暫訂為 3 分鐘內有效，超過則此次介接無效。  \n"
+          minimum: 0
+          type: integer
+        CheckMacValue:
+          description: |
+            **檢查碼** 請參考附錄檢查碼機制與產生檢查碼範例程式
+          type: string
+      required:
+      - CheckMacValue
+      - MerchantID
+      - MerchantTradeNo
+      - TimeStamp
+      type: object
+    CreditCardPeriodInfo:
+      example:
+        ExecTimes: 602
+        TotalSuccessTimes: 3
+        amount: 1000
+        card6no: "523782"
+        RtnCode: 1
+        card4no: "2369"
+        MerchantID: "2000132"
+        MerchantTradeNo: ecPay1234
+        PeriodAmount: 1000
+        auth_code: "777777"
+        ExecStatus: "2"
+        process_date: 2013/11/12 12:01:32
+        Frequency: 30
+        TradeNo: "20120315174058256424"
+        ExecLogRecord:
+        - amount: 2000
+          RtnCode: 1
+          process_date: 2013/11/12 12:01:32
+          TradeNo: "20120315174058256424"
+          gwsr: 120326
+          auth_code: "777777"
+        - amount: 2000
+          RtnCode: 1
+          process_date: 2013/11/12 12:01:32
+          TradeNo: "20120315174058256424"
+          gwsr: 120326
+          auth_code: "777777"
+        gwsr: 120326
+        TotalSuccessAmount: 3000
+      properties:
+        MerchantID:
+          description: |
+            **特店編號(由綠界提供)**
+          example: "2000132"
+          maxLength: 10
+          type: string
+        MerchantTradeNo:
+          description: |
+            **特店交易編號(由特店提供)** 訂單產生時傳送給綠界的特店交易編號。
+          example: ecPay1234
+          maxLength: 20
+          pattern: ^[\w\d]*$
+          type: string
+        TradeNo:
+          description: |
+            **綠界的交易編號** 首次授權所產生的綠界交易編號
+          example: "20120315174058256424"
+          type: string
+        RtnCode:
+          description: "**交易狀態**   \n回傳值為 1 時代表授權成功，其餘為失敗，失敗代碼請參考交易訊息代碼一覽表\n"
+          example: 1
+          type: integer
+        PeriodType:
+          $ref: '#/components/schemas/CreditPeriodTypeEnum'
+        Frequency:
+          description: |
+            **執行頻率**  訂單建立時所設定的執行頻率
+          maximum: 365
+          minimum: 1
+          type: integer
+        ExecTimes:
+          description: |
+            **執行次數**  訂單建立時所設定的執行頻率
+          maximum: 999
+          minimum: 1
+          type: integer
+        PeriodAmount:
+          description: |
+            **每次授權金額**  訂單建立時的每次要授權金額
+          example: 1000
+          minimum: 0
+          type: integer
+        amount:
+          description: |
+            **授權金額** 所授權的金額
+          example: 1000
+          minimum: 0
+          type: integer
+        gwsr:
+          description: "**授權交易單號** 所授權的交易單號 \n"
+          example: 120326
+          type: integer
+        process_date:
+          description: "**授權成功處理時間** 格式為 yyyy/MM/dd HH:mm:ss \n"
+          example: 2013/11/12 12:01:32
+          format: ecpay-date-time
+          type: string
+        auth_code:
+          description: |
+            **授權碼** 授權碼
+          example: "777777"
+          maximum: 6
+          type: string
+        card4no:
+          description: |
+            **卡片的末 4 碼** 卡片的末四碼
+          example: "2369"
+          maxLength: 4
+          type: string
+        card6no:
+          description: |
+            **卡片的前 6 碼** 卡片的前六碼
+          example: "523782"
+          maxLength: 6
+          type: string
+        TotalSuccessTimes:
+          description: |
+            **已成功授權次數合計** 目前已成功授權的次數
+          example: 3
+          minimum: 0
+          type: integer
+        TotalSuccessAmount:
+          description: "**已成功授權總金額** 目前已成功授權的金額合計 \n"
+          example: 3000
+          minimum: 0
+          type: integer
+        ExecStatus:
+          $ref: '#/components/schemas/ExecStatusEnum'
+        ExecLogRecord:
+          items:
+            $ref: '#/components/schemas/ExecLogRecord'
+          type: array
+      type: object
+    ExecLogRecord:
+      description: "**每次授權明細**  \n每一次的授權紀錄。  \n例如，若已成功授權 3 次(TotalSuccessTimes 為 3)，\
+        則會顯示 3 筆授權紀錄。  \n欄位內容詳見下列定期定額授權明細之參數說明。  \n"
+      example:
+        amount: 2000
+        RtnCode: 1
+        process_date: 2013/11/12 12:01:32
+        TradeNo: "20120315174058256424"
+        gwsr: 120326
+        auth_code: "777777"
+      properties:
+        RtnCode:
+          description: "**交易狀態**  \n回傳值為 1 時代表授權成功，其餘為失敗，失敗代碼請參考交易訊息代碼一覽\n"
+          example: 1
+          type: integer
+        amount:
+          description: |
+            **本次授權金額**  所授權的金額
+          example: 2000
+          minimum: 0
+          type: integer
+        gwsr:
+          description: |
+            **授權交易單號**  所授權的交易單號
+          example: 120326
+          type: integer
+        process_date:
+          description: |
+            **處理時間** 格式為 yyyy/MM/dd HH:mm:ss
+          example: 2013/11/12 12:01:32
+          format: ecpay-date-time
+          type: string
+        auth_code:
+          description: |
+            **授權碼** 授權碼
+          example: "777777"
+          maximum: 6
+          type: string
+        TradeNo:
+          description: |
+            **綠界的交易編號** 請保存綠界的交易編號與特店交易編號 `MerchantTradeNo` 的關連。
+          example: "20120315174058256424"
+          type: string
+      type: object
+    ExecStatusEnum:
+      description: "**執行狀態**  \n回傳值如下：  \n1.若為 `0` 時代表已取消  \n2.若為 `1` 時代表執行中  \n3.若\
+        為 `2` 時代表執行完成\n"
+      enum:
+      - "0"
+      - "1"
+      - "2"
+      example: "2"
+      type: string
+      x-enum-varnames:
+      - CANCELED
+      - INPROGRESS
+      - COMPLETED
+      x-enum-descriptions:
+      - 已取消
+      - 執行中
+      - 執行完成
     AioCheckOutGeneralOption:
       properties:
         MerchantID:
