@@ -4,30 +4,30 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**MerchantID** | Pointer to **string** | **特店編號(由綠界提供)**  | [optional] 
-**MerchantTradeNo** | Pointer to **string** | **特店交易編號(由特店提供)** 訂單產生時傳送給綠界的特店交易編號。  | [optional] 
-**TradeNo** | Pointer to **string** | **綠界的交易編號** 首次授權所產生的綠界交易編號  | [optional] 
-**RtnCode** | Pointer to **int** | **交易狀態**    回傳值為 1 時代表授權成功，其餘為失敗，失敗代碼請參考交易訊息代碼一覽表  | [optional] 
-**PeriodType** | Pointer to [**CreditPeriodTypeEnum**](CreditPeriodTypeEnum.md) |  | [optional] 
-**Frequency** | Pointer to **int** | **執行頻率**  訂單建立時所設定的執行頻率  | [optional] 
-**ExecTimes** | Pointer to **int** | **執行次數**  訂單建立時所設定的執行頻率  | [optional] 
-**PeriodAmount** | Pointer to **int** | **每次授權金額**  訂單建立時的每次要授權金額  | [optional] 
-**Amount** | Pointer to **int** | **授權金額** 所授權的金額  | [optional] 
-**Gwsr** | Pointer to **int** | **授權交易單號** 所授權的交易單號   | [optional] 
-**ProcessDate** | Pointer to [**ECPayDateTime**](ECPayDateTime.md) | **授權成功處理時間** 格式為 yyyy/MM/dd HH:mm:ss   | [optional] 
-**AuthCode** | Pointer to **string** | **授權碼** 授權碼  | [optional] 
-**Card4no** | Pointer to **string** | **卡片的末 4 碼** 卡片的末四碼  | [optional] 
-**Card6no** | Pointer to **string** | **卡片的前 6 碼** 卡片的前六碼  | [optional] 
-**TotalSuccessTimes** | Pointer to **int** | **已成功授權次數合計** 目前已成功授權的次數  | [optional] 
-**TotalSuccessAmount** | Pointer to **int** | **已成功授權總金額** 目前已成功授權的金額合計   | [optional] 
-**ExecStatus** | Pointer to [**ExecStatusEnum**](ExecStatusEnum.md) |  | [optional] 
-**ExecLogRecord** | Pointer to [**[]ExecLogRecord**](ExecLogRecord.md) |  | [optional] 
+**MerchantID** | Pointer to **string** | **特店編號(由綠界提供)**  | 
+**MerchantTradeNo** | Pointer to **string** | **特店交易編號(由特店提供)** 訂單產生時傳送給綠界的特店交易編號。  | 
+**TradeNo** | Pointer to **string** | **綠界的交易編號** 首次授權所產生的綠界交易編號  | 
+**RtnCode** | Pointer to **int** | **交易狀態**    回傳值為 1 時代表授權成功，其餘為失敗，失敗代碼請參考交易訊息代碼一覽表  | 
+**PeriodType** | Pointer to [**CreditPeriodTypeEnum**](CreditPeriodTypeEnum.md) |  | 
+**Frequency** | Pointer to **int** | **執行頻率**  訂單建立時所設定的執行頻率  | 
+**ExecTimes** | Pointer to **int** | **執行次數**  訂單建立時所設定的執行頻率  | 
+**PeriodAmount** | Pointer to **int** | **每次授權金額**  訂單建立時的每次要授權金額  | 
+**Amount** | Pointer to **int** | **授權金額** 所授權的金額  | 
+**Gwsr** | Pointer to **int** | **授權交易單號** 所授權的交易單號   | 
+**ProcessDate** | Pointer to [**ECPayDateTime**](ECPayDateTime.md) | **授權成功處理時間** 格式為 yyyy/MM/dd HH:mm:ss   | 
+**AuthCode** | Pointer to **string** | **授權碼** 授權碼  | 
+**Card4no** | Pointer to **string** | **卡片的末 4 碼** 卡片的末四碼  | 
+**Card6no** | Pointer to **string** | **卡片的前 6 碼** 卡片的前六碼  | 
+**TotalSuccessTimes** | Pointer to **int** | **已成功授權次數合計** 目前已成功授權的次數  | 
+**TotalSuccessAmount** | Pointer to **int** | **已成功授權總金額** 目前已成功授權的金額合計   | 
+**ExecStatus** | Pointer to [**ExecStatusEnum**](ExecStatusEnum.md) |  | 
+**ExecLog** | Pointer to [**[]ExecLogRecord**](ExecLogRecord.md) |  | 
 
 ## Methods
 
 ### NewCreditCardPeriodInfo
 
-`func NewCreditCardPeriodInfo() *CreditCardPeriodInfo`
+`func NewCreditCardPeriodInfo(merchantID string, merchantTradeNo string, tradeNo string, rtnCode int, periodType CreditPeriodTypeEnum, frequency int, execTimes int, periodAmount int, amount int, gwsr int, processDate ECPayDateTime, authCode string, card4no string, card6no string, totalSuccessTimes int, totalSuccessAmount int, execStatus ExecStatusEnum, execLog []ExecLogRecord, ) *CreditCardPeriodInfo`
 
 NewCreditCardPeriodInfo instantiates a new CreditCardPeriodInfo object
 This constructor will assign default values to properties that have it defined,
@@ -61,11 +61,6 @@ and a boolean to check if the value has been set.
 
 SetMerchantID sets MerchantID field to given value.
 
-### HasMerchantID
-
-`func (o *CreditCardPeriodInfo) HasMerchantID() bool`
-
-HasMerchantID returns a boolean if a field has been set.
 
 ### GetMerchantTradeNo
 
@@ -86,11 +81,6 @@ and a boolean to check if the value has been set.
 
 SetMerchantTradeNo sets MerchantTradeNo field to given value.
 
-### HasMerchantTradeNo
-
-`func (o *CreditCardPeriodInfo) HasMerchantTradeNo() bool`
-
-HasMerchantTradeNo returns a boolean if a field has been set.
 
 ### GetTradeNo
 
@@ -111,11 +101,6 @@ and a boolean to check if the value has been set.
 
 SetTradeNo sets TradeNo field to given value.
 
-### HasTradeNo
-
-`func (o *CreditCardPeriodInfo) HasTradeNo() bool`
-
-HasTradeNo returns a boolean if a field has been set.
 
 ### GetRtnCode
 
@@ -136,11 +121,6 @@ and a boolean to check if the value has been set.
 
 SetRtnCode sets RtnCode field to given value.
 
-### HasRtnCode
-
-`func (o *CreditCardPeriodInfo) HasRtnCode() bool`
-
-HasRtnCode returns a boolean if a field has been set.
 
 ### GetPeriodType
 
@@ -161,11 +141,6 @@ and a boolean to check if the value has been set.
 
 SetPeriodType sets PeriodType field to given value.
 
-### HasPeriodType
-
-`func (o *CreditCardPeriodInfo) HasPeriodType() bool`
-
-HasPeriodType returns a boolean if a field has been set.
 
 ### GetFrequency
 
@@ -186,11 +161,6 @@ and a boolean to check if the value has been set.
 
 SetFrequency sets Frequency field to given value.
 
-### HasFrequency
-
-`func (o *CreditCardPeriodInfo) HasFrequency() bool`
-
-HasFrequency returns a boolean if a field has been set.
 
 ### GetExecTimes
 
@@ -211,11 +181,6 @@ and a boolean to check if the value has been set.
 
 SetExecTimes sets ExecTimes field to given value.
 
-### HasExecTimes
-
-`func (o *CreditCardPeriodInfo) HasExecTimes() bool`
-
-HasExecTimes returns a boolean if a field has been set.
 
 ### GetPeriodAmount
 
@@ -236,11 +201,6 @@ and a boolean to check if the value has been set.
 
 SetPeriodAmount sets PeriodAmount field to given value.
 
-### HasPeriodAmount
-
-`func (o *CreditCardPeriodInfo) HasPeriodAmount() bool`
-
-HasPeriodAmount returns a boolean if a field has been set.
 
 ### GetAmount
 
@@ -261,11 +221,6 @@ and a boolean to check if the value has been set.
 
 SetAmount sets Amount field to given value.
 
-### HasAmount
-
-`func (o *CreditCardPeriodInfo) HasAmount() bool`
-
-HasAmount returns a boolean if a field has been set.
 
 ### GetGwsr
 
@@ -286,11 +241,6 @@ and a boolean to check if the value has been set.
 
 SetGwsr sets Gwsr field to given value.
 
-### HasGwsr
-
-`func (o *CreditCardPeriodInfo) HasGwsr() bool`
-
-HasGwsr returns a boolean if a field has been set.
 
 ### GetProcessDate
 
@@ -311,11 +261,6 @@ and a boolean to check if the value has been set.
 
 SetProcessDate sets ProcessDate field to given value.
 
-### HasProcessDate
-
-`func (o *CreditCardPeriodInfo) HasProcessDate() bool`
-
-HasProcessDate returns a boolean if a field has been set.
 
 ### GetAuthCode
 
@@ -336,11 +281,6 @@ and a boolean to check if the value has been set.
 
 SetAuthCode sets AuthCode field to given value.
 
-### HasAuthCode
-
-`func (o *CreditCardPeriodInfo) HasAuthCode() bool`
-
-HasAuthCode returns a boolean if a field has been set.
 
 ### GetCard4no
 
@@ -361,11 +301,6 @@ and a boolean to check if the value has been set.
 
 SetCard4no sets Card4no field to given value.
 
-### HasCard4no
-
-`func (o *CreditCardPeriodInfo) HasCard4no() bool`
-
-HasCard4no returns a boolean if a field has been set.
 
 ### GetCard6no
 
@@ -386,11 +321,6 @@ and a boolean to check if the value has been set.
 
 SetCard6no sets Card6no field to given value.
 
-### HasCard6no
-
-`func (o *CreditCardPeriodInfo) HasCard6no() bool`
-
-HasCard6no returns a boolean if a field has been set.
 
 ### GetTotalSuccessTimes
 
@@ -411,11 +341,6 @@ and a boolean to check if the value has been set.
 
 SetTotalSuccessTimes sets TotalSuccessTimes field to given value.
 
-### HasTotalSuccessTimes
-
-`func (o *CreditCardPeriodInfo) HasTotalSuccessTimes() bool`
-
-HasTotalSuccessTimes returns a boolean if a field has been set.
 
 ### GetTotalSuccessAmount
 
@@ -436,11 +361,6 @@ and a boolean to check if the value has been set.
 
 SetTotalSuccessAmount sets TotalSuccessAmount field to given value.
 
-### HasTotalSuccessAmount
-
-`func (o *CreditCardPeriodInfo) HasTotalSuccessAmount() bool`
-
-HasTotalSuccessAmount returns a boolean if a field has been set.
 
 ### GetExecStatus
 
@@ -461,36 +381,26 @@ and a boolean to check if the value has been set.
 
 SetExecStatus sets ExecStatus field to given value.
 
-### HasExecStatus
 
-`func (o *CreditCardPeriodInfo) HasExecStatus() bool`
+### GetExecLog
 
-HasExecStatus returns a boolean if a field has been set.
+`func (o *CreditCardPeriodInfo) GetExecLog() []ExecLogRecord`
 
-### GetExecLogRecord
+GetExecLog returns the ExecLog field if non-nil, zero value otherwise.
 
-`func (o *CreditCardPeriodInfo) GetExecLogRecord() []ExecLogRecord`
+### GetExecLogOk
 
-GetExecLogRecord returns the ExecLogRecord field if non-nil, zero value otherwise.
+`func (o *CreditCardPeriodInfo) GetExecLogOk() (*[]ExecLogRecord, bool)`
 
-### GetExecLogRecordOk
-
-`func (o *CreditCardPeriodInfo) GetExecLogRecordOk() (*[]ExecLogRecord, bool)`
-
-GetExecLogRecordOk returns a tuple with the ExecLogRecord field if it's non-nil, zero value otherwise
+GetExecLogOk returns a tuple with the ExecLog field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetExecLogRecord
+### SetExecLog
 
-`func (o *CreditCardPeriodInfo) SetExecLogRecord(v []ExecLogRecord)`
+`func (o *CreditCardPeriodInfo) SetExecLog(v []ExecLogRecord)`
 
-SetExecLogRecord sets ExecLogRecord field to given value.
+SetExecLog sets ExecLog field to given value.
 
-### HasExecLogRecord
-
-`func (o *CreditCardPeriodInfo) HasExecLogRecord() bool`
-
-HasExecLogRecord returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

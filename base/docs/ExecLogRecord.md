@@ -4,18 +4,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**RtnCode** | Pointer to **int** | **交易狀態**   回傳值為 1 時代表授權成功，其餘為失敗，失敗代碼請參考交易訊息代碼一覽  | [optional] 
-**Amount** | Pointer to **int** | **本次授權金額**  所授權的金額  | [optional] 
-**Gwsr** | Pointer to **int** | **授權交易單號**  所授權的交易單號  | [optional] 
-**ProcessDate** | Pointer to [**ECPayDateTime**](ECPayDateTime.md) | **處理時間** 格式為 yyyy/MM/dd HH:mm:ss  | [optional] 
-**AuthCode** | Pointer to **string** | **授權碼** 授權碼  | [optional] 
-**TradeNo** | Pointer to **string** | **綠界的交易編號** 請保存綠界的交易編號與特店交易編號 &#x60;MerchantTradeNo&#x60; 的關連。  | [optional] 
+**RtnCode** | Pointer to **int** | **交易狀態**   回傳值為 1 時代表授權成功，其餘為失敗，失敗代碼請參考交易訊息代碼一覽  | 
+**Amount** | Pointer to **int** | **本次授權金額**  所授權的金額  | 
+**Gwsr** | Pointer to **int** | **授權交易單號**  所授權的交易單號  | 
+**ProcessDate** | Pointer to [**ECPayDateTime**](ECPayDateTime.md) | **處理時間** 格式為 yyyy/MM/dd HH:mm:ss  | 
+**AuthCode** | Pointer to **string** | **授權碼** 授權碼  | 
+**TradeNo** | Pointer to **string** | **綠界的交易編號** 請保存綠界的交易編號與特店交易編號 &#x60;MerchantTradeNo&#x60; 的關連。  | 
 
 ## Methods
 
 ### NewExecLogRecord
 
-`func NewExecLogRecord() *ExecLogRecord`
+`func NewExecLogRecord(rtnCode int, amount int, gwsr int, processDate ECPayDateTime, authCode string, tradeNo string, ) *ExecLogRecord`
 
 NewExecLogRecord instantiates a new ExecLogRecord object
 This constructor will assign default values to properties that have it defined,
@@ -49,11 +49,6 @@ and a boolean to check if the value has been set.
 
 SetRtnCode sets RtnCode field to given value.
 
-### HasRtnCode
-
-`func (o *ExecLogRecord) HasRtnCode() bool`
-
-HasRtnCode returns a boolean if a field has been set.
 
 ### GetAmount
 
@@ -74,11 +69,6 @@ and a boolean to check if the value has been set.
 
 SetAmount sets Amount field to given value.
 
-### HasAmount
-
-`func (o *ExecLogRecord) HasAmount() bool`
-
-HasAmount returns a boolean if a field has been set.
 
 ### GetGwsr
 
@@ -99,11 +89,6 @@ and a boolean to check if the value has been set.
 
 SetGwsr sets Gwsr field to given value.
 
-### HasGwsr
-
-`func (o *ExecLogRecord) HasGwsr() bool`
-
-HasGwsr returns a boolean if a field has been set.
 
 ### GetProcessDate
 
@@ -124,11 +109,6 @@ and a boolean to check if the value has been set.
 
 SetProcessDate sets ProcessDate field to given value.
 
-### HasProcessDate
-
-`func (o *ExecLogRecord) HasProcessDate() bool`
-
-HasProcessDate returns a boolean if a field has been set.
 
 ### GetAuthCode
 
@@ -149,11 +129,6 @@ and a boolean to check if the value has been set.
 
 SetAuthCode sets AuthCode field to given value.
 
-### HasAuthCode
-
-`func (o *ExecLogRecord) HasAuthCode() bool`
-
-HasAuthCode returns a boolean if a field has been set.
 
 ### GetTradeNo
 
@@ -174,11 +149,6 @@ and a boolean to check if the value has been set.
 
 SetTradeNo sets TradeNo field to given value.
 
-### HasTradeNo
-
-`func (o *ExecLogRecord) HasTradeNo() bool`
-
-HasTradeNo returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

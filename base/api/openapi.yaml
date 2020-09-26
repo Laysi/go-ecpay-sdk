@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   description: 綠界金流 API 定義文件
   title: ECPay API
-  version: 0.0.18
+  version: 0.0.19
 externalDocs:
   description: 可以在這裡找到完整的 API 文件說明
   url: https://www.ecpay.com.tw/Content/files/ecpay_011.pdf
@@ -116,6 +116,19 @@ components:
         ExecTimes: 602
         TotalSuccessTimes: 3
         amount: 1000
+        ExecLog:
+        - amount: 2000
+          RtnCode: 1
+          process_date: 2013/11/12 12:01:32
+          TradeNo: "20120315174058256424"
+          gwsr: 120326
+          auth_code: "777777"
+        - amount: 2000
+          RtnCode: 1
+          process_date: 2013/11/12 12:01:32
+          TradeNo: "20120315174058256424"
+          gwsr: 120326
+          auth_code: "777777"
         card6no: "523782"
         RtnCode: 1
         card4no: "2369"
@@ -127,19 +140,6 @@ components:
         process_date: 2013/11/12 12:01:32
         Frequency: 30
         TradeNo: "20120315174058256424"
-        ExecLogRecord:
-        - amount: 2000
-          RtnCode: 1
-          process_date: 2013/11/12 12:01:32
-          TradeNo: "20120315174058256424"
-          gwsr: 120326
-          auth_code: "777777"
-        - amount: 2000
-          RtnCode: 1
-          process_date: 2013/11/12 12:01:32
-          TradeNo: "20120315174058256424"
-          gwsr: 120326
-          auth_code: "777777"
         gwsr: 120326
         TotalSuccessAmount: 3000
       properties:
@@ -231,10 +231,29 @@ components:
           type: integer
         ExecStatus:
           $ref: '#/components/schemas/ExecStatusEnum'
-        ExecLogRecord:
+        ExecLog:
           items:
             $ref: '#/components/schemas/ExecLogRecord'
           type: array
+      required:
+      - ExecLog
+      - ExecStatus
+      - ExecTimes
+      - Frequency
+      - MerchantID
+      - MerchantTradeNo
+      - PeriodAmount
+      - PeriodType
+      - RtnCode
+      - TotalSuccessAmount
+      - TotalSuccessTimes
+      - TradeNo
+      - amount
+      - auth_code
+      - card4no
+      - card6no
+      - gwsr
+      - process_date
       type: object
     ExecLogRecord:
       description: "**每次授權明細**  \n每一次的授權紀錄。  \n例如，若已成功授權 3 次(TotalSuccessTimes 為 3)，\
@@ -279,6 +298,13 @@ components:
             **綠界的交易編號** 請保存綠界的交易編號與特店交易編號 `MerchantTradeNo` 的關連。
           example: "20120315174058256424"
           type: string
+      required:
+      - RtnCode
+      - TradeNo
+      - amount
+      - auth_code
+      - gwsr
+      - process_date
       type: object
     ExecStatusEnum:
       description: "**執行狀態**  \n回傳值如下：  \n1.若為 `0` 時代表已取消  \n2.若為 `1` 時代表執行中  \n3.若\

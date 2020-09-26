@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: ECPay API
   description: 綠界金流 API 定義文件
-  version: 0.0.18
+  version: 0.0.19
 
 servers:
   - description: 正式環境
@@ -139,6 +139,25 @@ components:
             **檢查碼** 請參考附錄檢查碼機制與產生檢查碼範例程式
     CreditCardPeriodInfo:
       type: object
+      required:
+        - MerchantID
+        - MerchantTradeNo
+        - TradeNo
+        - RtnCode
+        - PeriodType
+        - Frequency
+        - ExecTimes
+        - PeriodAmount
+        - amount
+        - gwsr
+        - process_date
+        - auth_code
+        - card4no
+        - card6no
+        - TotalSuccessTimes
+        - TotalSuccessAmount
+        - ExecStatus
+        - ExecLog
       properties:
         MerchantID:
           type: string
@@ -234,12 +253,19 @@ components:
             **已成功授權總金額** 目前已成功授權的金額合計 
         ExecStatus:
           $ref: '#/components/schemas/ExecStatusEnum'
-        ExecLogRecord:
+        ExecLog:
           type: array
           items:
             $ref: '#/components/schemas/ExecLogRecord'
     ExecLogRecord:
       type: object
+      required:
+        - RtnCode
+        - amount
+        - gwsr
+        - process_date
+        - auth_code
+        - TradeNo
       description: |
         **每次授權明細**  
         每一次的授權紀錄。  
