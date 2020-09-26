@@ -40,15 +40,15 @@ type ECPayClient struct {
 	apiClient *base.APIClient
 }
 
-func NewECPayClient(merchantID string, returnURL string, periodReturnURL string, hashIV string, hashKey string) *ECPayClient {
+func NewECPayClient(merchantID string, returnURL string, periodReturnURL string, hashKey string, hashIV string) *ECPayClient {
 
 	return &ECPayClient{
 		MerchantID:      merchantID,
 		AioCheckOutPath: AioCheckOutPath,
 		ReturnURL:       returnURL,
 		PeriodReturnURL: periodReturnURL,
-		HashKey:         hashIV,
-		HashIV:          hashKey,
+		HashKey:         hashKey,
+		HashIV:          hashIV,
 		mode:            PRODUCTION_MODE,
 		//ctx:             context.WithValue(context.Background(), base.ContextServerIndex, PRODUCTION_MODE),
 		apiClient: base.NewAPIClient(base.NewConfiguration()),
