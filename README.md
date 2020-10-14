@@ -1,7 +1,10 @@
 # ECPay SDK for Golang
 [![license](https://img.shields.io/github/license/Laysi/go-ecpay-sdk)](https://github.com/Laysi/go-ecpay-sdk/blob/master/LICENSE)
-[![Test CI](https://github.com/Laysi/go-ecpay-sdk/workflows/Test%20CI/badge.svg?branch=master&event=push)](https://github.com/Laysi/go-ecpay-sdk/actions?query=workflow%3A%22Test+CI%22)
+![go-version](https://img.shields.io/github/go-mod/go-version/Laysi/go-ecpay-sdk)
+![latest-version](https://img.shields.io/github/v/tag/Laysi/go-ecpay-sdk?label=Latest%20Version)
+[![test-ci](https://github.com/Laysi/go-ecpay-sdk/workflows/Test%20CI/badge.svg?branch=master&event=push)](https://github.com/Laysi/go-ecpay-sdk/actions?query=workflow%3A%22Test+CI%22)
 ![stability-wip](https://img.shields.io/badge/Stability-work_in_progress-lightgrey.svg)
+
 
 ## Description
 ECPay SDK for Golang,with some helpers package.
