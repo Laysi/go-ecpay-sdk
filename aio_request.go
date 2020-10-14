@@ -145,7 +145,7 @@ func (r *AioOrderRequestWithClient) WithCreditPeriodOptional(periodType ecpayBas
 	return r
 }
 
-func (r *AioOrderRequestWithClient) SetAllPayment(ignorePayment []ecpayBase.ChoosePaymentEnum) *AioOrderRequestWithClient {
+func (r *AioOrderRequestWithClient) SetAllPayment(ignorePayment ...ecpayBase.ChoosePaymentEnum) *AioOrderRequestWithClient {
 	r = r.SetCreditPayment().
 		SetAtmPayment().
 		SetCvsPayment().

@@ -57,7 +57,7 @@ html := client.CreateOrder("<TradeNO>", time.Now(), 1000, "<Description>", []str
         CustomField4: ecpayBase.PtrString("<CustomField4>"),
         Language:     ecpayBase.LANGUAGEENUM_ENG.Ptr(),
     }).
-    SetAllPayment([]ecpayBase.ChoosePaymentEnum{ecpayBase.CHOOSEPAYMENTENUM_ATM, ecpayBase.CHOOSEPAYMENTENUM_CREDIT}).
+    SetAllPayment(ecpayBase.CHOOSEPAYMENTENUM_ATM, ecpayBase.CHOOSEPAYMENTENUM_CREDIT).
     WithCreditOptional(ecpay.AioCheckOutCreditOptional{
         BindingCard:      ecpayBase.BINDINGCARDENUM_BINDING.Ptr(),
         MerchantMemberID: ecpayBase.PtrString("<MerchantMemberID>"),
