@@ -3,7 +3,7 @@
 ![stability-wip](https://img.shields.io/badge/Stability-work_in_progress-lightgrey.svg)
 
 ## Description
-This is the SDK of ECPay for Golang wrapped on an Openapi definition,with some helpers package.
+ECPay SDK for Golang,with some helpers package.
 
 ## Feature
 - Configure
