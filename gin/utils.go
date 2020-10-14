@@ -10,10 +10,12 @@ import (
 )
 import "github.com/gin-gonic/gin"
 
+// BindingPeriodReturnData is a help handler to help binding the PeriodReturnData model with the issue: https://github.com/gin-gonic/gin/issues/2510
 func BindingPeriodReturnData(data *base.PeriodReturnData, c *gin.Context) error {
 	return QuotedAndBindingData(data, []string{"ProcessDate", "TradeDate"}, c)
 }
 
+// BindingReturnData is a help handler to help binding the ReturnData model with the issue: https://github.com/gin-gonic/gin/issues/2510
 func BindingReturnData(data *base.ReturnData, c *gin.Context) error {
 	return QuotedAndBindingData(data, []string{"PaymentDate", "TradeDate"}, c)
 }
