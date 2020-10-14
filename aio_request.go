@@ -23,7 +23,7 @@ type AioOrderRequestWithClient struct {
 	client ECPayClient
 }
 
-func (e ECPayClient) CreateOrder(tradeNo string, tradeDate time.Time, amount int, description string, itemName string) *AioOrderRequestWithClient {
+func (e ECPayClient) CreateOrder(tradeNo string, tradeDate time.Time, amount int, description string, itemNames []string) *AioOrderRequestWithClient {
 	return &AioOrderRequestWithClient{
 		AioOrderRequest: &AioOrderRequest{
 			AioCheckOutGeneralOption: ecpayBase.AioCheckOutGeneralOption{
@@ -34,7 +34,7 @@ func (e ECPayClient) CreateOrder(tradeNo string, tradeDate time.Time, amount int
 				PaymentType:       ecpayBase.AIOCHECKPAYMENTTYPEENUM_AIO,
 				TotalAmount:       amount,
 				TradeDesc:         description,
-				ItemName:          itemName,
+				ItemName:          strings.Join(itemNames, "#"),
 				ReturnURL:         e.ReturnURL,
 				ChoosePayment:     "",
 			},

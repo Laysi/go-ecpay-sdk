@@ -36,7 +36,7 @@ client := ecpay.NewStageClient()
 ## Create Order
 
 ```go
-html := client.CreateOrder("<TradeNO>", time.Now(), 1000, "<Description>", "<ItemName>").
+html := client.CreateOrder("<TradeNO>", time.Now(), 1000, "<Description>", []string{"<ItemName1>","<ItemName2>"}).
     WithOptional(ecpay.AioCheckOutGeneralOptional{
         StoreID:           ecpayBase.PtrString("<StoreID>"),
         //ClientBackURL:     nil,
