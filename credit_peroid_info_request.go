@@ -14,8 +14,8 @@ func defaultContext(c context.Context, contexts ...context.Context) context.Cont
 	return contexts[0]
 }
 
-func (e ECPayClient) QueryCreditCardPeriodInfo(merchantID, merchantTradeNo string, timeStamp time.Time, cs ...context.Context) (base.CreditCardPeriodInfo, *http.Response, error) {
-	params := base.QueryCreditCardPeriodInfoRequest{
+func (e ECPayClient) QueryCreditCardPeriodInfo(merchantID, merchantTradeNo string, timeStamp time.Time, cs ...context.Context) (ecpayBase.CreditCardPeriodInfo, *http.Response, error) {
+	params := ecpayBase.QueryCreditCardPeriodInfoRequest{
 		MerchantID:      merchantID,
 		MerchantTradeNo: merchantTradeNo,
 		TimeStamp:       int(timeStamp.Unix()),

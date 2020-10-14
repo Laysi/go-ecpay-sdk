@@ -37,10 +37,10 @@ type ECPayClient struct {
 	HashIV          string
 	mode            ECPayMode
 	//ctx             context.Context
-	apiClient *base.APIClient
+	apiClient *ecpayBase.APIClient
 }
 
-func NewECPayClient(merchantID string, returnURL string, periodReturnURL string, hashKey string, hashIV string) *ECPayClient {
+func NewClient(merchantID string, returnURL string, periodReturnURL string, hashKey string, hashIV string) *ECPayClient {
 
 	return &ECPayClient{
 		MerchantID:      merchantID,
@@ -51,11 +51,11 @@ func NewECPayClient(merchantID string, returnURL string, periodReturnURL string,
 		HashIV:          hashIV,
 		mode:            PRODUCTION_MODE,
 		//ctx:             context.WithValue(context.Background(), base.ContextServerIndex, PRODUCTION_MODE),
-		apiClient: base.NewAPIClient(base.NewConfiguration()),
+		apiClient: ecpayBase.NewAPIClient(ecpayBase.NewConfiguration()),
 	}
 }
 
-func NewStageECPayClient() *ECPayClient {
+func NewStageClient() *ECPayClient {
 	return &ECPayClient{
 		MerchantID:      "2000132",
 		AioCheckOutPath: AioCheckOutPath,
@@ -64,7 +64,7 @@ func NewStageECPayClient() *ECPayClient {
 		HashIV:          "v77hoKGq4kWxNNIS",
 		mode:            STAGE_MODE,
 		//ctx:             context.WithValue(context.Background(), base.ContextServerIndex, STAGE_MODE),
-		apiClient: base.NewAPIClient(base.NewConfiguration()),
+		apiClient: ecpayBase.NewAPIClient(ecpayBase.NewConfiguration()),
 	}
 }
 
@@ -77,11 +77,11 @@ func (e ECPayClient) GetCurrentServer() string {
 }
 
 func (e ECPayClient) DefaultContext() context.Context {
-	return context.WithValue(context.Background(), base.ContextServerIndex, e.mode)
+	return context.WithValue(context.Background(), ecpayBase.ContextServerIndex, e.mode)
 }
 
 func (e ECPayClient) WithContext(c context.Context) context.Context {
-	return context.WithValue(c, base.ContextServerIndex, e.mode)
+	return context.WithValue(c, ecpayBase.ContextServerIndex, e.mode)
 }
 
 func FormUrlEncode(s string) string {

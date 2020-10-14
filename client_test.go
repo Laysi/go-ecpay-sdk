@@ -13,7 +13,7 @@ import (
 var _ = Describe("Client", func() {
 	Context("CheckMac", func() {
 		It("mac should calculate correct", func() {
-			client := ecpay.NewStageECPayClient()
+			client := ecpay.NewStageClient()
 			values := map[string]string{"test": "test"}
 			mac := client.GenerateCheckMacValue(values)
 			Expect(mac).To(Equal("B5947417B0FB8C1B8EBCA08E2FF3D66B7FB2329C8529C1331FE2268E9430903A"))
@@ -22,7 +22,7 @@ var _ = Describe("Client", func() {
 
 	Context("AutoPostTmpl", func() {
 		It("shouldn't fail to generate auto post form html", func() {
-			client := ecpay.NewStageECPayClient()
+			client := ecpay.NewStageClient()
 			values := map[string]string{
 				"test": "test",
 				"Test": "C",
@@ -43,7 +43,7 @@ var _ = Describe("Client", func() {
 
 	Context("Order", func() {
 		It("should success to create a normal order request", func() {
-			client := ecpay.NewStageECPayClient()
+			client := ecpay.NewStageClient()
 			client.PeriodReturnURL = "https://dev.luckily.today/ecpay/result"
 			client.ReturnURL = "https://dev.luckily.today/ecpay/result"
 			now := time.Now()
@@ -51,10 +51,10 @@ var _ = Describe("Client", func() {
 			request := client.CreateOrder(tradeNo, now, 400, "世界好", "你好").
 				SetCreditPayment().
 				WithCreditOptional(ecpay.AioCheckOutCreditOptional{
-					BindingCard:      base.BINDINGCARDENUM_BINDING.Ptr(),
-					MerchantMemberID: base.PtrString(client.MerchantID + "_test_member"),
+					BindingCard:      ecpayBase.BINDINGCARDENUM_BINDING.Ptr(),
+					MerchantMemberID: ecpayBase.PtrString(client.MerchantID + "_test_member"),
 				}).
-				WithCreditPeriodOptional(base.CREDITPERIODTYPEENUM_DAY, 2, 4)
+				WithCreditPeriodOptional(ecpayBase.CREDITPERIODTYPEENUM_DAY, 2, 4)
 			mac := request.GenerateCheckMac()
 			html := request.GenerateRequestHtml()
 			//fmt.Println(html)
@@ -68,7 +68,7 @@ var _ = Describe("Client", func() {
     <input type="hidden" name="ItemName" id="ItemName" value="你好" />
     <input type="hidden" name="MerchantID" id="MerchantID" value="2000132" />
     <input type="hidden" name="MerchantMemberID" id="MerchantMemberID" value="2000132_test_member" />
-    <input type="hidden" name="MerchantTradeDate" id="MerchantTradeDate" value="` + base.ECPayDateTime(now).String() + `" />
+    <input type="hidden" name="MerchantTradeDate" id="MerchantTradeDate" value="` + ecpayBase.ECPayDateTime(now).String() + `" />
     <input type="hidden" name="MerchantTradeNo" id="MerchantTradeNo" value="` + tradeNo + `" />
     <input type="hidden" name="PaymentType" id="PaymentType" value="aio" />
     <input type="hidden" name="PeriodAmount" id="PeriodAmount" value="400" />

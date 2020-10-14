@@ -1,4 +1,4 @@
-# Go API client for base
+# Go API client for ecpayBase
 
 綠界金流 API 定義文件
 
@@ -22,7 +22,7 @@ go get golang.org/x/net/context
 Put the package under your project folder and add the following in import:
 
 ```golang
-import sw "./base"
+import sw "./ecpayBase"
 ```
 
 ## Configuration of Server URL

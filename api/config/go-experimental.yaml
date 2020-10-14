@@ -1,4 +1,4 @@
-packageName: base
+packageName: ecpayBase
 enumClassPrefix: true
 isGoSubmodule: true
 gitUserId: Laysi

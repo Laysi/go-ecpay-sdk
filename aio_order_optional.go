@@ -12,14 +12,16 @@ type AioCheckOutGeneralOptional struct {
 	// **備註欄位**
 	Remark *string `json:"Remark,omitempty"`
 	// **付款子項目**   若設定此參數，建立訂單將轉導至綠界訂單成立頁，依設定的付款方式及付款子項目帶入訂單，無法選擇其他付款子項目。   請參考付款方式一覽表
-	ChooseSubPayment *base.ChooseSubPaymentEnum `json:"ChooseSubPayment,omitempty"`
+	ChooseSubPayment *ecpayBase.ChooseSubPaymentEnum `json:"ChooseSubPayment,omitempty"`
 	// **Client端回傳付款結果網址**     當消費者付款完成後，綠界會將付款結果參數以幕前(Client POST)回傳到該網址。   詳細說明請參考付款結果通知   注意事項：   1. 若與[ClientBackURL]同時設定，將會以此參數為主。   2. 銀聯卡及非即時交易(ATM、CVS、BARCODE)不支援此參數。
-	OrderResultURL    *string                     `json:"OrderResultURL,omitempty"`
-	NeedExtraPaidInfo *base.NeedExtraPaidInfoEnum `json:"NeedExtraPaidInfo,omitempty"`
-	// **裝置來源** 請帶空值，由系統自動判定。
-	// DeviceSource *string `json:"DeviceSource,omitempty"` 預設留空
-	// **隱藏付款**   當付款方式 `ChoosePayment` 為 `ALL` 時，可隱藏不需要的付款方式，多筆請以井號分隔(#)。   可用的參數值：   - `Credit`: 信用卡   - `WebATM`: 網路 ATM   - `ATM`: 自動櫃員機   - `CVS`: 超商代碼   - `BARCODE`: 超商條碼
-	IgnorePayment *string `json:"IgnorePayment,omitempty"`
+	OrderResultURL *string `json:"OrderResultURL,omitempty"`
+	// **是否需要額外的付款資訊**
+	//   額外的付款資訊：
+	//   若不回傳額外的付款資訊時，參數值請傳：`Ｎ`；
+	//   若要回傳額外的付款資訊時，參數值請傳：`Ｙ`，付款完成後綠界會以 Server POST 方式回傳額外付款資訊。
+	//   注意事項：
+	//   回傳額外付款資訊參數請參考-額外回傳的參數
+	NeedExtraPaidInfo *ecpayBase.NeedExtraPaidInfoEnum `json:"NeedExtraPaidInfo,omitempty"`
 	// **特約合作平台商代號(由綠界提供)**   為專案合作的平台商使用。   一般特店或平台商本身介接，則參數請帶放空值。   若為專案合作平台商的特店使用時，則參數請帶平台商所綁的特店編號 `MerchantID`。
 	PlatformID *string `json:"PlatformID,omitempty"`
 	// **自訂名稱欄位1**   提供合作廠商使用記錄用客製化使用欄位   注意事項：   特殊符號只支援 `,.#()$[];%{}:/?&@<>!`
@@ -29,8 +31,14 @@ type AioCheckOutGeneralOptional struct {
 	// **自訂名稱欄位3**   提供合作廠商使用記錄用客製化使用欄位   注意事項：   特殊符號只支援 `,.#()$[];%{}:/?&@<>!`
 	CustomField3 *string `json:"CustomField3,omitempty"`
 	// **自訂名稱欄位4**   提供合作廠商使用記錄用客製化使用欄位   注意事項：   特殊符號只支援 `,.#()$[];%{}:/?&@<>!`
-	CustomField4 *string            `json:"CustomField4,omitempty"`
-	Language     *base.LanguageEnum `json:"Language,omitempty"`
+	CustomField4 *string `json:"CustomField4,omitempty"`
+	// **語系設定**
+	//  預設語系為中文，若要變更語系參數值請帶：
+	//  - 英語：`ENG`
+	//  - 韓語：`KOR`
+	//  - 日語：`JPN`
+	//  - 簡體中文：`CHI`
+	Language *ecpayBase.LanguageEnum `json:"Language,omitempty"`
 }
 
 type AioCheckOutAtmOptional struct {
@@ -60,14 +68,29 @@ type AioCheckOutCvsBarcodeOptional struct {
 }
 
 type AioCheckOutCreditOptional struct {
-	BindingCard *base.BindingCardEnum `json:"BindingCard,omitempty"`
+	// **記憶卡號識別碼** 記憶卡號識別碼 (特店代號 `MerchantID` + `廠商會員編號`)
+	BindingCard *ecpayBase.BindingCardEnum `json:"BindingCard,omitempty"`
 	// **記憶卡號識別碼** 記憶卡號識別碼 (特店代號 `MerchantID` + `廠商會員編號`)
 	MerchantMemberID *string `json:"MerchantMemberID,omitempty"`
 }
 
 type AioCheckOutCreditOnetimeOptional struct {
-	Redeem   *base.RedeemEnum   `json:"Redeem,omitempty"`
-	UnionPay *base.UnionPayEnum `json:"UnionPay,omitempty"`
+	// **信用卡是否使用紅利折抵**
+	//  設為 Y 時，當綠界特店選擇信用卡付款時，會進入紅利折抵的交易流程。
+	//  注意事項：
+	//  紅利折抵請參考信用卡紅利折抵辦法
+	Redeem *ecpayBase.RedeemEnum `json:"Redeem,omitempty"`
+	//  **銀聯卡交易選項**
+	//   可帶入以下選項:
+	//   `0`: 消費者於交易頁面可選擇是否使用銀聯交易。
+	//   `1`: 只使用銀聯卡交易，且綠界會將交易頁面直接導到銀聯網站。
+	//   `2`: 不可使用銀聯卡，綠界會將交易頁面隱藏銀聯選項。
+	//   注意事項：
+	//   1.若需使用銀聯卡服務，請與綠界提出申請方可使用，測試環境未提供銀聯卡服務。
+	//   2.不支援信用卡分期付款及定期定額。
+	//   3.不支援信用卡紅利折抵
+	//   4.不支援信用卡記憶卡號功能
+	UnionPay *ecpayBase.UnionPayEnum `json:"UnionPay,omitempty"`
 }
 
 type AioCheckOutCreditPeriodOptional struct {
@@ -87,9 +110,18 @@ type AioCheckOutInvoiceOptional struct {
 	// **客戶手機號碼**   當客戶電子信箱`CustomerEmail`為空字串時，則該參數必須有值。   當該參數有值時，則格式為數字。   注意事項：   請填手機號碼，不能填市話因為要收簡訊通知用
 	CustomerPhone *string `json:"CustomerPhone,omitempty"`
 	// **客戶電子信箱**   當客戶手機號碼`CustomerPhone`為空字串時，則該參數必須有值。   當該參數有值時，則格式需符合 EMAIL格式。   請將參數值做 UrlEncode 方式編碼。
-	CustomerEmail *string                 `json:"CustomerEmail,omitempty"`
-	ClearanceMark *base.ClearanceMarkEnum `json:"ClearanceMark,omitempty"`
-	CarruerType   *base.CarruerTypeEnum   `json:"CarruerType,omitempty"`
+	CustomerEmail *string `json:"CustomerEmail,omitempty"`
+	// **通關方式**
+	//  當課稅類別`TaxType`為 `2`(零稅率)時，則該參數請帶 `1`(非經海關出口)或 `2`(經海關出口)。
+	ClearanceMark *ecpayBase.ClearanceMarkEnum `json:"ClearanceMark,omitempty"`
+	// **載具類別**
+	//  若為無載具時，則請帶空字串。
+	//  若為特店載具時，則請帶 `1`。
+	//  若為買受人之自然人憑證號碼時，則請帶 `2`。
+	//  若為買受人之手機條碼資料時，則請帶`3`。
+	//  若統一編號 `CustomerIdentifier` 有值時，則載具類別不可為特店載具或自然人憑證載具。
+	//  注意事項：當`Print`有值時，載具類別不得有值。
+	CarruerType *ecpayBase.CarruerTypeEnum `json:"CarruerType,omitempty"`
 	// **載具編號**   1. 當載具類別 `CarruerType`=``無載具)，請帶空字串。   2. 當載具類別`CarruerType`=`1`(綠界科技電子發票載具)時，請帶空字串，系統會自動帶入值，為合作特店載具統一編號+自訂編號(RelateNumber)。   3. 當載具類別`CarruerType`=`2`(買受人之自然人憑證)時，則請帶固定長度為16且格式 為2碼大寫英文字母加上14碼數字。   4. 當載具類別`CarruerType`=`3`(買受人之手機條碼)時，則請帶固定長度為 8且格式為 1 碼斜線「/」加上由 7 碼數字及大寫英文字母及+-.符號組成。    注意事項：   1. 若手機條碼中有加號，可能在介接驗證時 發生錯誤，請將加號改為空白字元，產生 驗證碼。   2. 英文、數字、符號僅接受半形字   3. 若載具編號為手機條碼載具時，請先呼叫B2C電子發票介接技術文件手機條碼載驗證ＡＰＩ進行檢核
 	CarruerNum *string `json:"CarruerNum,omitempty"`
 	// **捐贈碼**   消費者選擇捐贈發票則於此欄位須填入受贈單位之捐贈碼。   1. 若捐贈註記 `Donation`= `1` (捐贈)時，此欄位須有值。   2. 捐贈碼以阿拉伯數字為限，最少三碼，最多七碼。內容定位採「文字格式」，首位可以為零。

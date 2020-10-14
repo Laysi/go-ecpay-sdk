@@ -8,14 +8,14 @@ import (
 )
 
 type AioOrderRequest struct {
-	base.AioCheckOutGeneralOption
-	*base.AioCheckOutAtmOption
-	*base.AioCheckOutCvsBarcodeOption
-	*base.AioCheckOutCreditOption
-	*base.AioCheckOutCreditOnetimeOption
-	*base.AioCheckOutCreditInstallmentOption
-	*base.AioCheckOutCreditPeriodOption
-	*base.AioCheckOutInvoiceOption
+	ecpayBase.AioCheckOutGeneralOption
+	*ecpayBase.AioCheckOutAtmOption
+	*ecpayBase.AioCheckOutCvsBarcodeOption
+	*ecpayBase.AioCheckOutCreditOption
+	*ecpayBase.AioCheckOutCreditOnetimeOption
+	*ecpayBase.AioCheckOutCreditInstallmentOption
+	*ecpayBase.AioCheckOutCreditPeriodOption
+	*ecpayBase.AioCheckOutInvoiceOption
 }
 
 type AioOrderRequestWithClient struct {
@@ -26,12 +26,12 @@ type AioOrderRequestWithClient struct {
 func (e ECPayClient) CreateOrder(tradeNo string, tradeDate time.Time, amount int, description string, itemName string) *AioOrderRequestWithClient {
 	return &AioOrderRequestWithClient{
 		AioOrderRequest: &AioOrderRequest{
-			AioCheckOutGeneralOption: base.AioCheckOutGeneralOption{
+			AioCheckOutGeneralOption: ecpayBase.AioCheckOutGeneralOption{
 				MerchantID:        e.MerchantID,
-				EncryptType:       base.ENCRYPTTYPEENUM_SHA256,
+				EncryptType:       ecpayBase.ENCRYPTTYPEENUM_SHA256,
 				MerchantTradeNo:   tradeNo,
-				MerchantTradeDate: base.ECPayDateTime(tradeDate),
-				PaymentType:       base.AIOCHECKPAYMENTTYPEENUM_AIO,
+				MerchantTradeDate: ecpayBase.ECPayDateTime(tradeDate),
+				PaymentType:       ecpayBase.AIOCHECKPAYMENTTYPEENUM_AIO,
 				TotalAmount:       amount,
 				TradeDesc:         description,
 				ItemName:          itemName,
@@ -50,7 +50,7 @@ func (r *AioOrderRequestWithClient) WithOptional(optional AioCheckOutGeneralOpti
 	r.AioCheckOutGeneralOption.CustomField2 = optional.CustomField2
 	r.AioCheckOutGeneralOption.CustomField3 = optional.CustomField3
 	r.AioCheckOutGeneralOption.CustomField4 = optional.CustomField4
-	r.AioCheckOutGeneralOption.IgnorePayment = optional.IgnorePayment
+	//r.AioCheckOutGeneralOption.IgnorePayment = optional.IgnorePayment
 	r.AioCheckOutGeneralOption.ItemURL = optional.ItemURL
 	r.AioCheckOutGeneralOption.OrderResultURL = optional.OrderResultURL
 	r.AioCheckOutGeneralOption.PlatformID = optional.PlatformID
@@ -62,8 +62,8 @@ func (r *AioOrderRequestWithClient) WithOptional(optional AioCheckOutGeneralOpti
 }
 
 func (r *AioOrderRequestWithClient) SetAtmPayment() *AioOrderRequestWithClient {
-	r.ChoosePayment = base.CHOOSEPAYMENTENUM_ATM
-	r.AioCheckOutAtmOption = &base.AioCheckOutAtmOption{}
+	r.ChoosePayment = ecpayBase.CHOOSEPAYMENTENUM_ATM
+	r.AioCheckOutAtmOption = &ecpayBase.AioCheckOutAtmOption{}
 	return r
 }
 
@@ -75,14 +75,14 @@ func (r *AioOrderRequestWithClient) WithAtmOptional(option AioCheckOutAtmOptiona
 }
 
 func (r *AioOrderRequestWithClient) SetCvsPayment() *AioOrderRequestWithClient {
-	r.ChoosePayment = base.CHOOSEPAYMENTENUM_CVS
-	r.AioCheckOutCvsBarcodeOption = &base.AioCheckOutCvsBarcodeOption{}
+	r.ChoosePayment = ecpayBase.CHOOSEPAYMENTENUM_CVS
+	r.AioCheckOutCvsBarcodeOption = &ecpayBase.AioCheckOutCvsBarcodeOption{}
 	return r
 }
 
 func (r *AioOrderRequestWithClient) SetBarcodePayment() *AioOrderRequestWithClient {
-	r.ChoosePayment = base.CHOOSEPAYMENTENUM_BARCODE
-	r.AioCheckOutCvsBarcodeOption = &base.AioCheckOutCvsBarcodeOption{}
+	r.ChoosePayment = ecpayBase.CHOOSEPAYMENTENUM_BARCODE
+	r.AioCheckOutCvsBarcodeOption = &ecpayBase.AioCheckOutCvsBarcodeOption{}
 	return r
 }
 
@@ -98,8 +98,8 @@ func (r *AioOrderRequestWithClient) WithCvsBarcodeOptional(option AioCheckOutCvs
 }
 
 func (r *AioOrderRequestWithClient) SetCreditPayment() *AioOrderRequestWithClient {
-	r.ChoosePayment = base.CHOOSEPAYMENTENUM_CREDIT
-	r.AioCheckOutCreditOption = &base.AioCheckOutCreditOption{}
+	r.ChoosePayment = ecpayBase.CHOOSEPAYMENTENUM_CREDIT
+	r.AioCheckOutCreditOption = &ecpayBase.AioCheckOutCreditOption{}
 	return r
 }
 
@@ -110,7 +110,7 @@ func (r *AioOrderRequestWithClient) WithCreditOptional(option AioCheckOutCreditO
 }
 
 func (r *AioOrderRequestWithClient) WithCreditOnetimeOptional(option AioCheckOutCreditOnetimeOptional) *AioOrderRequestWithClient {
-	r.AioCheckOutCreditOnetimeOption = &base.AioCheckOutCreditOnetimeOption{
+	r.AioCheckOutCreditOnetimeOption = &ecpayBase.AioCheckOutCreditOnetimeOption{
 		Redeem:   option.Redeem,
 		UnionPay: option.UnionPay,
 	}
@@ -128,38 +128,53 @@ func (i IntSliceConverter) ToStringSlice() []string {
 }
 
 func (r *AioOrderRequestWithClient) WithCreditInstallmentOptional(installments []int) *AioOrderRequestWithClient {
-	r.AioCheckOutCreditInstallmentOption = &base.AioCheckOutCreditInstallmentOption{
+	r.AioCheckOutCreditInstallmentOption = &ecpayBase.AioCheckOutCreditInstallmentOption{
 		CreditInstallment: strings.Join(IntSliceConverter(installments).ToStringSlice(), ","),
 	}
 	return r
 }
 
-func (r *AioOrderRequestWithClient) WithCreditPeriodOptional(periodType base.CreditPeriodTypeEnum, frequency int, execTimes int) *AioOrderRequestWithClient {
-	r.AioCheckOutCreditPeriodOption = &base.AioCheckOutCreditPeriodOption{
+func (r *AioOrderRequestWithClient) WithCreditPeriodOptional(periodType ecpayBase.CreditPeriodTypeEnum, frequency int, execTimes int) *AioOrderRequestWithClient {
+	r.AioCheckOutCreditPeriodOption = &ecpayBase.AioCheckOutCreditPeriodOption{
 		PeriodAmount:    r.TotalAmount,
 		PeriodType:      periodType,
 		Frequency:       frequency,
 		ExecTimes:       execTimes,
-		PeriodReturnURL: base.PtrString(r.client.PeriodReturnURL),
+		PeriodReturnURL: ecpayBase.PtrString(r.client.PeriodReturnURL),
 	}
 	return r
 }
 
-func (r *AioOrderRequestWithClient) SetAllPayment() *AioOrderRequestWithClient {
-	r.ChoosePayment = base.CHOOSEPAYMENTENUM_ALL
+func (r *AioOrderRequestWithClient) SetAllPayment(ignorePayment []ecpayBase.ChoosePaymentEnum) *AioOrderRequestWithClient {
+	r = r.SetCreditPayment().
+		SetAtmPayment().
+		SetCvsPayment().
+		SetBarcodePayment()
+	r.ChoosePayment = ecpayBase.CHOOSEPAYMENTENUM_ALL
+
+	var ignorePaymentValues []string
+	for _, v := range ignorePayment {
+		ignorePaymentValues = append(ignorePaymentValues, string(v))
+	}
+	r.IgnorePayment = ecpayBase.PtrString(strings.Join(ignorePaymentValues, "#"))
 	return r
 }
 
 type InvoiceItem struct {
-	Name    string
-	Count   int
-	Word    string
-	Price   int
-	TaxType *base.TaxTypeEnum
+	// Name **商品名稱**
+	Name string
+	// Count **商品數量**
+	Count int
+	// Word **商品單位**
+	Word string
+	// Price **商品價格**
+	Price int
+	// TaxType **商品課稅別** 當課稅類別 [TaxType] = 9 (MIXED) 時，此欄位不可為空
+	TaxType *ecpayBase.TaxTypeEnum
 }
 
-func (r *AioOrderRequestWithClient) SetInvoice(relateNumber string, taxType base.TaxTypeEnum, donation base.InvoiceDonationEunm, print base.InvoicePrintEnum, items []InvoiceItem, delay int, invType string) *AioOrderRequestWithClient {
-	r.AioCheckOutGeneralOption.InvoiceMark = base.INVOICEMARKENUM_Y.Ptr()
+func (r *AioOrderRequestWithClient) SetInvoice(relateNumber string, taxType ecpayBase.TaxTypeEnum, donation ecpayBase.InvoiceDonationEunm, print ecpayBase.InvoicePrintEnum, items []InvoiceItem, delay int, invType string) *AioOrderRequestWithClient {
+	r.AioCheckOutGeneralOption.InvoiceMark = ecpayBase.INVOICEMARKENUM_Y.Ptr()
 	var itemsName []string
 	var itemsCount []string
 	var itemsWord []string
@@ -170,7 +185,7 @@ func (r *AioOrderRequestWithClient) SetInvoice(relateNumber string, taxType base
 		itemsWord = append(itemsWord, item.Word)
 		itemsPrice = append(itemsPrice, strconv.Itoa(item.Price))
 	}
-	r.AioCheckOutInvoiceOption = &base.AioCheckOutInvoiceOption{
+	r.AioCheckOutInvoiceOption = &ecpayBase.AioCheckOutInvoiceOption{
 		RelateNumber:     relateNumber,
 		TaxType:          taxType,
 		Donation:         donation,
@@ -182,15 +197,15 @@ func (r *AioOrderRequestWithClient) SetInvoice(relateNumber string, taxType base
 		DelayDay:         delay,
 		InvType:          invType,
 	}
-	if taxType == base.TAXTYPEENUM_MIXED {
+	if taxType == ecpayBase.TAXTYPEENUM_MIXED {
 		var itemsTaxType []string
 		for _, item := range items {
-			if taxType == base.TAXTYPEENUM_MIXED {
+			if taxType == ecpayBase.TAXTYPEENUM_MIXED {
 				itemsTaxType = append(itemsTaxType, string(*item.TaxType))
 
 			}
 		}
-		r.AioCheckOutInvoiceOption.InvoiceItemTaxType = base.PtrString(strings.Join(itemsTaxType, "|"))
+		r.AioCheckOutInvoiceOption.InvoiceItemTaxType = ecpayBase.PtrString(strings.Join(itemsTaxType, "|"))
 
 	}
 	return r
