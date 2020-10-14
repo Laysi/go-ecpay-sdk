@@ -5,10 +5,6 @@
 ## Description
 This is the SDK of ECPay for Golang wrapped on an Openapi definition,with some helpers package.
 
-
-***Work In Process***  
-***Still need more test***
- 
 ## Feature
 - Configure
   - Merchant ID
