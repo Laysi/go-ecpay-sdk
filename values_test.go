@@ -15,9 +15,9 @@ var _ = Describe("Values", func() {
 			v := ecpay.ECPayValues{url.Values{}}
 			v.Set("aA", "aA")
 			v.Set("Zzzz", "Zzzz")
-			v.Set("Aa", "Aa")
+			v.Set("Ab", "Ab")
 			v.Set("Bbbbb", "Bbbbb")
-			Expect(v.Encode()).To(Equal("aA=aA&Aa=Aa&Bbbbb=Bbbbb&Zzzz=Zzzz"))
+			Expect(v.Encode()).To(Equal("aA=aA&Ab=Ab&Bbbbb=Bbbbb&Zzzz=Zzzz"))
 		})
 	})
 })
@@ -25,9 +25,9 @@ var _ = Describe("Values", func() {
 var _ = Describe("Slice", func() {
 	Context("Encoding", func() {
 		It("should use lower case sorting to encoding", func() {
-			v := []string{"aA", "Zzzz", "Aa", "Bbbbb"}
+			v := []string{"aA", "Zzzz", "Ab", "Bbbbb"}
 			sort.Sort(ecpay.LowerStringSlice(v))
-			Expect(v).To(Equal([]string{"aA", "Aa", "Bbbbb", "Zzzz"}))
+			Expect(v).To(Equal([]string{"aA", "Ab", "Bbbbb", "Zzzz"}))
 		})
 	})
 })
