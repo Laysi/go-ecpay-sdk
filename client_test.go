@@ -48,7 +48,7 @@ var _ = Describe("Client", func() {
 			client.ReturnURL = "https://dev.luckily.today/ecpay/result"
 			now := time.Now()
 			tradeNo := "testLuck" + strconv.FormatInt(time.Now().UTC().UnixNano(), 36)
-			request := client.CreateOrder(tradeNo, now, 400, "世界好", "你好").
+			request := client.CreateOrder(tradeNo, now, 400, "世界好", []string{"你好"}).
 				SetCreditPayment().
 				WithCreditOptional(ecpay.AioCheckOutCreditOptional{
 					BindingCard:      ecpayBase.BINDINGCARDENUM_BINDING.Ptr(),
