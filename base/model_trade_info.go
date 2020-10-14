@@ -13,32 +13,31 @@ import (
 	"encoding/json"
 )
 
-// ReturnData struct for ReturnData
-type ReturnData struct {
-	// **特店編號**
+// TradeInfo struct for TradeInfo
+type TradeInfo struct {
+	// **特店編號(由綠界提供)**
 	MerchantID string `json:"MerchantID"`
-	// **特店交易編號** 訂單產生時傳送給綠界的特店交易編號。英數字大小寫混合
+	// **特店交易編號(由特店提供)** 訂單產生時傳送給綠界的特店交易編號。
 	MerchantTradeNo string `json:"MerchantTradeNo"`
 	// **特店旗下店舖代號** 提供特店填入分店代號使用，僅可用英數字大小寫混合。
 	StoreID string `json:"StoreID"`
-	// **交易狀態**   若回傳值為 1 時，為付款成功   其餘代碼皆為交易異常，請至廠商管理後台確認後再出貨。
-	RtnCode int `json:"RtnCode"`
-	// **交易訊息** Server POST 成功回傳:交易成功   Server POST 補送通知回傳:paid   Client POST 成功回傳:Succeeded
-	RtnMsg string `json:"RtnMsg"`
-	// **綠界的交易編號** 請保存綠界的交易編號與特店交易編號[MerchantTradeNo]的關連。
+	// **綠界的交易編號** 首次授權所產生的綠界交易編號
 	TradeNo string `json:"TradeNo"`
 	// **交易金額**
 	TradeAmt int `json:"TradeAmt"`
 	// **付款時間** 格式為 yyyy/MM/dd HH:mm:ss
 	PaymentDate ECPayDateTime         `json:"PaymentDate"`
 	PaymentType ReturnPaymentTypeEnum `json:"PaymentType"`
+	// **手續費合計**  履約結束後才會計算，未計算前為 0
+	HandlingCharge int `json:"HandlingCharge"`
 	// **通路費**
-	PaymentTypeChargeFee int `json:"PaymentTypeChargeFee"`
+	PaymentTypeChargeFee float32 `json:"PaymentTypeChargeFee"`
 	// **訂單成立時間** 格式為 yyyy/MM/dd HH:mm:ss
 	TradeDate ECPayDateTime `json:"TradeDate"`
-	// **檢查碼** 特店必須檢查檢查碼`CheckMacValue`來驗證，請參考附錄檢查碼機制。
-	CheckMacValue string           `json:"CheckMacValue"`
-	SimulatePaid  SimulatePaidEnum `json:"SimulatePaid"`
+	// **交易狀態**    回傳值：   若為 0 時，代表交易訂單成立未付款   若為 1 時，代表交易訂單成立已付款   若為 10200095 時，代表消費者未選擇付款方式，故交易失敗。
+	TradeStatus string `json:"TradeStatus"`
+	// **商品名稱**
+	ItemName string `json:"ItemName"`
 	// **自訂名稱欄位1**   提供合作廠商使用記錄用客製化使用欄位
 	CustomField1 string `json:"CustomField1"`
 	// **自訂名稱欄位2**   提供合作廠商使用記錄用客製化使用欄位
@@ -47,44 +46,46 @@ type ReturnData struct {
 	CustomField3 string `json:"CustomField3"`
 	// **自訂名稱欄位4**   提供合作廠商使用記錄用客製化使用欄位
 	CustomField4 string `json:"CustomField4"`
+	// **檢查碼** 特店必須檢查檢查碼`CheckMacValue`來驗證，請參考附錄檢查碼機制。
+	CheckMacValue string `json:"CheckMacValue"`
 }
 
-// NewReturnData instantiates a new ReturnData object
+// NewTradeInfo instantiates a new TradeInfo object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewReturnData(merchantID string, merchantTradeNo string, storeID string, rtnCode int, rtnMsg string, tradeNo string, tradeAmt int, paymentDate ECPayDateTime, paymentType ReturnPaymentTypeEnum, paymentTypeChargeFee int, tradeDate ECPayDateTime, checkMacValue string, simulatePaid SimulatePaidEnum, customField1 string, customField2 string, customField3 string, customField4 string) *ReturnData {
-	this := ReturnData{}
+func NewTradeInfo(merchantID string, merchantTradeNo string, storeID string, tradeNo string, tradeAmt int, paymentDate ECPayDateTime, paymentType ReturnPaymentTypeEnum, handlingCharge int, paymentTypeChargeFee float32, tradeDate ECPayDateTime, tradeStatus string, itemName string, customField1 string, customField2 string, customField3 string, customField4 string, checkMacValue string) *TradeInfo {
+	this := TradeInfo{}
 	this.MerchantID = merchantID
 	this.MerchantTradeNo = merchantTradeNo
 	this.StoreID = storeID
-	this.RtnCode = rtnCode
-	this.RtnMsg = rtnMsg
 	this.TradeNo = tradeNo
 	this.TradeAmt = tradeAmt
 	this.PaymentDate = paymentDate
 	this.PaymentType = paymentType
+	this.HandlingCharge = handlingCharge
 	this.PaymentTypeChargeFee = paymentTypeChargeFee
 	this.TradeDate = tradeDate
-	this.CheckMacValue = checkMacValue
-	this.SimulatePaid = simulatePaid
+	this.TradeStatus = tradeStatus
+	this.ItemName = itemName
 	this.CustomField1 = customField1
 	this.CustomField2 = customField2
 	this.CustomField3 = customField3
 	this.CustomField4 = customField4
+	this.CheckMacValue = checkMacValue
 	return &this
 }
 
-// NewReturnDataWithDefaults instantiates a new ReturnData object
+// NewTradeInfoWithDefaults instantiates a new TradeInfo object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewReturnDataWithDefaults() *ReturnData {
-	this := ReturnData{}
+func NewTradeInfoWithDefaults() *TradeInfo {
+	this := TradeInfo{}
 	return &this
 }
 
 // GetMerchantID returns the MerchantID field value
-func (o *ReturnData) GetMerchantID() string {
+func (o *TradeInfo) GetMerchantID() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -95,7 +96,7 @@ func (o *ReturnData) GetMerchantID() string {
 
 // GetMerchantIDOk returns a tuple with the MerchantID field value
 // and a boolean to check if the value has been set.
-func (o *ReturnData) GetMerchantIDOk() (*string, bool) {
+func (o *TradeInfo) GetMerchantIDOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -103,12 +104,12 @@ func (o *ReturnData) GetMerchantIDOk() (*string, bool) {
 }
 
 // SetMerchantID sets field value
-func (o *ReturnData) SetMerchantID(v string) {
+func (o *TradeInfo) SetMerchantID(v string) {
 	o.MerchantID = v
 }
 
 // GetMerchantTradeNo returns the MerchantTradeNo field value
-func (o *ReturnData) GetMerchantTradeNo() string {
+func (o *TradeInfo) GetMerchantTradeNo() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -119,7 +120,7 @@ func (o *ReturnData) GetMerchantTradeNo() string {
 
 // GetMerchantTradeNoOk returns a tuple with the MerchantTradeNo field value
 // and a boolean to check if the value has been set.
-func (o *ReturnData) GetMerchantTradeNoOk() (*string, bool) {
+func (o *TradeInfo) GetMerchantTradeNoOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -127,12 +128,12 @@ func (o *ReturnData) GetMerchantTradeNoOk() (*string, bool) {
 }
 
 // SetMerchantTradeNo sets field value
-func (o *ReturnData) SetMerchantTradeNo(v string) {
+func (o *TradeInfo) SetMerchantTradeNo(v string) {
 	o.MerchantTradeNo = v
 }
 
 // GetStoreID returns the StoreID field value
-func (o *ReturnData) GetStoreID() string {
+func (o *TradeInfo) GetStoreID() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -143,7 +144,7 @@ func (o *ReturnData) GetStoreID() string {
 
 // GetStoreIDOk returns a tuple with the StoreID field value
 // and a boolean to check if the value has been set.
-func (o *ReturnData) GetStoreIDOk() (*string, bool) {
+func (o *TradeInfo) GetStoreIDOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -151,60 +152,12 @@ func (o *ReturnData) GetStoreIDOk() (*string, bool) {
 }
 
 // SetStoreID sets field value
-func (o *ReturnData) SetStoreID(v string) {
+func (o *TradeInfo) SetStoreID(v string) {
 	o.StoreID = v
 }
 
-// GetRtnCode returns the RtnCode field value
-func (o *ReturnData) GetRtnCode() int {
-	if o == nil {
-		var ret int
-		return ret
-	}
-
-	return o.RtnCode
-}
-
-// GetRtnCodeOk returns a tuple with the RtnCode field value
-// and a boolean to check if the value has been set.
-func (o *ReturnData) GetRtnCodeOk() (*int, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.RtnCode, true
-}
-
-// SetRtnCode sets field value
-func (o *ReturnData) SetRtnCode(v int) {
-	o.RtnCode = v
-}
-
-// GetRtnMsg returns the RtnMsg field value
-func (o *ReturnData) GetRtnMsg() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.RtnMsg
-}
-
-// GetRtnMsgOk returns a tuple with the RtnMsg field value
-// and a boolean to check if the value has been set.
-func (o *ReturnData) GetRtnMsgOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.RtnMsg, true
-}
-
-// SetRtnMsg sets field value
-func (o *ReturnData) SetRtnMsg(v string) {
-	o.RtnMsg = v
-}
-
 // GetTradeNo returns the TradeNo field value
-func (o *ReturnData) GetTradeNo() string {
+func (o *TradeInfo) GetTradeNo() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -215,7 +168,7 @@ func (o *ReturnData) GetTradeNo() string {
 
 // GetTradeNoOk returns a tuple with the TradeNo field value
 // and a boolean to check if the value has been set.
-func (o *ReturnData) GetTradeNoOk() (*string, bool) {
+func (o *TradeInfo) GetTradeNoOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -223,12 +176,12 @@ func (o *ReturnData) GetTradeNoOk() (*string, bool) {
 }
 
 // SetTradeNo sets field value
-func (o *ReturnData) SetTradeNo(v string) {
+func (o *TradeInfo) SetTradeNo(v string) {
 	o.TradeNo = v
 }
 
 // GetTradeAmt returns the TradeAmt field value
-func (o *ReturnData) GetTradeAmt() int {
+func (o *TradeInfo) GetTradeAmt() int {
 	if o == nil {
 		var ret int
 		return ret
@@ -239,7 +192,7 @@ func (o *ReturnData) GetTradeAmt() int {
 
 // GetTradeAmtOk returns a tuple with the TradeAmt field value
 // and a boolean to check if the value has been set.
-func (o *ReturnData) GetTradeAmtOk() (*int, bool) {
+func (o *TradeInfo) GetTradeAmtOk() (*int, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -247,12 +200,12 @@ func (o *ReturnData) GetTradeAmtOk() (*int, bool) {
 }
 
 // SetTradeAmt sets field value
-func (o *ReturnData) SetTradeAmt(v int) {
+func (o *TradeInfo) SetTradeAmt(v int) {
 	o.TradeAmt = v
 }
 
 // GetPaymentDate returns the PaymentDate field value
-func (o *ReturnData) GetPaymentDate() ECPayDateTime {
+func (o *TradeInfo) GetPaymentDate() ECPayDateTime {
 	if o == nil {
 		var ret ECPayDateTime
 		return ret
@@ -263,7 +216,7 @@ func (o *ReturnData) GetPaymentDate() ECPayDateTime {
 
 // GetPaymentDateOk returns a tuple with the PaymentDate field value
 // and a boolean to check if the value has been set.
-func (o *ReturnData) GetPaymentDateOk() (*ECPayDateTime, bool) {
+func (o *TradeInfo) GetPaymentDateOk() (*ECPayDateTime, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -271,12 +224,12 @@ func (o *ReturnData) GetPaymentDateOk() (*ECPayDateTime, bool) {
 }
 
 // SetPaymentDate sets field value
-func (o *ReturnData) SetPaymentDate(v ECPayDateTime) {
+func (o *TradeInfo) SetPaymentDate(v ECPayDateTime) {
 	o.PaymentDate = v
 }
 
 // GetPaymentType returns the PaymentType field value
-func (o *ReturnData) GetPaymentType() ReturnPaymentTypeEnum {
+func (o *TradeInfo) GetPaymentType() ReturnPaymentTypeEnum {
 	if o == nil {
 		var ret ReturnPaymentTypeEnum
 		return ret
@@ -287,7 +240,7 @@ func (o *ReturnData) GetPaymentType() ReturnPaymentTypeEnum {
 
 // GetPaymentTypeOk returns a tuple with the PaymentType field value
 // and a boolean to check if the value has been set.
-func (o *ReturnData) GetPaymentTypeOk() (*ReturnPaymentTypeEnum, bool) {
+func (o *TradeInfo) GetPaymentTypeOk() (*ReturnPaymentTypeEnum, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -295,14 +248,38 @@ func (o *ReturnData) GetPaymentTypeOk() (*ReturnPaymentTypeEnum, bool) {
 }
 
 // SetPaymentType sets field value
-func (o *ReturnData) SetPaymentType(v ReturnPaymentTypeEnum) {
+func (o *TradeInfo) SetPaymentType(v ReturnPaymentTypeEnum) {
 	o.PaymentType = v
 }
 
-// GetPaymentTypeChargeFee returns the PaymentTypeChargeFee field value
-func (o *ReturnData) GetPaymentTypeChargeFee() int {
+// GetHandlingCharge returns the HandlingCharge field value
+func (o *TradeInfo) GetHandlingCharge() int {
 	if o == nil {
 		var ret int
+		return ret
+	}
+
+	return o.HandlingCharge
+}
+
+// GetHandlingChargeOk returns a tuple with the HandlingCharge field value
+// and a boolean to check if the value has been set.
+func (o *TradeInfo) GetHandlingChargeOk() (*int, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.HandlingCharge, true
+}
+
+// SetHandlingCharge sets field value
+func (o *TradeInfo) SetHandlingCharge(v int) {
+	o.HandlingCharge = v
+}
+
+// GetPaymentTypeChargeFee returns the PaymentTypeChargeFee field value
+func (o *TradeInfo) GetPaymentTypeChargeFee() float32 {
+	if o == nil {
+		var ret float32
 		return ret
 	}
 
@@ -311,7 +288,7 @@ func (o *ReturnData) GetPaymentTypeChargeFee() int {
 
 // GetPaymentTypeChargeFeeOk returns a tuple with the PaymentTypeChargeFee field value
 // and a boolean to check if the value has been set.
-func (o *ReturnData) GetPaymentTypeChargeFeeOk() (*int, bool) {
+func (o *TradeInfo) GetPaymentTypeChargeFeeOk() (*float32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -319,12 +296,12 @@ func (o *ReturnData) GetPaymentTypeChargeFeeOk() (*int, bool) {
 }
 
 // SetPaymentTypeChargeFee sets field value
-func (o *ReturnData) SetPaymentTypeChargeFee(v int) {
+func (o *TradeInfo) SetPaymentTypeChargeFee(v float32) {
 	o.PaymentTypeChargeFee = v
 }
 
 // GetTradeDate returns the TradeDate field value
-func (o *ReturnData) GetTradeDate() ECPayDateTime {
+func (o *TradeInfo) GetTradeDate() ECPayDateTime {
 	if o == nil {
 		var ret ECPayDateTime
 		return ret
@@ -335,7 +312,7 @@ func (o *ReturnData) GetTradeDate() ECPayDateTime {
 
 // GetTradeDateOk returns a tuple with the TradeDate field value
 // and a boolean to check if the value has been set.
-func (o *ReturnData) GetTradeDateOk() (*ECPayDateTime, bool) {
+func (o *TradeInfo) GetTradeDateOk() (*ECPayDateTime, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -343,60 +320,60 @@ func (o *ReturnData) GetTradeDateOk() (*ECPayDateTime, bool) {
 }
 
 // SetTradeDate sets field value
-func (o *ReturnData) SetTradeDate(v ECPayDateTime) {
+func (o *TradeInfo) SetTradeDate(v ECPayDateTime) {
 	o.TradeDate = v
 }
 
-// GetCheckMacValue returns the CheckMacValue field value
-func (o *ReturnData) GetCheckMacValue() string {
+// GetTradeStatus returns the TradeStatus field value
+func (o *TradeInfo) GetTradeStatus() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return o.CheckMacValue
+	return o.TradeStatus
 }
 
-// GetCheckMacValueOk returns a tuple with the CheckMacValue field value
+// GetTradeStatusOk returns a tuple with the TradeStatus field value
 // and a boolean to check if the value has been set.
-func (o *ReturnData) GetCheckMacValueOk() (*string, bool) {
+func (o *TradeInfo) GetTradeStatusOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.CheckMacValue, true
+	return &o.TradeStatus, true
 }
 
-// SetCheckMacValue sets field value
-func (o *ReturnData) SetCheckMacValue(v string) {
-	o.CheckMacValue = v
+// SetTradeStatus sets field value
+func (o *TradeInfo) SetTradeStatus(v string) {
+	o.TradeStatus = v
 }
 
-// GetSimulatePaid returns the SimulatePaid field value
-func (o *ReturnData) GetSimulatePaid() SimulatePaidEnum {
+// GetItemName returns the ItemName field value
+func (o *TradeInfo) GetItemName() string {
 	if o == nil {
-		var ret SimulatePaidEnum
+		var ret string
 		return ret
 	}
 
-	return o.SimulatePaid
+	return o.ItemName
 }
 
-// GetSimulatePaidOk returns a tuple with the SimulatePaid field value
+// GetItemNameOk returns a tuple with the ItemName field value
 // and a boolean to check if the value has been set.
-func (o *ReturnData) GetSimulatePaidOk() (*SimulatePaidEnum, bool) {
+func (o *TradeInfo) GetItemNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.SimulatePaid, true
+	return &o.ItemName, true
 }
 
-// SetSimulatePaid sets field value
-func (o *ReturnData) SetSimulatePaid(v SimulatePaidEnum) {
-	o.SimulatePaid = v
+// SetItemName sets field value
+func (o *TradeInfo) SetItemName(v string) {
+	o.ItemName = v
 }
 
 // GetCustomField1 returns the CustomField1 field value
-func (o *ReturnData) GetCustomField1() string {
+func (o *TradeInfo) GetCustomField1() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -407,7 +384,7 @@ func (o *ReturnData) GetCustomField1() string {
 
 // GetCustomField1Ok returns a tuple with the CustomField1 field value
 // and a boolean to check if the value has been set.
-func (o *ReturnData) GetCustomField1Ok() (*string, bool) {
+func (o *TradeInfo) GetCustomField1Ok() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -415,12 +392,12 @@ func (o *ReturnData) GetCustomField1Ok() (*string, bool) {
 }
 
 // SetCustomField1 sets field value
-func (o *ReturnData) SetCustomField1(v string) {
+func (o *TradeInfo) SetCustomField1(v string) {
 	o.CustomField1 = v
 }
 
 // GetCustomField2 returns the CustomField2 field value
-func (o *ReturnData) GetCustomField2() string {
+func (o *TradeInfo) GetCustomField2() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -431,7 +408,7 @@ func (o *ReturnData) GetCustomField2() string {
 
 // GetCustomField2Ok returns a tuple with the CustomField2 field value
 // and a boolean to check if the value has been set.
-func (o *ReturnData) GetCustomField2Ok() (*string, bool) {
+func (o *TradeInfo) GetCustomField2Ok() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -439,12 +416,12 @@ func (o *ReturnData) GetCustomField2Ok() (*string, bool) {
 }
 
 // SetCustomField2 sets field value
-func (o *ReturnData) SetCustomField2(v string) {
+func (o *TradeInfo) SetCustomField2(v string) {
 	o.CustomField2 = v
 }
 
 // GetCustomField3 returns the CustomField3 field value
-func (o *ReturnData) GetCustomField3() string {
+func (o *TradeInfo) GetCustomField3() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -455,7 +432,7 @@ func (o *ReturnData) GetCustomField3() string {
 
 // GetCustomField3Ok returns a tuple with the CustomField3 field value
 // and a boolean to check if the value has been set.
-func (o *ReturnData) GetCustomField3Ok() (*string, bool) {
+func (o *TradeInfo) GetCustomField3Ok() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -463,12 +440,12 @@ func (o *ReturnData) GetCustomField3Ok() (*string, bool) {
 }
 
 // SetCustomField3 sets field value
-func (o *ReturnData) SetCustomField3(v string) {
+func (o *TradeInfo) SetCustomField3(v string) {
 	o.CustomField3 = v
 }
 
 // GetCustomField4 returns the CustomField4 field value
-func (o *ReturnData) GetCustomField4() string {
+func (o *TradeInfo) GetCustomField4() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -479,7 +456,7 @@ func (o *ReturnData) GetCustomField4() string {
 
 // GetCustomField4Ok returns a tuple with the CustomField4 field value
 // and a boolean to check if the value has been set.
-func (o *ReturnData) GetCustomField4Ok() (*string, bool) {
+func (o *TradeInfo) GetCustomField4Ok() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -487,11 +464,35 @@ func (o *ReturnData) GetCustomField4Ok() (*string, bool) {
 }
 
 // SetCustomField4 sets field value
-func (o *ReturnData) SetCustomField4(v string) {
+func (o *TradeInfo) SetCustomField4(v string) {
 	o.CustomField4 = v
 }
 
-func (o ReturnData) MarshalJSON() ([]byte, error) {
+// GetCheckMacValue returns the CheckMacValue field value
+func (o *TradeInfo) GetCheckMacValue() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.CheckMacValue
+}
+
+// GetCheckMacValueOk returns a tuple with the CheckMacValue field value
+// and a boolean to check if the value has been set.
+func (o *TradeInfo) GetCheckMacValueOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.CheckMacValue, true
+}
+
+// SetCheckMacValue sets field value
+func (o *TradeInfo) SetCheckMacValue(v string) {
+	o.CheckMacValue = v
+}
+
+func (o TradeInfo) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["MerchantID"] = o.MerchantID
@@ -501,12 +502,6 @@ func (o ReturnData) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["StoreID"] = o.StoreID
-	}
-	if true {
-		toSerialize["RtnCode"] = o.RtnCode
-	}
-	if true {
-		toSerialize["RtnMsg"] = o.RtnMsg
 	}
 	if true {
 		toSerialize["TradeNo"] = o.TradeNo
@@ -521,16 +516,19 @@ func (o ReturnData) MarshalJSON() ([]byte, error) {
 		toSerialize["PaymentType"] = o.PaymentType
 	}
 	if true {
+		toSerialize["HandlingCharge"] = o.HandlingCharge
+	}
+	if true {
 		toSerialize["PaymentTypeChargeFee"] = o.PaymentTypeChargeFee
 	}
 	if true {
 		toSerialize["TradeDate"] = o.TradeDate
 	}
 	if true {
-		toSerialize["CheckMacValue"] = o.CheckMacValue
+		toSerialize["TradeStatus"] = o.TradeStatus
 	}
 	if true {
-		toSerialize["SimulatePaid"] = o.SimulatePaid
+		toSerialize["ItemName"] = o.ItemName
 	}
 	if true {
 		toSerialize["CustomField1"] = o.CustomField1
@@ -544,41 +542,44 @@ func (o ReturnData) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["CustomField4"] = o.CustomField4
 	}
+	if true {
+		toSerialize["CheckMacValue"] = o.CheckMacValue
+	}
 	return json.Marshal(toSerialize)
 }
 
-type NullableReturnData struct {
-	value *ReturnData
+type NullableTradeInfo struct {
+	value *TradeInfo
 	isSet bool
 }
 
-func (v NullableReturnData) Get() *ReturnData {
+func (v NullableTradeInfo) Get() *TradeInfo {
 	return v.value
 }
 
-func (v *NullableReturnData) Set(val *ReturnData) {
+func (v *NullableTradeInfo) Set(val *TradeInfo) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableReturnData) IsSet() bool {
+func (v NullableTradeInfo) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableReturnData) Unset() {
+func (v *NullableTradeInfo) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableReturnData(val *ReturnData) *NullableReturnData {
-	return &NullableReturnData{value: val, isSet: true}
+func NewNullableTradeInfo(val *TradeInfo) *NullableTradeInfo {
+	return &NullableTradeInfo{value: val, isSet: true}
 }
 
-func (v NullableReturnData) MarshalJSON() ([]byte, error) {
+func (v NullableTradeInfo) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableReturnData) UnmarshalJSON(src []byte) error {
+func (v *NullableTradeInfo) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

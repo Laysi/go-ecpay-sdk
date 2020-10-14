@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: ECPay API
   description: 綠界金流 API 定義文件
-  version: 0.0.19
+  version: 0.0.20
 
 servers:
   - description: 正式環境
@@ -24,6 +24,7 @@ tags:
 
 paths:
   # /Cashier/AioCheckOut/V5:
+  #   description: 5. 產生訂單
   #   post:
   #     tags:
   #       - ECPay
@@ -38,6 +39,7 @@ paths:
   #         description: OK
   /Cashier/QueryCreditCardPeriodInfo:
     post:
+      description: 13.信用卡定期定額訂單查詢
       tags:
         - ECPay
       operationId: QueryCreditCardPeriodInfo
@@ -57,6 +59,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreditCardPeriodInfo'
+  /Cashier/QueryTradeInfo/V5:
+    post:
+      description: 8. 查詢訂單
+      tags:
+        - ECPay
+      operationId: QueryTradeInfo
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/QueryTradeInfoRequest'
+      responses:
+        200:
+          description: 接收成功
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/TradeInfo'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TradeInfo'
+
 
   /callback/ReturnURL:
     post:
@@ -105,6 +129,171 @@ paths:
 
 components:
   schemas:
+    QueryTradeInfoRequest:
+      type: object
+      required:
+        - MerchantID
+        - MerchantTradeNo
+        - TimeStamp
+        - CheckMacValue
+      properties:
+        MerchantID:
+          type: string
+          maxLength: 10
+          example: 2000132
+          description: |
+            **特店編號(由綠界提供)**
+        MerchantTradeNo:
+          type: string
+          pattern: '^[\w\d]*$'
+          maxLength: 20
+          example: ecPay1234
+          description: |
+            **特店交易編號(由特店提供)** 訂單產生時傳送給綠界的特店交易編號。
+        TimeStamp:
+          type: integer
+          minimum: 0
+          description: |
+            **驗證時間**  
+            將當下的時間轉為UnixTimeStamp(見範例)用於驗證此次介接的時間區間。  
+            綠界驗證時間區間暫訂為 3 分鐘內有效，超過則此次介接無效。 
+        PlatformID:
+          type: string
+          maxLength: 10
+          description: |
+            **特約合作平台商代號(由綠界提供)**  
+            為專案合作的平台商使用。  
+            一般特店或平台商本身介接，則參數請帶放空值。  
+            若為專案合作平台商的特店使用時，則參數請帶平台商所綁的特店編號 `MerchantID`。  
+        CheckMacValue:
+          type: string
+          description: |
+            **檢查碼** 特店必須檢查檢查碼`CheckMacValue`來驗證，請參考附錄檢查碼機制。
+    TradeInfo:
+      type: object
+      required:
+        - MerchantID
+        - MerchantTradeNo
+        - StoreID
+        - TradeNo
+        - TradeAmt
+        - PaymentDate
+        - PaymentType
+        - HandlingCharge
+        - PaymentTypeChargeFee
+        - TradeDate
+        - TradeStatus
+        - ItemName
+        - CustomField1
+        - CustomField2
+        - CustomField3
+        - CustomField4
+        - CheckMacValue
+      properties:
+        MerchantID:
+          type: string
+          maxLength: 10
+          example: 2000132
+          description: |
+            **特店編號(由綠界提供)**
+        MerchantTradeNo:
+          type: string
+          pattern: '^[\w\d]*$'
+          maxLength: 20
+          example: ecPay1234
+          description: |
+            **特店交易編號(由特店提供)** 訂單產生時傳送給綠界的特店交易編號。
+        StoreID:
+          type: string
+          pattern: '^[\w\d]*$'
+          maxLength: 20
+          description: |
+            **特店旗下店舖代號** 提供特店填入分店代號使用，僅可用英數字大小寫混合。
+        TradeNo:
+          type: string
+          maxLength: 20
+          example: 20120315174058256412
+          description: |
+            **綠界的交易編號** 首次授權所產生的綠界交易編號
+        TradeAmt:
+          type: integer
+          minimum: 0
+          example: 22000
+          description: |
+            **交易金額**
+        PaymentDate:
+          type: string
+          format: ecpay-date-time
+          example: 2012/03/16 12:03:12
+          description: |
+            **付款時間** 格式為 yyyy/MM/dd HH:mm:ss
+        PaymentType:
+          $ref: '#/components/schemas/ReturnPaymentTypeEnum'
+        HandlingCharge:
+          type: integer
+          minimum: 0
+          example: 0
+          description: |
+            **手續費合計**  履約結束後才會計算，未計算前為 0
+        PaymentTypeChargeFee:
+          type: number
+          format: float
+          minimum: 0
+          example: 25.00
+          description: |
+            **通路費**
+        TradeDate:
+          type: string
+          format: ecpay-date-time
+          example: 2012/03/15 17:40:58
+          description: |
+            **訂單成立時間** 格式為 yyyy/MM/dd HH:mm:ss
+        TradeStatus:
+          type: string
+          maxLength: 8
+          example: 0
+          description: |
+            **交易狀態**   
+            回傳值：  
+            若為 0 時，代表交易訂單成立未付款  
+            若為 1 時，代表交易訂單成立已付款  
+            若為 10200095 時，代表消費者未選擇付款方式，故交易失敗。  
+        ItemName:
+          type: string
+          maxLength: 400
+          example: 商品 1
+          description: |
+            **商品名稱**   
+        CustomField1:
+          type: string
+          maxLength: 50
+          description: |
+            **自訂名稱欄位1**  
+            提供合作廠商使用記錄用客製化使用欄位  
+        CustomField2:
+          type: string
+          maxLength: 50
+          description: |
+            **自訂名稱欄位2**  
+            提供合作廠商使用記錄用客製化使用欄位  
+        CustomField3:
+          type: string
+          maxLength: 50
+          description: |
+            **自訂名稱欄位3**  
+            提供合作廠商使用記錄用客製化使用欄位  
+        CustomField4:
+          type: string
+          maxLength: 50
+          description: |
+            **自訂名稱欄位4**  
+            提供合作廠商使用記錄用客製化使用欄位  
+        CheckMacValue:
+          type: string
+          description: |
+            **檢查碼** 特店必須檢查檢查碼`CheckMacValue`來驗證，請參考附錄檢查碼機制。
+
+
     QueryCreditCardPeriodInfoRequest:
       type: object
       required:
@@ -174,6 +363,7 @@ components:
             **特店交易編號(由特店提供)** 訂單產生時傳送給綠界的特店交易編號。
         TradeNo:
           type: string
+          maxLength: 20
           example: 20120315174058256424
           description: |
             **綠界的交易編號** 首次授權所產生的綠界交易編號
@@ -304,6 +494,7 @@ components:
             **授權碼** 授權碼
         TradeNo:
           type: string
+          maxLength: 20
           example: 20120315174058256424
           description: |
             **綠界的交易編號** 請保存綠界的交易編號與特店交易編號 `MerchantTradeNo` 的關連。
@@ -943,6 +1134,7 @@ components:
             Client POST 成功回傳:Succeeded  
         TradeNo:
           type: string
+          maxLength: 20
           example: 20120315174058256424
           description: |
             **綠界的交易編號** 請保存綠界的交易編號與特店交易編號[MerchantTradeNo]的關連。
