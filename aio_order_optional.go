@@ -5,16 +5,13 @@ import "github.com/Laysi/go-ecpay-sdk/base"
 type AioCheckOutGeneralOptional struct {
 	// **特店旗下店舖代號** 提供特店填入分店代號使用，僅可用英數字大小寫混合。
 	StoreID *string `json:"StoreID,omitempty"`
-	// **Client端返回特店的按鈕連結**   消費者點選此按鈕後，會將頁面導回到此設定的網址   注意事項：   導回時不會帶付款結果到此網址，只是將頁面導回而已。   設定此參數，綠界會在付款完成或取號完成頁面上顯示[返回商店]的按鈕。   設定此參數，發生簡訊 OTP 驗證失敗時，頁面上會顯示[返回商店]的按鈕。   若未設定此參數，則綠界付款完成頁或取號完成頁面，不會顯示[返回商店]的按鈕。   若導回網址未使用 https 時，部份瀏覽器可能會出現警告訊息。
-	ClientBackURL *string `json:"ClientBackURL,omitempty"`
 	// **商品銷售網址**
 	ItemURL *string `json:"ItemURL,omitempty"`
 	// **備註欄位**
 	Remark *string `json:"Remark,omitempty"`
 	// **付款子項目**   若設定此參數，建立訂單將轉導至綠界訂單成立頁，依設定的付款方式及付款子項目帶入訂單，無法選擇其他付款子項目。   請參考付款方式一覽表
 	ChooseSubPayment *ecpayBase.ChooseSubPaymentEnum `json:"ChooseSubPayment,omitempty"`
-	// **Client端回傳付款結果網址**     當消費者付款完成後，綠界會將付款結果參數以幕前(Client POST)回傳到該網址。   詳細說明請參考付款結果通知   注意事項：   1. 若與[ClientBackURL]同時設定，將會以此參數為主。   2. 銀聯卡及非即時交易(ATM、CVS、BARCODE)不支援此參數。
-	OrderResultURL *string `json:"OrderResultURL,omitempty"`
+
 	// **是否需要額外的付款資訊**
 	//   額外的付款資訊：
 	//   若不回傳額外的付款資訊時，參數值請傳：`Ｎ`；
@@ -44,10 +41,6 @@ type AioCheckOutGeneralOptional struct {
 type AioCheckOutAtmOptional struct {
 	// **允許繳費有效天數**   若需設定最長 60 天，最短 1 天。   未設定此參數則預設為 3 天   注意事項：以天為單位
 	ExpireDate *int `json:"ExpireDate,omitempty"`
-	// **Server端回傳付款相關資訊**   若有設定此參數，訂單建立完成後(非付款完成)，綠界會 Server 端背景回傳消費者付款方式相關資訊(例：銀行代碼、繳費虛擬帳號繳費期限…等)。   請參考[ATM、CVS 或 BARCODE 的取號結果通知.]   注意事項：   頁面將會停留在綠界，顯示繳費的相關資訊。
-	PaymentInfoURL *string `json:"PaymentInfoURL,omitempty"`
-	// **Client端回傳付款相關資訊**   若有設定此參數，訂單建立完成後(非付款完成)，綠界會 Client 端回傳消費者付款方式相關資訊(例：銀行代碼、繳費虛擬帳號繳費期限…等)且將頁面轉到特店指定的頁面。請參考[ATM、CVS 或 BARCODE 的取號結果通知.]   注意事項：   若設定此參數，將會使設定的返回特店的按鈕連結[ClientBackURL]失效。   若導回網址未使用 https 時，部份瀏覽器可能會出現警告訊息。
-	ClientRedirectURL *string `json:"ClientRedirectURL,omitempty"`
 }
 
 type AioCheckOutCvsBarcodeOptional struct {
@@ -61,10 +54,6 @@ type AioCheckOutCvsBarcodeOptional struct {
 	Desc3 *string `json:"Desc_3,omitempty"`
 	// **交易描述4** 會出現在超商繳費平台螢幕上
 	Desc4 *string `json:"Desc_4,omitempty"`
-	// **Server 端回傳付款相關資訊**   若有設定此參數，訂單建立完成後(非付款完成)，綠界會 Server 端背景回傳消費者付款方式相關資訊(例：繳費代碼與繳費超商)。   請參考[`ATM`、`CVS` 或 `BARCODE` 的取號結果通知.]   注意事項：   頁面將會停留在綠界，顯示繳費的相關資訊。   回傳只有三段號碼，並不會回傳條碼圖，需自行轉換成 code39 的三段條碼。
-	PaymentInfoURL *string `json:"PaymentInfoURL,omitempty"`
-	// **Client端回傳付款方式相關資訊**   若有設定此參數，訂單建立完成後(非付款完成)，綠界會從 Client 端回傳消費者付款方式相關資訊(例：繳費代碼與繳費超商)且將頁面轉到特店指定的頁面。   請參考[`ATM`、`CVS` 或 `BARCODE` 的取號結果通知.]   注意事項：   若設定此參數，將會使設定的返回特店的按鈕連結[ClientBackURL]失效。   若導回網址未使用 https 時，部份瀏覽器可能會出現警告訊息。   回傳只有三段號碼，並不會回傳條碼圖，需自行轉換成 code39 的三段條碼。
-	ClientRedirectURL *string `json:"ClientRedirectURL,omitempty"`
 }
 
 type AioCheckOutCreditOptional struct {

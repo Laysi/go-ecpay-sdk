@@ -24,7 +24,7 @@ type AioOrderRequestWithClient struct {
 }
 
 func (c Client) CreateOrder(tradeNo string, tradeDate time.Time, amount int, description string, itemNames []string) *AioOrderRequestWithClient {
-	return &AioOrderRequestWithClient{
+	r := &AioOrderRequestWithClient{
 		AioOrderRequest: &AioOrderRequest{
 			AioCheckOutGeneralOption: ecpayBase.AioCheckOutGeneralOption{
 				MerchantID:        c.merchantID,
@@ -41,18 +41,19 @@ func (c Client) CreateOrder(tradeNo string, tradeDate time.Time, amount int, des
 		},
 		client: c,
 	}
+
+	r.AioCheckOutGeneralOption.OrderResultURL = r.client.orderResultURL
+	r.AioCheckOutGeneralOption.ClientBackURL = r.client.clientBackURL
+	return r
 }
 
 func (r *AioOrderRequestWithClient) WithOptional(optional AioCheckOutGeneralOptional) *AioOrderRequestWithClient {
 	r.AioCheckOutGeneralOption.ChooseSubPayment = optional.ChooseSubPayment
-	r.AioCheckOutGeneralOption.ClientBackURL = optional.ClientBackURL
 	r.AioCheckOutGeneralOption.CustomField1 = optional.CustomField1
 	r.AioCheckOutGeneralOption.CustomField2 = optional.CustomField2
 	r.AioCheckOutGeneralOption.CustomField3 = optional.CustomField3
 	r.AioCheckOutGeneralOption.CustomField4 = optional.CustomField4
-	//r.AioCheckOutGeneralOption.IgnorePayment = optional.IgnorePayment
 	r.AioCheckOutGeneralOption.ItemURL = optional.ItemURL
-	r.AioCheckOutGeneralOption.OrderResultURL = optional.OrderResultURL
 	r.AioCheckOutGeneralOption.PlatformID = optional.PlatformID
 	r.AioCheckOutGeneralOption.Remark = optional.Remark
 	r.AioCheckOutGeneralOption.StoreID = optional.StoreID
@@ -64,31 +65,34 @@ func (r *AioOrderRequestWithClient) WithOptional(optional AioCheckOutGeneralOpti
 func (r *AioOrderRequestWithClient) SetAtmPayment() *AioOrderRequestWithClient {
 	r.ChoosePayment = ecpayBase.CHOOSEPAYMENTENUM_ATM
 	r.AioCheckOutAtmOption = &ecpayBase.AioCheckOutAtmOption{}
+	r.AioCheckOutAtmOption.ClientRedirectURL = r.client.clientRedirectURL
+	r.AioCheckOutAtmOption.PaymentInfoURL = r.client.paymentInfoURL
 	return r
 }
 
-func (r *AioOrderRequestWithClient) WithAtmOptional(option AioCheckOutAtmOptional) *AioOrderRequestWithClient {
-	r.AioCheckOutAtmOption.ExpireDate = option.ExpireDate
-	r.AioCheckOutAtmOption.ClientRedirectURL = option.ClientRedirectURL
-	r.AioCheckOutAtmOption.PaymentInfoURL = option.PaymentInfoURL
+// expireDate: **允許繳費有效天數**   若需設定最長 60 天，最短 1 天。   未設定此參數則預設為 3 天   注意事項：以天為單位
+func (r *AioOrderRequestWithClient) WithAtmOptional(expireDate int) *AioOrderRequestWithClient {
+	r.AioCheckOutAtmOption.ExpireDate = ecpayBase.PtrInt(expireDate)
 	return r
 }
 
 func (r *AioOrderRequestWithClient) SetCvsPayment() *AioOrderRequestWithClient {
 	r.ChoosePayment = ecpayBase.CHOOSEPAYMENTENUM_CVS
 	r.AioCheckOutCvsBarcodeOption = &ecpayBase.AioCheckOutCvsBarcodeOption{}
+	r.AioCheckOutCvsBarcodeOption.PaymentInfoURL = r.client.paymentInfoURL
+	r.AioCheckOutCvsBarcodeOption.ClientRedirectURL = r.client.clientRedirectURL
 	return r
 }
 
 func (r *AioOrderRequestWithClient) SetBarcodePayment() *AioOrderRequestWithClient {
 	r.ChoosePayment = ecpayBase.CHOOSEPAYMENTENUM_BARCODE
 	r.AioCheckOutCvsBarcodeOption = &ecpayBase.AioCheckOutCvsBarcodeOption{}
+	r.AioCheckOutCvsBarcodeOption.PaymentInfoURL = r.client.paymentInfoURL
+	r.AioCheckOutCvsBarcodeOption.ClientRedirectURL = r.client.clientRedirectURL
 	return r
 }
 
 func (r *AioOrderRequestWithClient) WithCvsBarcodeOptional(option AioCheckOutCvsBarcodeOptional) *AioOrderRequestWithClient {
-	r.AioCheckOutCvsBarcodeOption.PaymentInfoURL = option.PaymentInfoURL
-	r.AioCheckOutCvsBarcodeOption.ClientRedirectURL = option.ClientRedirectURL
 	r.AioCheckOutCvsBarcodeOption.Desc1 = option.Desc1
 	r.AioCheckOutCvsBarcodeOption.Desc2 = option.Desc2
 	r.AioCheckOutCvsBarcodeOption.Desc3 = option.Desc3
@@ -127,7 +131,8 @@ func (i IntSliceConverter) ToStringSlice() []string {
 	return result
 }
 
-func (r *AioOrderRequestWithClient) WithCreditInstallmentOptional(installments []int) *AioOrderRequestWithClient {
+// 信用卡分期可用參數為:3,6,12,18,24
+func (r *AioOrderRequestWithClient) WithCreditInstallmentOptional(installments ...int) *AioOrderRequestWithClient {
 	r.AioCheckOutCreditInstallmentOption = &ecpayBase.AioCheckOutCreditInstallmentOption{
 		CreditInstallment: strings.Join(IntSliceConverter(installments).ToStringSlice(), ","),
 	}

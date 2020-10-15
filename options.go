@@ -4,7 +4,7 @@ import "context"
 
 func WithReturnURL(url string) optionFunc {
 	return func(c *Client) {
-		c.returnURL = &url
+		c.returnURL = url
 	}
 }
 
