@@ -43,16 +43,14 @@ var _ = Describe("Client", func() {
 
 	Context("Order", func() {
 		It("should success to create a normal order request", func() {
-			client := ecpay.NewStageClient()
-			client.PeriodReturnURL = "https://dev.luckily.today/ecpay/result"
-			client.ReturnURL = "https://dev.luckily.today/ecpay/result"
+			client := ecpay.NewStageClient(ecpay.WithReturnURL("https://dev.luckily.today/ecpay/result"), ecpay.WithPeriodReturnURL("https://dev.luckily.today/ecpay/result"))
 			now := time.Now()
 			tradeNo := "testLuck" + strconv.FormatInt(time.Now().UTC().UnixNano(), 36)
 			request := client.CreateOrder(tradeNo, now, 400, "世界好", []string{"你好"}).
 				SetCreditPayment().
 				WithCreditOptional(ecpay.AioCheckOutCreditOptional{
 					BindingCard:      ecpayBase.BINDINGCARDENUM_BINDING.Ptr(),
-					MerchantMemberID: ecpayBase.PtrString(client.MerchantID + "_test_member"),
+					MerchantMemberID: ecpayBase.PtrString(client.MerchantID() + "_test_member"),
 				}).
 				WithCreditPeriodOptional(ecpayBase.CREDITPERIODTYPEENUM_DAY, 2, 4)
 			mac := request.GenerateCheckMac()

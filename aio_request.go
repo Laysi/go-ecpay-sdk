@@ -20,14 +20,14 @@ type AioOrderRequest struct {
 
 type AioOrderRequestWithClient struct {
 	*AioOrderRequest
-	client ECPayClient
+	client Client
 }
 
-func (e ECPayClient) CreateOrder(tradeNo string, tradeDate time.Time, amount int, description string, itemNames []string) *AioOrderRequestWithClient {
+func (c Client) CreateOrder(tradeNo string, tradeDate time.Time, amount int, description string, itemNames []string) *AioOrderRequestWithClient {
 	return &AioOrderRequestWithClient{
 		AioOrderRequest: &AioOrderRequest{
 			AioCheckOutGeneralOption: ecpayBase.AioCheckOutGeneralOption{
-				MerchantID:        e.MerchantID,
+				MerchantID:        c.merchantID,
 				EncryptType:       ecpayBase.ENCRYPTTYPEENUM_SHA256,
 				MerchantTradeNo:   tradeNo,
 				MerchantTradeDate: ecpayBase.ECPayDateTime(tradeDate),
@@ -35,11 +35,11 @@ func (e ECPayClient) CreateOrder(tradeNo string, tradeDate time.Time, amount int
 				TotalAmount:       amount,
 				TradeDesc:         description,
 				ItemName:          strings.Join(itemNames, "#"),
-				ReturnURL:         e.ReturnURL,
+				ReturnURL:         *c.returnURL,
 				ChoosePayment:     "",
 			},
 		},
-		client: e,
+		client: c,
 	}
 }
 
@@ -140,7 +140,7 @@ func (r *AioOrderRequestWithClient) WithCreditPeriodOptional(periodType ecpayBas
 		PeriodType:      periodType,
 		Frequency:       frequency,
 		ExecTimes:       execTimes,
-		PeriodReturnURL: ecpayBase.PtrString(r.client.PeriodReturnURL),
+		PeriodReturnURL: r.client.periodReturnURL,
 	}
 	return r
 }
@@ -247,6 +247,6 @@ func (r *AioOrderRequestWithClient) GenerateRequestHtml() string {
 	checkMac := r.client.GenerateCheckMacValue(params)
 	r.CheckMacValue = checkMac
 	params = StructToParamsMap(r.AioOrderRequest)
-	return r.client.GenerateAutoSubmitHtmlForm(params, r.client.GetCurrentServer()+r.client.AioCheckOutPath)
+	return r.client.GenerateAutoSubmitHtmlForm(params, r.client.GetCurrentServer()+r.client.aioCheckOutPath)
 
 }

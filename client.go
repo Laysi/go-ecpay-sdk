@@ -17,71 +17,103 @@ import (
 
 const AioCheckOutPath = "/Cashier/AioCheckOut/V5"
 
-type ECPayMode int
+type Mode int
 
 const (
-	PRODUCTION_MODE ECPayMode = iota
+	PRODUCTION_MODE Mode = iota
 	STAGE_MODE
 )
 
-func (e ECPayMode) Index() int {
+func (e Mode) Index() int {
 	return int(e)
 }
 
-type ECPayClient struct {
-	MerchantID      string
-	AioCheckOutPath string
-	ReturnURL       string
-	PeriodReturnURL string
-	HashKey         string
-	HashIV          string
-	mode            ECPayMode
-	//ctx             context.Context
-	apiClient *ecpayBase.APIClient
+type Client struct {
+	merchantID string
+	platformID *string
+	hashKey    string
+	hashIV     string
+	mode       Mode
+	apiClient  *ecpayBase.APIClient
+
+	ctxFunc         func(c context.Context) context.Context
+	aioCheckOutPath string
+
+	returnURL         *string
+	periodReturnURL   *string
+	clientBackURL     *string
+	paymentInfoURL    *string
+	clientRedirectURL *string
+	orderResultURL    *string
 }
 
-func NewClient(merchantID string, returnURL string, periodReturnURL string, hashKey string, hashIV string) *ECPayClient {
+func (c Client) MerchantID() string {
+	return c.merchantID
+}
 
-	return &ECPayClient{
-		MerchantID:      merchantID,
-		AioCheckOutPath: AioCheckOutPath,
-		ReturnURL:       returnURL,
-		PeriodReturnURL: periodReturnURL,
-		HashKey:         hashKey,
-		HashIV:          hashIV,
+func (c Client) HashKey() string {
+	return c.hashKey
+}
+
+func (c Client) HashIV() string {
+	return c.hashIV
+}
+
+func (c Client) Mode() Mode {
+	return c.mode
+}
+
+type optionFunc func(client *Client)
+
+func NewClient(merchantID string, hashKey string, hashIV string, options ...optionFunc) *Client {
+
+	c := &Client{
+		merchantID:      merchantID,
+		aioCheckOutPath: AioCheckOutPath,
+		hashKey:         hashKey,
+		hashIV:          hashIV,
 		mode:            PRODUCTION_MODE,
 		//ctx:             context.WithValue(context.Background(), base.ContextServerIndex, PRODUCTION_MODE),
 		apiClient: ecpayBase.NewAPIClient(ecpayBase.NewConfiguration()),
 	}
+	for _, option := range options {
+		option(c)
+	}
+	return c
 }
 
-func NewStageClient() *ECPayClient {
-	return &ECPayClient{
-		MerchantID:      "2000132",
-		AioCheckOutPath: AioCheckOutPath,
-		ReturnURL:       "https://example.com/return",
-		HashKey:         "5294y06JbISpM5x9",
-		HashIV:          "v77hoKGq4kWxNNIS",
+func NewStageClient(options ...optionFunc) *Client {
+	c := &Client{
+		merchantID:      "2000132",
+		aioCheckOutPath: AioCheckOutPath,
+		hashKey:         "5294y06JbISpM5x9",
+		hashIV:          "v77hoKGq4kWxNNIS",
 		mode:            STAGE_MODE,
 		//ctx:             context.WithValue(context.Background(), base.ContextServerIndex, STAGE_MODE),
 		apiClient: ecpayBase.NewAPIClient(ecpayBase.NewConfiguration()),
 	}
+	for _, option := range options {
+		option(c)
+	}
+	return c
 }
 
-func (e ECPayClient) GetCurrentServer() string {
-	serverUrl, err := e.apiClient.GetConfig().ServerURL(e.mode.Index(), map[string]string{})
+func (c Client) GetCurrentServer() string {
+	serverUrl, err := c.apiClient.GetConfig().ServerURL(c.mode.Index(), map[string]string{})
 	if err != nil {
 		panic(err)
 	}
 	return serverUrl
 }
 
-func (e ECPayClient) DefaultContext() context.Context {
-	return context.WithValue(context.Background(), ecpayBase.ContextServerIndex, e.mode)
-}
+//func (e Client) DefaultContext() context.Context {
+//	return context.WithValue(context.Background(), ecpayBase.ContextServerIndex, e.mode)
+//}
 
-func (e ECPayClient) WithContext(c context.Context) context.Context {
-	return context.WithValue(c, ecpayBase.ContextServerIndex, e.mode)
+func (c Client) WithContext(ctx context.Context) context.Context {
+	ctx = context.WithValue(ctx, ecpayBase.ContextServerIndex, c.mode)
+	ctx = c.ctxFunc(ctx)
+	return ctx
 }
 
 func FormUrlEncode(s string) string {
@@ -96,12 +128,12 @@ func FormUrlEncode(s string) string {
 	return s
 }
 
-func (e ECPayClient) GenerateCheckMacValue(params map[string]string) string {
+func (c Client) GenerateCheckMacValue(params map[string]string) string {
 	delete(params, "CheckMacValue")
 	delete(params, "HashKey")
 	delete(params, "HashIV")
 	encodedParams := NewECPayValuesFromMap(params).Encode()
-	encodedParams = fmt.Sprintf("HashKey=%s&%s&HashIV=%s", e.HashKey, encodedParams, e.HashIV)
+	encodedParams = fmt.Sprintf("HashKey=%s&%s&HashIV=%s", c.hashKey, encodedParams, c.hashIV)
 	encodedParams = FormUrlEncode(encodedParams)
 	encodedParams = strings.ToLower(encodedParams)
 	//fmt.Println(encodedParams)
@@ -123,7 +155,7 @@ type OrderTmplArgs struct {
 
 var OrderTmpl = template.Must(template.New("AutoPostOrder").Parse(OrderTemplateText))
 
-func (e ECPayClient) GenerateAutoSubmitHtmlForm(params map[string]string, targetUrl string) string {
+func (c Client) GenerateAutoSubmitHtmlForm(params map[string]string, targetUrl string) string {
 
 	var result bytes.Buffer
 	err := OrderTmpl.Execute(&result, OrderTmplArgs{

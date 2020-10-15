@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func ECPayCheckMacValueHandler(client *ecpay.ECPayClient) gin.HandlerFunc {
+func ECPayCheckMacValueHandler(client *ecpay.Client) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		body, err := c.GetRawData()
 		if err != nil {
