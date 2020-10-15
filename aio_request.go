@@ -35,7 +35,7 @@ func (c Client) CreateOrder(tradeNo string, tradeDate time.Time, amount int, des
 				TotalAmount:       amount,
 				TradeDesc:         description,
 				ItemName:          strings.Join(itemNames, "#"),
-				ReturnURL:         *c.returnURL,
+				ReturnURL:         c.returnURL,
 				ChoosePayment:     "",
 			},
 		},

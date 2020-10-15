@@ -3,7 +3,6 @@ package ecpay
 import (
 	"context"
 	"github.com/Laysi/go-ecpay-sdk/base"
-	"github.com/go-errors/errors"
 	"net/http"
 	"time"
 )
@@ -14,8 +13,6 @@ func defaultContext(contexts ...context.Context) context.Context {
 	}
 	return contexts[0]
 }
-
-var MissingConfigureError = errors.New("Missing required configure")
 
 func (c Client) QueryCreditCardPeriodInfo(merchantTradeNo string, timeStamp time.Time, cs ...context.Context) (ecpayBase.CreditCardPeriodInfo, *http.Response, error) {
 	params := ecpayBase.QueryCreditCardPeriodInfoRequest{

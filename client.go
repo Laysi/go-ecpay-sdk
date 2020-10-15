@@ -39,7 +39,7 @@ type Client struct {
 	ctxFunc         func(c context.Context) context.Context
 	aioCheckOutPath string
 
-	returnURL         *string
+	returnURL         string
 	periodReturnURL   *string
 	clientBackURL     *string
 	paymentInfoURL    *string
@@ -65,7 +65,7 @@ func (c Client) Mode() Mode {
 
 type optionFunc func(client *Client)
 
-func NewClient(merchantID string, hashKey string, hashIV string, options ...optionFunc) *Client {
+func NewClient(merchantID string, hashKey string, hashIV string, returnUrl string, options ...optionFunc) *Client {
 
 	c := &Client{
 		merchantID:      merchantID,
@@ -73,8 +73,9 @@ func NewClient(merchantID string, hashKey string, hashIV string, options ...opti
 		hashKey:         hashKey,
 		hashIV:          hashIV,
 		mode:            PRODUCTION_MODE,
-		//ctx:             context.WithValue(context.Background(), base.ContextServerIndex, PRODUCTION_MODE),
-		apiClient: ecpayBase.NewAPIClient(ecpayBase.NewConfiguration()),
+		apiClient:       ecpayBase.NewAPIClient(ecpayBase.NewConfiguration()),
+
+		returnURL: returnUrl,
 	}
 	for _, option := range options {
 		option(c)
