@@ -76,14 +76,3 @@ html := client.CreateOrder("<TradeNO>", time.Now(), 1000, "<Description>", []str
 		}).
 		GenerateRequestHtml()
 ```
-
-## TODO
-- [ ] comments docs improved
-- [ ] better return data binding solution
-- [ ] some explain about ecpay order html usage and progress
-- [ ] docs about gin mac validator 
-- [x] add other optional url fields configure setting
-  - [x] ClientBackURL
-  - [x] PaymentInfoURL
-  - [x] ClientRedirectURL
-  - [x] OrderResultURL
