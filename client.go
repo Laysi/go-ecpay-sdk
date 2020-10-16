@@ -112,7 +112,7 @@ func (c Client) GetCurrentServer() string {
 //}
 
 func (c Client) WithContext(ctx context.Context) context.Context {
-	ctx = context.WithValue(ctx, ecpayBase.ContextServerIndex, c.mode)
+	ctx = context.WithValue(ctx, ecpayBase.ContextServerIndex, int(c.mode))
 	if c.ctxFunc != nil {
 		ctx = c.ctxFunc(ctx)
 	}
