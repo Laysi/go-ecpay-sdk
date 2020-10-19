@@ -10,6 +10,7 @@
 package ecpayBase
 
 import (
+	"bytes"
 	_context "context"
 	_ioutil "io/ioutil"
 	_nethttp "net/http"
@@ -148,7 +149,7 @@ func (r apiQueryCreditCardPeriodInfoRequest) Execute() (CreditCardPeriodInfo, *_
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -306,7 +307,7 @@ func (r apiQueryTradeInfoRequest) Execute() (TradeInfo, *_nethttp.Response, erro
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
