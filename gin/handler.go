@@ -1,4 +1,4 @@
-package gin
+package ecpayGin
 
 import (
 	"bytes"
@@ -17,10 +17,18 @@ func ECPayCheckMacValueHandler(client *ecpay.Client) gin.HandlerFunc {
 		}
 
 		c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(body))
-		c.Request.ParseForm()
+		err = c.Request.ParseForm()
+		if err != nil {
+			c.Status(http.StatusBadRequest)
+			return
+		}
+
 		c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(body))
 
 		params := ecpay.ECPayValues{c.Request.PostForm}.ToMap()
+		c.Request.Form = nil
+		c.Request.PostForm = nil
+
 		senderMac := params["CheckMacValue"]
 		delete(params, "CheckMacValue")
 		mac := client.GenerateCheckMacValue(params)
