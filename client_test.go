@@ -1,7 +1,6 @@
 package ecpay_test
 
 import (
-	"fmt"
 	"github.com/Laysi/go-ecpay-sdk"
 	"github.com/Laysi/go-ecpay-sdk/base"
 	. "github.com/onsi/ginkgo"
@@ -78,7 +77,7 @@ var _ = Describe("Client", func() {
     <input type="hidden" name="TradeDesc" id="TradeDesc" value="世界好" />
 </form>
 <script>document.querySelector("#order_form").submit();</script>`
-			fmt.Println(html)
+			//fmt.Println(html)
 			Expect(html).To(Equal(expected))
 		})
 	})
