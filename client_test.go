@@ -1,6 +1,7 @@
 package ecpay_test
 
 import (
+	"fmt"
 	"github.com/Laysi/go-ecpay-sdk"
 	"github.com/Laysi/go-ecpay-sdk/base"
 	. "github.com/onsi/ginkgo"
@@ -43,7 +44,7 @@ var _ = Describe("Client", func() {
 
 	Context("Order", func() {
 		It("should success to create a normal order request", func() {
-			client := ecpay.NewStageClient(ecpay.WithReturnURL("https://dev.luckily.today/ecpay/result"), ecpay.WithPeriodReturnURL("https://dev.luckily.today/ecpay/result"))
+			client := ecpay.NewStageClient(ecpay.WithReturnURL("https://example.com/ecpay/return"), ecpay.WithPeriodReturnURL("https://example.com/ecpay/period"))
 			now := time.Now()
 			tradeNo := "testLuck" + strconv.FormatInt(time.Now().UTC().UnixNano(), 36)
 			request := client.CreateOrder(tradeNo, now, 400, "世界好", []string{"你好"}).
@@ -70,14 +71,14 @@ var _ = Describe("Client", func() {
     <input type="hidden" name="MerchantTradeNo" id="MerchantTradeNo" value="` + tradeNo + `" />
     <input type="hidden" name="PaymentType" id="PaymentType" value="aio" />
     <input type="hidden" name="PeriodAmount" id="PeriodAmount" value="400" />
-    <input type="hidden" name="PeriodReturnURL" id="PeriodReturnURL" value="https://dev.luckily.today/ecpay/result" />
+    <input type="hidden" name="PeriodReturnURL" id="PeriodReturnURL" value="https://example.com/ecpay/period" />
     <input type="hidden" name="PeriodType" id="PeriodType" value="D" />
-    <input type="hidden" name="ReturnURL" id="ReturnURL" value="https://dev.luckily.today/ecpay/result" />
+    <input type="hidden" name="ReturnURL" id="ReturnURL" value="https://example.com/ecpay/return" />
     <input type="hidden" name="TotalAmount" id="TotalAmount" value="400" />
     <input type="hidden" name="TradeDesc" id="TradeDesc" value="世界好" />
 </form>
 <script>document.querySelector("#order_form").submit();</script>`
-			//fmt.Println(expected)
+			fmt.Println(html)
 			Expect(html).To(Equal(expected))
 		})
 	})
