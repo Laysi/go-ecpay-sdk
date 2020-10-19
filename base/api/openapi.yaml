@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   description: 綠界金流 API 定義文件
   title: ECPay API
-  version: 0.0.21
+  version: 0.0.22
 externalDocs:
   description: 可以在這裡找到完整的 API 文件說明
   url: https://www.ecpay.com.tw/Content/files/ecpay_011.pdf
@@ -69,7 +69,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/ReturnData'
+              $ref: '#/components/schemas/OrderResult'
       responses:
         "200":
           content:
@@ -89,7 +89,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PeriodReturnData'
+              $ref: '#/components/schemas/PeriodOrderResult'
       responses:
         "200":
           content:
@@ -916,7 +916,7 @@ components:
       - RelateNumber
       - TaxType
       type: object
-    ReturnData:
+    OrderResult:
       properties:
         MerchantID:
           description: |
@@ -1016,7 +1016,7 @@ components:
       - TradeDate
       - TradeNo
       type: object
-    PeriodReturnData:
+    PeriodOrderResult:
       properties:
         MerchantID:
           description: |

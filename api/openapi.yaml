@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: ECPay API
   description: 綠界金流 API 定義文件
-  version: 0.0.21
+  version: 0.0.22
 
 servers:
   - description: 正式環境
@@ -92,7 +92,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/ReturnData'
+              $ref: '#/components/schemas/OrderResult'
 
 
       responses:
@@ -114,7 +114,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PeriodReturnData'
+              $ref: '#/components/schemas/PeriodOrderResult'
 
 
       responses:
@@ -1072,7 +1072,7 @@ components:
             **字軌類別**  
             若為一般稅額時，請帶 07。  
             預設值：07  
-    ReturnData:
+    OrderResult:
       type: object
       required:
         - MerchantID
@@ -1190,7 +1190,7 @@ components:
           description: |
             **自訂名稱欄位4**  
             提供合作廠商使用記錄用客製化使用欄位
-    PeriodReturnData:
+    PeriodOrderResult:
       type: object
       required:
         - MerchantID

@@ -1,4 +1,4 @@
-# ReturnData
+# OrderResult
 
 ## Properties
 
@@ -24,359 +24,359 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewReturnData
+### NewOrderResult
 
-`func NewReturnData(merchantID string, merchantTradeNo string, storeID string, rtnCode int, rtnMsg string, tradeNo string, tradeAmt int, paymentDate ECPayDateTime, paymentType ReturnPaymentTypeEnum, paymentTypeChargeFee int, tradeDate ECPayDateTime, checkMacValue string, simulatePaid SimulatePaidEnum, customField1 string, customField2 string, customField3 string, customField4 string, ) *ReturnData`
+`func NewOrderResult(merchantID string, merchantTradeNo string, storeID string, rtnCode int, rtnMsg string, tradeNo string, tradeAmt int, paymentDate ECPayDateTime, paymentType ReturnPaymentTypeEnum, paymentTypeChargeFee int, tradeDate ECPayDateTime, checkMacValue string, simulatePaid SimulatePaidEnum, customField1 string, customField2 string, customField3 string, customField4 string, ) *OrderResult`
 
-NewReturnData instantiates a new ReturnData object
+NewOrderResult instantiates a new OrderResult object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewReturnDataWithDefaults
+### NewOrderResultWithDefaults
 
-`func NewReturnDataWithDefaults() *ReturnData`
+`func NewOrderResultWithDefaults() *OrderResult`
 
-NewReturnDataWithDefaults instantiates a new ReturnData object
+NewOrderResultWithDefaults instantiates a new OrderResult object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetMerchantID
 
-`func (o *ReturnData) GetMerchantID() string`
+`func (o *OrderResult) GetMerchantID() string`
 
 GetMerchantID returns the MerchantID field if non-nil, zero value otherwise.
 
 ### GetMerchantIDOk
 
-`func (o *ReturnData) GetMerchantIDOk() (*string, bool)`
+`func (o *OrderResult) GetMerchantIDOk() (*string, bool)`
 
 GetMerchantIDOk returns a tuple with the MerchantID field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMerchantID
 
-`func (o *ReturnData) SetMerchantID(v string)`
+`func (o *OrderResult) SetMerchantID(v string)`
 
 SetMerchantID sets MerchantID field to given value.
 
 
 ### GetMerchantTradeNo
 
-`func (o *ReturnData) GetMerchantTradeNo() string`
+`func (o *OrderResult) GetMerchantTradeNo() string`
 
 GetMerchantTradeNo returns the MerchantTradeNo field if non-nil, zero value otherwise.
 
 ### GetMerchantTradeNoOk
 
-`func (o *ReturnData) GetMerchantTradeNoOk() (*string, bool)`
+`func (o *OrderResult) GetMerchantTradeNoOk() (*string, bool)`
 
 GetMerchantTradeNoOk returns a tuple with the MerchantTradeNo field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMerchantTradeNo
 
-`func (o *ReturnData) SetMerchantTradeNo(v string)`
+`func (o *OrderResult) SetMerchantTradeNo(v string)`
 
 SetMerchantTradeNo sets MerchantTradeNo field to given value.
 
 
 ### GetStoreID
 
-`func (o *ReturnData) GetStoreID() string`
+`func (o *OrderResult) GetStoreID() string`
 
 GetStoreID returns the StoreID field if non-nil, zero value otherwise.
 
 ### GetStoreIDOk
 
-`func (o *ReturnData) GetStoreIDOk() (*string, bool)`
+`func (o *OrderResult) GetStoreIDOk() (*string, bool)`
 
 GetStoreIDOk returns a tuple with the StoreID field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStoreID
 
-`func (o *ReturnData) SetStoreID(v string)`
+`func (o *OrderResult) SetStoreID(v string)`
 
 SetStoreID sets StoreID field to given value.
 
 
 ### GetRtnCode
 
-`func (o *ReturnData) GetRtnCode() int`
+`func (o *OrderResult) GetRtnCode() int`
 
 GetRtnCode returns the RtnCode field if non-nil, zero value otherwise.
 
 ### GetRtnCodeOk
 
-`func (o *ReturnData) GetRtnCodeOk() (*int, bool)`
+`func (o *OrderResult) GetRtnCodeOk() (*int, bool)`
 
 GetRtnCodeOk returns a tuple with the RtnCode field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRtnCode
 
-`func (o *ReturnData) SetRtnCode(v int)`
+`func (o *OrderResult) SetRtnCode(v int)`
 
 SetRtnCode sets RtnCode field to given value.
 
 
 ### GetRtnMsg
 
-`func (o *ReturnData) GetRtnMsg() string`
+`func (o *OrderResult) GetRtnMsg() string`
 
 GetRtnMsg returns the RtnMsg field if non-nil, zero value otherwise.
 
 ### GetRtnMsgOk
 
-`func (o *ReturnData) GetRtnMsgOk() (*string, bool)`
+`func (o *OrderResult) GetRtnMsgOk() (*string, bool)`
 
 GetRtnMsgOk returns a tuple with the RtnMsg field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRtnMsg
 
-`func (o *ReturnData) SetRtnMsg(v string)`
+`func (o *OrderResult) SetRtnMsg(v string)`
 
 SetRtnMsg sets RtnMsg field to given value.
 
 
 ### GetTradeNo
 
-`func (o *ReturnData) GetTradeNo() string`
+`func (o *OrderResult) GetTradeNo() string`
 
 GetTradeNo returns the TradeNo field if non-nil, zero value otherwise.
 
 ### GetTradeNoOk
 
-`func (o *ReturnData) GetTradeNoOk() (*string, bool)`
+`func (o *OrderResult) GetTradeNoOk() (*string, bool)`
 
 GetTradeNoOk returns a tuple with the TradeNo field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTradeNo
 
-`func (o *ReturnData) SetTradeNo(v string)`
+`func (o *OrderResult) SetTradeNo(v string)`
 
 SetTradeNo sets TradeNo field to given value.
 
 
 ### GetTradeAmt
 
-`func (o *ReturnData) GetTradeAmt() int`
+`func (o *OrderResult) GetTradeAmt() int`
 
 GetTradeAmt returns the TradeAmt field if non-nil, zero value otherwise.
 
 ### GetTradeAmtOk
 
-`func (o *ReturnData) GetTradeAmtOk() (*int, bool)`
+`func (o *OrderResult) GetTradeAmtOk() (*int, bool)`
 
 GetTradeAmtOk returns a tuple with the TradeAmt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTradeAmt
 
-`func (o *ReturnData) SetTradeAmt(v int)`
+`func (o *OrderResult) SetTradeAmt(v int)`
 
 SetTradeAmt sets TradeAmt field to given value.
 
 
 ### GetPaymentDate
 
-`func (o *ReturnData) GetPaymentDate() ECPayDateTime`
+`func (o *OrderResult) GetPaymentDate() ECPayDateTime`
 
 GetPaymentDate returns the PaymentDate field if non-nil, zero value otherwise.
 
 ### GetPaymentDateOk
 
-`func (o *ReturnData) GetPaymentDateOk() (*ECPayDateTime, bool)`
+`func (o *OrderResult) GetPaymentDateOk() (*ECPayDateTime, bool)`
 
 GetPaymentDateOk returns a tuple with the PaymentDate field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPaymentDate
 
-`func (o *ReturnData) SetPaymentDate(v ECPayDateTime)`
+`func (o *OrderResult) SetPaymentDate(v ECPayDateTime)`
 
 SetPaymentDate sets PaymentDate field to given value.
 
 
 ### GetPaymentType
 
-`func (o *ReturnData) GetPaymentType() ReturnPaymentTypeEnum`
+`func (o *OrderResult) GetPaymentType() ReturnPaymentTypeEnum`
 
 GetPaymentType returns the PaymentType field if non-nil, zero value otherwise.
 
 ### GetPaymentTypeOk
 
-`func (o *ReturnData) GetPaymentTypeOk() (*ReturnPaymentTypeEnum, bool)`
+`func (o *OrderResult) GetPaymentTypeOk() (*ReturnPaymentTypeEnum, bool)`
 
 GetPaymentTypeOk returns a tuple with the PaymentType field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPaymentType
 
-`func (o *ReturnData) SetPaymentType(v ReturnPaymentTypeEnum)`
+`func (o *OrderResult) SetPaymentType(v ReturnPaymentTypeEnum)`
 
 SetPaymentType sets PaymentType field to given value.
 
 
 ### GetPaymentTypeChargeFee
 
-`func (o *ReturnData) GetPaymentTypeChargeFee() int`
+`func (o *OrderResult) GetPaymentTypeChargeFee() int`
 
 GetPaymentTypeChargeFee returns the PaymentTypeChargeFee field if non-nil, zero value otherwise.
 
 ### GetPaymentTypeChargeFeeOk
 
-`func (o *ReturnData) GetPaymentTypeChargeFeeOk() (*int, bool)`
+`func (o *OrderResult) GetPaymentTypeChargeFeeOk() (*int, bool)`
 
 GetPaymentTypeChargeFeeOk returns a tuple with the PaymentTypeChargeFee field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPaymentTypeChargeFee
 
-`func (o *ReturnData) SetPaymentTypeChargeFee(v int)`
+`func (o *OrderResult) SetPaymentTypeChargeFee(v int)`
 
 SetPaymentTypeChargeFee sets PaymentTypeChargeFee field to given value.
 
 
 ### GetTradeDate
 
-`func (o *ReturnData) GetTradeDate() ECPayDateTime`
+`func (o *OrderResult) GetTradeDate() ECPayDateTime`
 
 GetTradeDate returns the TradeDate field if non-nil, zero value otherwise.
 
 ### GetTradeDateOk
 
-`func (o *ReturnData) GetTradeDateOk() (*ECPayDateTime, bool)`
+`func (o *OrderResult) GetTradeDateOk() (*ECPayDateTime, bool)`
 
 GetTradeDateOk returns a tuple with the TradeDate field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTradeDate
 
-`func (o *ReturnData) SetTradeDate(v ECPayDateTime)`
+`func (o *OrderResult) SetTradeDate(v ECPayDateTime)`
 
 SetTradeDate sets TradeDate field to given value.
 
 
 ### GetCheckMacValue
 
-`func (o *ReturnData) GetCheckMacValue() string`
+`func (o *OrderResult) GetCheckMacValue() string`
 
 GetCheckMacValue returns the CheckMacValue field if non-nil, zero value otherwise.
 
 ### GetCheckMacValueOk
 
-`func (o *ReturnData) GetCheckMacValueOk() (*string, bool)`
+`func (o *OrderResult) GetCheckMacValueOk() (*string, bool)`
 
 GetCheckMacValueOk returns a tuple with the CheckMacValue field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCheckMacValue
 
-`func (o *ReturnData) SetCheckMacValue(v string)`
+`func (o *OrderResult) SetCheckMacValue(v string)`
 
 SetCheckMacValue sets CheckMacValue field to given value.
 
 
 ### GetSimulatePaid
 
-`func (o *ReturnData) GetSimulatePaid() SimulatePaidEnum`
+`func (o *OrderResult) GetSimulatePaid() SimulatePaidEnum`
 
 GetSimulatePaid returns the SimulatePaid field if non-nil, zero value otherwise.
 
 ### GetSimulatePaidOk
 
-`func (o *ReturnData) GetSimulatePaidOk() (*SimulatePaidEnum, bool)`
+`func (o *OrderResult) GetSimulatePaidOk() (*SimulatePaidEnum, bool)`
 
 GetSimulatePaidOk returns a tuple with the SimulatePaid field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSimulatePaid
 
-`func (o *ReturnData) SetSimulatePaid(v SimulatePaidEnum)`
+`func (o *OrderResult) SetSimulatePaid(v SimulatePaidEnum)`
 
 SetSimulatePaid sets SimulatePaid field to given value.
 
 
 ### GetCustomField1
 
-`func (o *ReturnData) GetCustomField1() string`
+`func (o *OrderResult) GetCustomField1() string`
 
 GetCustomField1 returns the CustomField1 field if non-nil, zero value otherwise.
 
 ### GetCustomField1Ok
 
-`func (o *ReturnData) GetCustomField1Ok() (*string, bool)`
+`func (o *OrderResult) GetCustomField1Ok() (*string, bool)`
 
 GetCustomField1Ok returns a tuple with the CustomField1 field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCustomField1
 
-`func (o *ReturnData) SetCustomField1(v string)`
+`func (o *OrderResult) SetCustomField1(v string)`
 
 SetCustomField1 sets CustomField1 field to given value.
 
 
 ### GetCustomField2
 
-`func (o *ReturnData) GetCustomField2() string`
+`func (o *OrderResult) GetCustomField2() string`
 
 GetCustomField2 returns the CustomField2 field if non-nil, zero value otherwise.
 
 ### GetCustomField2Ok
 
-`func (o *ReturnData) GetCustomField2Ok() (*string, bool)`
+`func (o *OrderResult) GetCustomField2Ok() (*string, bool)`
 
 GetCustomField2Ok returns a tuple with the CustomField2 field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCustomField2
 
-`func (o *ReturnData) SetCustomField2(v string)`
+`func (o *OrderResult) SetCustomField2(v string)`
 
 SetCustomField2 sets CustomField2 field to given value.
 
 
 ### GetCustomField3
 
-`func (o *ReturnData) GetCustomField3() string`
+`func (o *OrderResult) GetCustomField3() string`
 
 GetCustomField3 returns the CustomField3 field if non-nil, zero value otherwise.
 
 ### GetCustomField3Ok
 
-`func (o *ReturnData) GetCustomField3Ok() (*string, bool)`
+`func (o *OrderResult) GetCustomField3Ok() (*string, bool)`
 
 GetCustomField3Ok returns a tuple with the CustomField3 field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCustomField3
 
-`func (o *ReturnData) SetCustomField3(v string)`
+`func (o *OrderResult) SetCustomField3(v string)`
 
 SetCustomField3 sets CustomField3 field to given value.
 
 
 ### GetCustomField4
 
-`func (o *ReturnData) GetCustomField4() string`
+`func (o *OrderResult) GetCustomField4() string`
 
 GetCustomField4 returns the CustomField4 field if non-nil, zero value otherwise.
 
 ### GetCustomField4Ok
 
-`func (o *ReturnData) GetCustomField4Ok() (*string, bool)`
+`func (o *OrderResult) GetCustomField4Ok() (*string, bool)`
 
 GetCustomField4Ok returns a tuple with the CustomField4 field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCustomField4
 
-`func (o *ReturnData) SetCustomField4(v string)`
+`func (o *OrderResult) SetCustomField4(v string)`
 
 SetCustomField4 sets CustomField4 field to given value.
 
