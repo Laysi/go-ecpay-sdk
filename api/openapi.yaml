@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: ECPay API
   description: 綠界金流 API 定義文件
-  version: 0.0.20
+  version: 0.0.21
 
 servers:
   - description: 正式環境
@@ -48,7 +48,7 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/QueryCreditCardPeriodInfoRequest'
-
+      x-content-fallback: application/json
       responses:
         200:
           description: OK

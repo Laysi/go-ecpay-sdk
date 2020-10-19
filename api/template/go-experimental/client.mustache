@@ -366,7 +366,7 @@ func (c *APIClient) prepareRequest(
 	return localVarRequest, nil
 }
 
-func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err error) {
+func (c *APIClient) decode(v interface{}, b []byte, contentType string,fallback string) (err error) {
 	if len(b) == 0 {
 		return nil
 	}
@@ -386,6 +386,13 @@ func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err err
 		}
 		return nil
 	}
+
+	if fallback != ""{
+		contentType = fallback
+		fallback = ""
+		return c.decode(v,b,contentType,fallback)
+	}
+
 	return errors.New("undefined response type")
 }
 

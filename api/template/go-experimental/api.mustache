@@ -312,7 +312,7 @@ func (r api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnT
 	}
 
 	{{#returnType}}
-	err = r.apiService.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = r.apiService.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"),"{{vendorExtensions.x-content-fallback}}")
 	if err != nil {
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
