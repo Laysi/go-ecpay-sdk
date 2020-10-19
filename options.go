@@ -46,3 +46,7 @@ func WithCtxFunc(f func(c context.Context) context.Context) optionFunc {
 		c.ctxFunc = f
 	}
 }
+
+func WithDebug(c *Client) {
+	c.apiClient.GetConfig().Debug = true
+}
