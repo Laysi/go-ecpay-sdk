@@ -76,6 +76,9 @@ type ServerConfiguration struct {
 // ServerConfigurations stores multiple ServerConfiguration items
 type ServerConfigurations []ServerConfiguration
 
+// Decoder is going to support these non implemented content-type
+type Decoder func (data []byte, v interface{}) error
+
 // Configuration stores the configuration of the API client
 type Configuration struct {
 	Host             string            `json:"host,omitempty"`
@@ -86,6 +89,7 @@ type Configuration struct {
 	Servers          ServerConfigurations
 	OperationServers map[string]ServerConfigurations
 	HTTPClient       *http.Client
+	Decoders         map[string]Decoder
 }
 
 // NewConfiguration returns a new Configuration object

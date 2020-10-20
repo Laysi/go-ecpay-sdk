@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/Laysi/go-ecpay-sdk/base"
+	"github.com/gorilla/schema"
 	"html/template"
 	"net/url"
 	"reflect"
@@ -65,15 +66,35 @@ func (c Client) Mode() Mode {
 
 type optionFunc func(client *Client)
 
+var decoder = schema.NewDecoder()
+
+func ecpayDatetimeDecoder(data []byte, v interface{}) error {
+	dataString := string(data)
+	query, err := url.ParseQuery(dataString)
+	if err != nil {
+		return err
+	}
+	return decoder.Decode(v, query)
+
+}
+
+func init() {
+	decoder.RegisterConverter(ecpayBase.ECPayDateTime{}, func(s string) reflect.Value {
+		return reflect.ValueOf(ecpayBase.MustParseECPayDateTime(s))
+	})
+}
+
 func NewClient(merchantID string, hashKey string, hashIV string, returnUrl string, options ...optionFunc) *Client {
 
+	configuration := ecpayBase.NewConfiguration()
+	configuration.Decoders = map[string]ecpayBase.Decoder{"application/x-www-form-urlencoded": ecpayDatetimeDecoder}
 	c := &Client{
 		merchantID:      merchantID,
 		aioCheckOutPath: AioCheckOutPath,
 		hashKey:         hashKey,
 		hashIV:          hashIV,
 		mode:            PRODUCTION_MODE,
-		apiClient:       ecpayBase.NewAPIClient(ecpayBase.NewConfiguration()),
+		apiClient:       ecpayBase.NewAPIClient(configuration),
 
 		returnURL: returnUrl,
 	}
@@ -84,6 +105,8 @@ func NewClient(merchantID string, hashKey string, hashIV string, returnUrl strin
 }
 
 func NewStageClient(options ...optionFunc) *Client {
+	configuration := ecpayBase.NewConfiguration()
+	configuration.Decoders = map[string]ecpayBase.Decoder{"application/x-www-form-urlencoded": ecpayDatetimeDecoder}
 	c := &Client{
 		merchantID:      "2000132",
 		aioCheckOutPath: AioCheckOutPath,
@@ -91,7 +114,7 @@ func NewStageClient(options ...optionFunc) *Client {
 		hashIV:          "v77hoKGq4kWxNNIS",
 		mode:            STAGE_MODE,
 		//ctx:             context.WithValue(context.Background(), base.ContextServerIndex, STAGE_MODE),
-		apiClient: ecpayBase.NewAPIClient(ecpayBase.NewConfiguration()),
+		apiClient: ecpayBase.NewAPIClient(configuration),
 	}
 	for _, option := range options {
 		option(c)

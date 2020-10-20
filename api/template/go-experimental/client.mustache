@@ -387,6 +387,15 @@ func (c *APIClient) decode(v interface{}, b []byte, contentType string,fallback 
 		return nil
 	}
 
+	for decoderType,decoder := range c.cfg.Decoders{
+		if decoderType == contentType{
+			if err = decoder(b, v); err != nil {
+				return err
+			}
+			return nil
+		}
+	}
+
 	if fallback != ""{
 		contentType = fallback
 		fallback = ""

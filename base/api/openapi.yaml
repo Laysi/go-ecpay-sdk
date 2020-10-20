@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   description: 綠界金流 API 定義文件
   title: ECPay API
-  version: 0.0.22
+  version: 0.0.23
 externalDocs:
   description: 可以在這裡找到完整的 API 文件說明
   url: https://www.ecpay.com.tw/Content/files/ecpay_011.pdf
@@ -62,6 +62,7 @@ paths:
           description: 接收成功
       tags:
       - ECPay
+      x-content-fallback: application/x-www-form-urlencoded
   /callback/ReturnURL:
     post:
       description: 付款結果通知
