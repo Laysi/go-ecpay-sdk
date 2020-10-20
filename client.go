@@ -64,7 +64,7 @@ func (c Client) Mode() Mode {
 	return c.mode
 }
 
-type optionFunc func(client *Client)
+type OptionFunc func(client *Client)
 
 var decoder = schema.NewDecoder()
 
@@ -84,7 +84,7 @@ func init() {
 	})
 }
 
-func NewClient(merchantID string, hashKey string, hashIV string, returnUrl string, options ...optionFunc) *Client {
+func NewClient(merchantID string, hashKey string, hashIV string, returnUrl string, options ...OptionFunc) *Client {
 
 	configuration := ecpayBase.NewConfiguration()
 	configuration.Decoders = map[string]ecpayBase.Decoder{"application/x-www-form-urlencoded": ecpayDatetimeDecoder}
@@ -104,7 +104,7 @@ func NewClient(merchantID string, hashKey string, hashIV string, returnUrl strin
 	return c
 }
 
-func NewStageClient(options ...optionFunc) *Client {
+func NewStageClient(options ...OptionFunc) *Client {
 	configuration := ecpayBase.NewConfiguration()
 	configuration.Decoders = map[string]ecpayBase.Decoder{"application/x-www-form-urlencoded": ecpayDatetimeDecoder}
 	c := &Client{
