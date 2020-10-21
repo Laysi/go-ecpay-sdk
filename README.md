@@ -39,7 +39,9 @@ client := ecpay.NewClient("<MERCHANT_ID>", "<HASH_KEY>", "<HASH_IV>", "<RETURN_U
 ```go
 client := ecpay.NewStageClient(ecpay.WithReturnURL("https://example.com/path/to/ecpay/result"))
 ```
-## Create Order
+
+## Usage
+### Create Order
 
 ```go
 html := client.CreateOrder("<MerchantTradeNo>", time.Now(), 1000, "<Description>", []string{"<ItemName1>", "<ItemName2>"}).
@@ -78,14 +80,14 @@ html := client.CreateOrder("<MerchantTradeNo>", time.Now(), 1000, "<Description>
 		GenerateRequestHtml()
 ```
 
-## QueryCreditCardPeriodInfo
+### QueryCreditCardPeriodInfo
 
 ```go
 info, resp, err := client.QueryCreditCardPeriodInfo("<MerchantTradeNo>", time.Now())
 
 ```
 
-## QueryTradeInfo
+### QueryTradeInfo
 
 ```go
 info, resp, err := client.QueryTradeInfo("<MerchantTradeNo>", time.Now())
