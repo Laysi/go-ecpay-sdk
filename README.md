@@ -37,7 +37,25 @@ client := ecpay.NewClient("<MERCHANT_ID>", "<HASH_KEY>", "<HASH_IV>", "<RETURN_U
 ```
 ### for staging
 ```go
-client := ecpay.NewStageClient(ecpay.WithReturnURL("https://example.com/path/to/ecpay/result"))
+client := ecpay.NewStageClient(ecpay.WithReturnURL("<RETURN_URL>"))
+```
+
+### options
+
+```go
+client = ecpay.NewStageClient(
+    ecpay.WithReturnURL("<RETURN_URL>"), 
+    ecpay.WithPeriodReturnURL("<PERIOD_RETURN_URL>"),
+    ecpay.WithClientBackURL("<CLIENT_BACK_URL>"),
+    ecpay.WithClientRedirectURL("<CLIENT_REDIRECT_URL>"),
+    ecpay.WithOrderResultURL("<ORDER_RESULT_URL>"),
+    ecpay.WithPaymentInfoURL("<PAYMENT_INFO_URL>"),
+    ecpay.WithPlatformID("<PLATFORM_ID>"),
+    ecpay.WithCtxFunc(func(c context.Context) context.Context {
+        return context.WithValue(c, "<KEY>", "<VALUE>") // Add context operation for every request pass to the api client
+    }),
+    ecpay.WithDebug,  // Turn on debug log
+)
 ```
 
 ## Usage
@@ -45,39 +63,39 @@ client := ecpay.NewStageClient(ecpay.WithReturnURL("https://example.com/path/to/
 
 ```go
 html := client.CreateOrder("<MerchantTradeNo>", time.Now(), 1000, "<Description>", []string{"<ItemName1>", "<ItemName2>"}).
-		WithOptional(ecpay.AioCheckOutGeneralOptional{
-			StoreID:           "<StoreID>",
-			ItemURL:           "<ItemURL>",
-			Remark:            "<Remark>",
-			ChooseSubPayment:  ecpayBase.CHOOSESUBPAYMENTENUM_EMPTY,
-			NeedExtraPaidInfo: ecpayBase.NEEDEXTRAPAIDINFOENUM_N,
-			PlatformID:        "<PlatformID>",
-			CustomField1:      "<CustomField1>",
-			CustomField2:      "<CustomField2>",
-			CustomField3:      "<CustomField3>",
-			CustomField4:      "<CustomField4>",
-			Language:          ecpayBase.LANGUAGEENUM_ENG,
-		}).
-		SetAllPayment(ecpayBase.CHOOSEPAYMENTENUM_ATM, ecpayBase.CHOOSEPAYMENTENUM_CREDIT).
-		WithCreditOptional(ecpay.AioCheckOutCreditOptional{
-			BindingCard:      ecpayBase.BINDINGCARDENUM_BINDING,
-			MerchantMemberID: "<MerchantMemberID>",
-		}).
-		WithCreditOnetimeOptional(ecpay.AioCheckOutCreditOnetimeOptional{
-			Redeem:   ecpayBase.REDEEMENUM_Y,
-			UnionPay: ecpayBase.UNIONPAYENUM_HIDDEN,
-		}).
-		WithCreditInstallmentOptional(3, 12, 18).
-		WithCreditPeriodOptional(ecpayBase.CREDITPERIODTYPEENUM_DAY, 1, 0).
-		WithAtmOptional(5).
-		WithCvsBarcodeOptional(ecpay.AioCheckOutCvsBarcodeOptional{
-			StoreExpireDate: 5,
-			Desc1:           "<Desc1>",
-			Desc2:           "<Desc1>",
-			Desc3:           "<Desc1>",
-			Desc4:           "<Desc1>",
-		}).
-		GenerateRequestHtml()
+    WithOptional(ecpay.AioCheckOutGeneralOptional{
+        StoreID:           "<StoreID>",
+        ItemURL:           "<ItemURL>",
+        Remark:            "<Remark>",
+        ChooseSubPayment:  ecpayBase.CHOOSESUBPAYMENTENUM_EMPTY,
+        NeedExtraPaidInfo: ecpayBase.NEEDEXTRAPAIDINFOENUM_N,
+        PlatformID:        "<PlatformID>",
+        CustomField1:      "<CustomField1>",
+        CustomField2:      "<CustomField2>",
+        CustomField3:      "<CustomField3>",
+        CustomField4:      "<CustomField4>",
+        Language:          ecpayBase.LANGUAGEENUM_ENG,
+    }).
+    SetAllPayment(ecpayBase.CHOOSEPAYMENTENUM_ATM, ecpayBase.CHOOSEPAYMENTENUM_CREDIT).
+    WithCreditOptional(ecpay.AioCheckOutCreditOptional{
+        BindingCard:      ecpayBase.BINDINGCARDENUM_BINDING,
+        MerchantMemberID: "<MerchantMemberID>",
+    }).
+    WithCreditOnetimeOptional(ecpay.AioCheckOutCreditOnetimeOptional{
+        Redeem:   ecpayBase.REDEEMENUM_Y,
+        UnionPay: ecpayBase.UNIONPAYENUM_HIDDEN,
+    }).
+    WithCreditInstallmentOptional(3, 12, 18).
+    WithCreditPeriodOptional(ecpayBase.CREDITPERIODTYPEENUM_DAY, 1, 0).
+    WithAtmOptional(5).
+    WithCvsBarcodeOptional(ecpay.AioCheckOutCvsBarcodeOptional{
+        StoreExpireDate: 5,
+        Desc1:           "<Desc1>",
+        Desc2:           "<Desc1>",
+        Desc3:           "<Desc1>",
+        Desc4:           "<Desc1>",
+    }).
+    GenerateRequestHtml()
 ```
 
 ### QueryCreditCardPeriodInfo
