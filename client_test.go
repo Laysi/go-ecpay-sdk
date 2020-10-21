@@ -49,8 +49,8 @@ var _ = Describe("Client", func() {
 			request := client.CreateOrder(tradeNo, now, 400, "世界好", []string{"你好"}).
 				SetCreditPayment().
 				WithCreditOptional(ecpay.AioCheckOutCreditOptional{
-					BindingCard:      ecpayBase.BINDINGCARDENUM_BINDING.Ptr(),
-					MerchantMemberID: ecpayBase.PtrString(client.MerchantID() + "_test_member"),
+					BindingCard:      ecpayBase.BINDINGCARDENUM_BINDING,
+					MerchantMemberID: client.MerchantID() + "_test_member",
 				}).
 				WithCreditPeriodOptional(ecpayBase.CREDITPERIODTYPEENUM_DAY, 2, 4)
 			mac := request.GenerateCheckMac()

@@ -93,11 +93,11 @@ func (r *AioOrderRequestWithClient) SetBarcodePayment() *AioOrderRequestWithClie
 }
 
 func (r *AioOrderRequestWithClient) WithCvsBarcodeOptional(option AioCheckOutCvsBarcodeOptional) *AioOrderRequestWithClient {
-	r.AioCheckOutCvsBarcodeOption.Desc1 = option.Desc1
-	r.AioCheckOutCvsBarcodeOption.Desc2 = option.Desc2
-	r.AioCheckOutCvsBarcodeOption.Desc3 = option.Desc3
-	r.AioCheckOutCvsBarcodeOption.Desc4 = option.Desc4
-	r.AioCheckOutCvsBarcodeOption.StoreExpireDate = option.StoreExpireDate
+	r.AioCheckOutCvsBarcodeOption.Desc1 = PtrNilString(option.Desc1)
+	r.AioCheckOutCvsBarcodeOption.Desc2 = PtrNilString(option.Desc2)
+	r.AioCheckOutCvsBarcodeOption.Desc3 = PtrNilString(option.Desc3)
+	r.AioCheckOutCvsBarcodeOption.Desc4 = PtrNilString(option.Desc4)
+	r.AioCheckOutCvsBarcodeOption.StoreExpireDate = PtrNilInt(option.StoreExpireDate)
 	return r
 }
 
@@ -115,8 +115,8 @@ func (r *AioOrderRequestWithClient) WithCreditOptional(option AioCheckOutCreditO
 
 func (r *AioOrderRequestWithClient) WithCreditOnetimeOptional(option AioCheckOutCreditOnetimeOptional) *AioOrderRequestWithClient {
 	r.AioCheckOutCreditOnetimeOption = &ecpayBase.AioCheckOutCreditOnetimeOption{
-		Redeem:   option.Redeem,
-		UnionPay: option.UnionPay,
+		Redeem:   (*ecpayBase.RedeemEnum)(PtrNilString(string(option.Redeem))),
+		UnionPay: (*ecpayBase.UnionPayEnum)(PtrNilInt(int(option.UnionPay))),
 	}
 	return r
 }
@@ -217,18 +217,18 @@ func (r *AioOrderRequestWithClient) SetInvoice(relateNumber string, taxType ecpa
 }
 
 func (r *AioOrderRequestWithClient) WithInvoiceOptional(option AioCheckOutInvoiceOptional) *AioOrderRequestWithClient {
-	r.AioCheckOutInvoiceOption.CustomerID = option.CustomerID
-	r.AioCheckOutInvoiceOption.CustomerIdentifier = option.CustomerIdentifier
-	r.AioCheckOutInvoiceOption.CustomerName = option.CustomerName
-	r.AioCheckOutInvoiceOption.CustomerAddr = option.CustomerAddr
-	r.AioCheckOutInvoiceOption.CustomerPhone = option.CustomerPhone
-	r.AioCheckOutInvoiceOption.CustomerEmail = option.CustomerEmail
-	r.AioCheckOutInvoiceOption.ClearanceMark = option.ClearanceMark
-	r.AioCheckOutInvoiceOption.CarruerType = option.CarruerType
-	r.AioCheckOutInvoiceOption.CarruerNum = option.CarruerNum
-	r.AioCheckOutInvoiceOption.LoveCode = option.LoveCode
-	//r.AioCheckOutInvoiceOption.InvoiceItemTaxType = option.InvoiceItemTaxType
-	r.AioCheckOutInvoiceOption.InvoiceRemark = option.InvoiceRemark
+	r.AioCheckOutInvoiceOption.CustomerID = PtrNilString(option.CustomerID)
+	r.AioCheckOutInvoiceOption.CustomerIdentifier = PtrNilString(option.CustomerIdentifier)
+	r.AioCheckOutInvoiceOption.CustomerName = PtrNilString(option.CustomerName)
+	r.AioCheckOutInvoiceOption.CustomerAddr = PtrNilString(option.CustomerAddr)
+	r.AioCheckOutInvoiceOption.CustomerPhone = PtrNilString(option.CustomerPhone)
+	r.AioCheckOutInvoiceOption.CustomerEmail = PtrNilString(option.CustomerEmail)
+	r.AioCheckOutInvoiceOption.ClearanceMark = (*ecpayBase.ClearanceMarkEnum)(PtrNilString(string(option.ClearanceMark)))
+	r.AioCheckOutInvoiceOption.CarruerType = (*ecpayBase.CarruerTypeEnum)(PtrNilString(string(option.CarruerType)))
+	r.AioCheckOutInvoiceOption.CarruerNum = PtrNilString(option.CarruerNum)
+	r.AioCheckOutInvoiceOption.LoveCode = PtrNilString(option.LoveCode)
+	//r.AioCheckOutInvoiceOption.InvoiceItemTaxType = PtrNilString(option.InvoiceItemTaxType)
+	r.AioCheckOutInvoiceOption.InvoiceRemark = PtrNilString(option.InvoiceRemark)
 	return r
 }
 
