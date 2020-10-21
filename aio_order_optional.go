@@ -4,13 +4,13 @@ import "github.com/Laysi/go-ecpay-sdk/base"
 
 type AioCheckOutGeneralOptional struct {
 	// **特店旗下店舖代號** 提供特店填入分店代號使用，僅可用英數字大小寫混合。
-	StoreID *string `json:"StoreID,omitempty"`
+	StoreID string `json:"StoreID,omitempty"`
 	// **商品銷售網址**
-	ItemURL *string `json:"ItemURL,omitempty"`
+	ItemURL string `json:"ItemURL,omitempty"`
 	// **備註欄位**
-	Remark *string `json:"Remark,omitempty"`
+	Remark string `json:"Remark,omitempty"`
 	// **付款子項目**   若設定此參數，建立訂單將轉導至綠界訂單成立頁，依設定的付款方式及付款子項目帶入訂單，無法選擇其他付款子項目。   請參考付款方式一覽表
-	ChooseSubPayment *ecpayBase.ChooseSubPaymentEnum `json:"ChooseSubPayment,omitempty"`
+	ChooseSubPayment ecpayBase.ChooseSubPaymentEnum `json:"ChooseSubPayment,omitempty"`
 
 	// **是否需要額外的付款資訊**
 	//   額外的付款資訊：
@@ -18,24 +18,24 @@ type AioCheckOutGeneralOptional struct {
 	//   若要回傳額外的付款資訊時，參數值請傳：`Ｙ`，付款完成後綠界會以 Server POST 方式回傳額外付款資訊。
 	//   注意事項：
 	//   回傳額外付款資訊參數請參考-額外回傳的參數
-	NeedExtraPaidInfo *ecpayBase.NeedExtraPaidInfoEnum `json:"NeedExtraPaidInfo,omitempty"`
+	NeedExtraPaidInfo ecpayBase.NeedExtraPaidInfoEnum `json:"NeedExtraPaidInfo,omitempty"`
 	// **特約合作平台商代號(由綠界提供)**   為專案合作的平台商使用。   一般特店或平台商本身介接，則參數請帶放空值。   若為專案合作平台商的特店使用時，則參數請帶平台商所綁的特店編號 `MerchantID`。
-	PlatformID *string `json:"PlatformID,omitempty"`
+	PlatformID string `json:"PlatformID,omitempty"`
 	// **自訂名稱欄位1**   提供合作廠商使用記錄用客製化使用欄位   注意事項：   特殊符號只支援 `,.#()$[];%{}:/?&@<>!`
-	CustomField1 *string `json:"CustomField1,omitempty"`
+	CustomField1 string `json:"CustomField1,omitempty"`
 	// **自訂名稱欄位2**   提供合作廠商使用記錄用客製化使用欄位   注意事項：   特殊符號只支援 `,.#()$[];%{}:/?&@<>!`
-	CustomField2 *string `json:"CustomField2,omitempty"`
+	CustomField2 string `json:"CustomField2,omitempty"`
 	// **自訂名稱欄位3**   提供合作廠商使用記錄用客製化使用欄位   注意事項：   特殊符號只支援 `,.#()$[];%{}:/?&@<>!`
-	CustomField3 *string `json:"CustomField3,omitempty"`
+	CustomField3 string `json:"CustomField3,omitempty"`
 	// **自訂名稱欄位4**   提供合作廠商使用記錄用客製化使用欄位   注意事項：   特殊符號只支援 `,.#()$[];%{}:/?&@<>!`
-	CustomField4 *string `json:"CustomField4,omitempty"`
+	CustomField4 string `json:"CustomField4,omitempty"`
 	// **語系設定**
 	//  預設語系為中文，若要變更語系參數值請帶：
 	//  - 英語：`ENG`
 	//  - 韓語：`KOR`
 	//  - 日語：`JPN`
 	//  - 簡體中文：`CHI`
-	Language *ecpayBase.LanguageEnum `json:"Language,omitempty"`
+	Language ecpayBase.LanguageEnum `json:"Language,omitempty"`
 }
 
 type AioCheckOutAtmOptional struct {
@@ -58,9 +58,9 @@ type AioCheckOutCvsBarcodeOptional struct {
 
 type AioCheckOutCreditOptional struct {
 	// **記憶卡號識別碼** 記憶卡號識別碼 (特店代號 `MerchantID` + `廠商會員編號`)
-	BindingCard *ecpayBase.BindingCardEnum `json:"BindingCard,omitempty"`
+	BindingCard ecpayBase.BindingCardEnum `json:"BindingCard,omitempty"`
 	// **記憶卡號識別碼** 記憶卡號識別碼 (特店代號 `MerchantID` + `廠商會員編號`)
-	MerchantMemberID *string `json:"MerchantMemberID,omitempty"`
+	MerchantMemberID string `json:"MerchantMemberID,omitempty"`
 }
 
 type AioCheckOutCreditOnetimeOptional struct {

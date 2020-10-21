@@ -48,17 +48,17 @@ func (c Client) CreateOrder(tradeNo string, tradeDate time.Time, amount int, des
 }
 
 func (r *AioOrderRequestWithClient) WithOptional(optional AioCheckOutGeneralOptional) *AioOrderRequestWithClient {
-	r.AioCheckOutGeneralOption.ChooseSubPayment = optional.ChooseSubPayment
-	r.AioCheckOutGeneralOption.CustomField1 = optional.CustomField1
-	r.AioCheckOutGeneralOption.CustomField2 = optional.CustomField2
-	r.AioCheckOutGeneralOption.CustomField3 = optional.CustomField3
-	r.AioCheckOutGeneralOption.CustomField4 = optional.CustomField4
-	r.AioCheckOutGeneralOption.ItemURL = optional.ItemURL
-	r.AioCheckOutGeneralOption.PlatformID = optional.PlatformID
-	r.AioCheckOutGeneralOption.Remark = optional.Remark
-	r.AioCheckOutGeneralOption.StoreID = optional.StoreID
-	r.AioCheckOutGeneralOption.Language = optional.Language
-	r.AioCheckOutGeneralOption.NeedExtraPaidInfo = optional.NeedExtraPaidInfo
+	r.AioCheckOutGeneralOption.ChooseSubPayment = (*ecpayBase.ChooseSubPaymentEnum)(PtrNilString(string(optional.ChooseSubPayment)))
+	r.AioCheckOutGeneralOption.CustomField1 = PtrNilString(optional.CustomField1)
+	r.AioCheckOutGeneralOption.CustomField2 = PtrNilString(optional.CustomField2)
+	r.AioCheckOutGeneralOption.CustomField3 = PtrNilString(optional.CustomField3)
+	r.AioCheckOutGeneralOption.CustomField4 = PtrNilString(optional.CustomField4)
+	r.AioCheckOutGeneralOption.ItemURL = PtrNilString(optional.ItemURL)
+	r.AioCheckOutGeneralOption.PlatformID = PtrNilString(optional.PlatformID)
+	r.AioCheckOutGeneralOption.Remark = PtrNilString(optional.Remark)
+	r.AioCheckOutGeneralOption.StoreID = PtrNilString(optional.StoreID)
+	r.AioCheckOutGeneralOption.Language = (*ecpayBase.LanguageEnum)(PtrNilString(string(optional.Language)))
+	r.AioCheckOutGeneralOption.NeedExtraPaidInfo = (*ecpayBase.NeedExtraPaidInfoEnum)(PtrNilString(string(optional.NeedExtraPaidInfo)))
 	return r
 }
 
@@ -108,8 +108,8 @@ func (r *AioOrderRequestWithClient) SetCreditPayment() *AioOrderRequestWithClien
 }
 
 func (r *AioOrderRequestWithClient) WithCreditOptional(option AioCheckOutCreditOptional) *AioOrderRequestWithClient {
-	r.AioCheckOutCreditOption.BindingCard = option.BindingCard
-	r.AioCheckOutCreditOption.MerchantMemberID = option.MerchantMemberID
+	r.AioCheckOutCreditOption.BindingCard = (*ecpayBase.BindingCardEnum)(PtrNilInt(int(option.BindingCard)))
+	r.AioCheckOutCreditOption.MerchantMemberID = PtrNilString(option.MerchantMemberID)
 	return r
 }
 
