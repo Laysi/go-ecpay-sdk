@@ -110,3 +110,50 @@ info, resp, err := client.QueryCreditCardPeriodInfo("<MerchantTradeNo>", time.No
 ```go
 info, resp, err := client.QueryTradeInfo("<MerchantTradeNo>", time.Now())
 ```
+
+## Gin Helper
+### Check Mac Validator Handler
+This handler can use to check the data CheckMacValue from the ECPAY server,and will return `0|Error` with 400 status if validating failed.
+
+```go
+server := gin.Default()
+var ecpayClient = ecpay.NewStageClient(ecpay.WithReturnURL("<RETURN_URL>"))
+server.POST("/ecpay/return",ecpayGin.ECPayCheckMacValueHandler(ecpayClient), func(c *gin.Context) {...})
+```
+
+### Ecpay Data Binding Patch Helper
+Due to [gin-gonic/gin#2510](https://github.com/gin-gonic/gin/issues/2510),there have some bug to binding the datetime field of data from ecpay server in gin's current version.
+So there is a helper function to deal with it as a temporary workaround.
+
+
+```go
+server := gin.Default()
+server.POST("/ecpay/return",ecpayCheckMacValueHandler, func(c *gin.Context) {
+    data := ecpayBase.OrderResult{}
+    err := ecpayGin.ResponseBodyDateTimePatchHelper(c)
+    if err != nil {
+        fmt.Println(err.Error())
+        c.Status(http.StatusInternalServerError)
+        return
+    }
+    if err = c.MustBindWith(&data, binding.FormPost); err != nil {
+        fmt.Println(err.Error())
+        return
+    }
+})
+
+server.POST("/ecpay/period",ecpayCheckMacValueHandler, func(c *gin.Context) {
+    data := ecpayBase.PeriodOrderResult{}
+    err := ecpayGin.ResponseBodyDateTimePatchHelper(c)
+
+    if err != nil {
+        fmt.Println(err.Error())
+        c.Status(http.StatusInternalServerError)
+        return
+    }
+    if err := c.MustBindWith(&data, binding.FormPost); err != nil {
+        fmt.Println(err.Error())
+        return
+    }
+})
+```
