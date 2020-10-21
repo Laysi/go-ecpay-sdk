@@ -18,7 +18,8 @@ ECPay SDK for Golang,with some helpers package.
   - Period Return Url
 - API
   - AioCheckOut Query Builder
-  - CreditCardPeriodInfo
+  - QueryCreditCardPeriodInfo
+  - QueryTradeInfo
 - Gin CheckMacValue Validator Handler
 - Predefined Model
 - OpenAPI Definition
@@ -41,7 +42,7 @@ client := ecpay.NewStageClient(ecpay.WithReturnURL("https://example.com/path/to/
 ## Create Order
 
 ```go
-html := client.CreateOrder("<TradeNO>", time.Now(), 1000, "<Description>", []string{"<ItemName1>", "<ItemName2>"}).
+html := client.CreateOrder("<MerchantTradeNo>", time.Now(), 1000, "<Description>", []string{"<ItemName1>", "<ItemName2>"}).
 		WithOptional(ecpay.AioCheckOutGeneralOptional{
 			StoreID:           "<StoreID>",
 			ItemURL:           "<ItemURL>",
@@ -75,4 +76,17 @@ html := client.CreateOrder("<TradeNO>", time.Now(), 1000, "<Description>", []str
 			Desc4:           "<Desc1>",
 		}).
 		GenerateRequestHtml()
+```
+
+## QueryCreditCardPeriodInfo
+
+```go
+info, resp, err := client.QueryCreditCardPeriodInfo("<MerchantTradeNo>", time.Now())
+
+```
+
+## QueryTradeInfo
+
+```go
+info, resp, err := client.QueryTradeInfo("<MerchantTradeNo>", time.Now())
 ```
