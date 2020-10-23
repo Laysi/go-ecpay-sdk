@@ -53,8 +53,10 @@ var _ = Describe("Client", func() {
 					MerchantMemberID: client.MerchantID() + "_test_member",
 				}).
 				WithCreditPeriodOptional(ecpayBase.CREDITPERIODTYPEENUM_DAY, 2, 4)
-			mac := request.GenerateCheckMac()
-			html := request.GenerateRequestHtml()
+			mac, err := request.GenerateCheckMac()
+			Expect(err).To(Succeed())
+			html, err := request.GenerateRequestHtml()
+			Expect(err).To(Succeed())
 			//fmt.Println(html)
 			expected := `<form id="order_form" action="https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5" method="post">
     <input type="hidden" name="BindingCard" id="BindingCard" value="1" />
