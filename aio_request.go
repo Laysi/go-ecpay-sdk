@@ -239,7 +239,9 @@ func (r *AioOrderRequestWithClient) SetAllPayment(ignorePayment ...ecpayBase.Cho
 	for _, v := range ignorePayment {
 		ignorePaymentValues = append(ignorePaymentValues, string(v))
 	}
-	r.request.IgnorePayment = ecpayBase.PtrString(strings.Join(ignorePaymentValues, "#"))
+	if len(ignorePaymentValues) != 0 {
+		r.request.IgnorePayment = ecpayBase.PtrString(strings.Join(ignorePaymentValues, "#"))
+	}
 	return &AioOrderRequestAllWithClient{r}
 }
 
