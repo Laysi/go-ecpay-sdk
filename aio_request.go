@@ -54,7 +54,7 @@ func (c Client) CreateOrder(tradeNo string, tradeDate time.Time, amount int, des
 				MerchantTradeDate: ecpayBase.ECPayDateTime(tradeDate),
 				PaymentType:       ecpayBase.AIOCHECKPAYMENTTYPEENUM_AIO,
 				TotalAmount:       amount,
-				TradeDesc:         description,
+				TradeDesc:         strings.ReplaceAll(description, "\n", " "),
 				ItemName:          strings.Join(itemNames, "#"),
 				ReturnURL:         c.returnURL,
 				ChoosePayment:     "",

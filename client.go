@@ -144,11 +144,11 @@ func (c Client) WithContext(ctx context.Context) context.Context {
 
 func FormUrlEncode(s string) string {
 	s = url.QueryEscape(s)
-	s = strings.ReplaceAll(s, "%2d", "-")
-	s = strings.ReplaceAll(s, "%5f", "_")
-	s = strings.ReplaceAll(s, "%2e", ".")
+	//s = strings.ReplaceAll(s, "%2d", "-")
+	//s = strings.ReplaceAll(s, "%5f", "_")
+	//s = strings.ReplaceAll(s, "%2e", ".")
 	s = strings.ReplaceAll(s, "%21", "!")
-	s = strings.ReplaceAll(s, "%2a", "*")
+	s = strings.ReplaceAll(s, "%2A", "*")
 	s = strings.ReplaceAll(s, "%28", "(")
 	s = strings.ReplaceAll(s, "%29", ")")
 	return s

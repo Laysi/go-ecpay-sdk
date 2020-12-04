@@ -46,13 +46,19 @@ var _ = Describe("Client", func() {
 			client := ecpay.NewStageClient(ecpay.WithReturnURL("https://example.com/ecpay/return"), ecpay.WithPeriodReturnURL("https://example.com/ecpay/period"))
 			now := time.Now()
 			tradeNo := "testLuck" + strconv.FormatInt(time.Now().UTC().UnixNano(), 36)
-			request := client.CreateOrder(tradeNo, now, 400, "世界好", []string{"你好"}).
+			request := client.CreateOrder(tradeNo, now, 400, "無論如何都不太會獲得獎勵的服務，你錢太多了\n不要錢可以送我\n(每分鐘檢測一次)\nspecial character -_.!)(*", []string{"你好"}).
 				SetCreditPayment().
 				WithCreditOptional(ecpay.AioCheckOutCreditOptional{
 					BindingCard:      ecpayBase.BINDINGCARDENUM_BINDING,
 					MerchantMemberID: client.MerchantID() + "_test_member",
 				}).
 				WithCreditPeriodOptional(ecpayBase.CREDITPERIODTYPEENUM_DAY, 2, 4)
+			//
+			//testdata,err := request.GenerateUrlQuery()
+			//Expect(err).To(Succeed())
+			//fmt.Println(testdata)
+			//fmt.Println(ecpay.FormUrlEncode(testdata))
+			//
 			mac, err := request.GenerateCheckMac()
 			Expect(err).To(Succeed())
 			html, err := request.GenerateRequestHtml()
@@ -76,7 +82,7 @@ var _ = Describe("Client", func() {
     <input type="hidden" name="PeriodType" id="PeriodType" value="D" />
     <input type="hidden" name="ReturnURL" id="ReturnURL" value="https://example.com/ecpay/return" />
     <input type="hidden" name="TotalAmount" id="TotalAmount" value="400" />
-    <input type="hidden" name="TradeDesc" id="TradeDesc" value="世界好" />
+    <input type="hidden" name="TradeDesc" id="TradeDesc" value="無論如何都不太會獲得獎勵的服務，你錢太多了 不要錢可以送我 (每分鐘檢測一次) special character -_.!)(*" />
 </form>
 <script>document.querySelector("#order_form").submit();</script>`
 			//fmt.Println(html)
