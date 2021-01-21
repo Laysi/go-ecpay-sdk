@@ -45,6 +45,8 @@ type AioOrderRequestInvoiceWithClient struct {
 }
 
 func (c Client) CreateOrder(tradeNo string, tradeDate time.Time, amount int, description string, itemNames []string) *AioOrderRequestWithClient {
+	description = strings.ReplaceAll(description, "\n", " ")
+	description = strings.ReplaceAll(description, "\r", " ")
 	r := &AioOrderRequestWithClient{
 		request: &AioOrderRequest{
 			AioCheckOutGeneralOption: ecpayBase.AioCheckOutGeneralOption{
@@ -54,7 +56,7 @@ func (c Client) CreateOrder(tradeNo string, tradeDate time.Time, amount int, des
 				MerchantTradeDate: ecpayBase.ECPayDateTime(tradeDate),
 				PaymentType:       ecpayBase.AIOCHECKPAYMENTTYPEENUM_AIO,
 				TotalAmount:       amount,
-				TradeDesc:         strings.ReplaceAll(description, "\n", " "),
+				TradeDesc:         description,
 				ItemName:          strings.Join(itemNames, "#"),
 				ReturnURL:         c.returnURL,
 				ChoosePayment:     "",
@@ -329,9 +331,9 @@ func (r *AioOrderRequestWithClient) SetInvoice(relateNumber string, taxType ecpa
 		TaxType:          taxType,
 		Donation:         donation,
 		Print:            print,
-		InvoiceItemName:  strings.Join(itemsName, "|"),
+		InvoiceItemName:  FormUrlEncode(strings.Join(itemsName, "|")),
 		InvoiceItemCount: strings.Join(itemsCount, "|"),
-		InvoiceItemWord:  strings.Join(itemsWord, "|"),
+		InvoiceItemWord:  FormUrlEncode(strings.Join(itemsWord, "|")),
 		InvoiceItemPrice: strings.Join(itemsPrice, "|"),
 		DelayDay:         delay,
 		InvType:          invType,
@@ -361,16 +363,16 @@ func (r *AioOrderRequestInvoiceWithClient) WithInvoiceOptional(option AioCheckOu
 	//}
 	r.request.AioCheckOutInvoiceOption.CustomerID = PtrNilString(option.CustomerID)
 	r.request.AioCheckOutInvoiceOption.CustomerIdentifier = PtrNilString(option.CustomerIdentifier)
-	r.request.AioCheckOutInvoiceOption.CustomerName = PtrNilString(option.CustomerName)
-	r.request.AioCheckOutInvoiceOption.CustomerAddr = PtrNilString(option.CustomerAddr)
+	r.request.AioCheckOutInvoiceOption.CustomerName = PtrNilString(FormUrlEncode(option.CustomerName))
+	r.request.AioCheckOutInvoiceOption.CustomerAddr = PtrNilString(FormUrlEncode(option.CustomerAddr))
 	r.request.AioCheckOutInvoiceOption.CustomerPhone = PtrNilString(option.CustomerPhone)
-	r.request.AioCheckOutInvoiceOption.CustomerEmail = PtrNilString(option.CustomerEmail)
+	r.request.AioCheckOutInvoiceOption.CustomerEmail = PtrNilString(FormUrlEncode(option.CustomerEmail))
 	r.request.AioCheckOutInvoiceOption.ClearanceMark = (*ecpayBase.ClearanceMarkEnum)(PtrNilString(string(option.ClearanceMark)))
 	r.request.AioCheckOutInvoiceOption.CarruerType = (*ecpayBase.CarruerTypeEnum)(PtrNilString(string(option.CarruerType)))
 	r.request.AioCheckOutInvoiceOption.CarruerNum = PtrNilString(option.CarruerNum)
 	r.request.AioCheckOutInvoiceOption.LoveCode = PtrNilString(option.LoveCode)
 	//r.AioCheckOutInvoiceOption.InvoiceItemTaxType = PtrNilString(option.InvoiceItemTaxType)
-	r.request.AioCheckOutInvoiceOption.InvoiceRemark = PtrNilString(option.InvoiceRemark)
+	r.request.AioCheckOutInvoiceOption.InvoiceRemark = PtrNilString(FormUrlEncode(option.InvoiceRemark))
 	return r
 }
 
